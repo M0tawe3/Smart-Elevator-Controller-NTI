@@ -16,8 +16,8 @@
 | Team Member | Youssef Nasser Farouk |
 | Team Member | Ahmed Ayman Ramadan |
 | Team Member | Youssef Saeed |
-| **Build window** | Days 11 – 15 (Jul 26 – Jul 30, 2026) |
-| **Demo & submission** | July 30, 2026 |
+| **Build window** | Days 11 – 15 (Sept 13 – Sept 17, 2026) |
+| **Demo & submission** | September 17, 2026 |
 | **Dominant skill** | LOOK dispatch algorithm, three-device SPI bus, motion profiling |
 | **MCU** | ATmega32A @ 8 MHz |
 | **Simulator** | SimulIDE 1.x |
