@@ -178,25 +178,58 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
 
 STD_ReturnType TIMER1_Stop(void);
 # 17 "main.c" 2
+# 1 "MCAL/UART/UART_interface.h" 1
+# 15 "MCAL/UART/UART_interface.h"
+# 1 "LIB/MATH.h" 1
 
-void led_isr(void)
-{
-  GPIO_TogglePinValue(0u, 7u);
-}
+
+
+# 1 "LIB/STD_TYPES.h" 1
+# 5 "LIB/MATH.h" 2
+# 16 "MCAL/UART/UART_interface.h" 2
+
+
+
+
+
+STD_ReturnType UART_Init(uint32 Copy_u32BaudRate);
+
+
+
+
+STD_ReturnType UART_SendByte(uint8 Copy_u8Data);
+
+
+
+
+STD_ReturnType UART_ReceiveByte(uint8 *Copy_pu8Data);
+
+
+
+
+STD_ReturnType UART_SendString(const uint8 *Copy_pu8String);
+
+
+
+
+
+STD_ReturnType UART_IsDataReady(void);
+
+
+
+
+
+STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
+STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
+# 18 "main.c" 2
 
 int main(void)
 {
-  GPIO_SetPinDirection(0u, 4u, 1u);
-  GPIO_SetPinDirection(0u, 7u, 1u);
-  EXTI_SetSense(0u, 1u);
-  EXTI_SetCallback(0u, led_isr);
-  EXTI_Enable(0u);
-  INTERRUPT_EnableGlobal();
+  UART_Init(9600);
 
-  while (1)
-  {
-    GPIO_TogglePinValue(0u, 4u);
-    TIMER0_DelayMS(1000);
+  while(1){
+    UART_SendString("Hello World!");
+    TIMER0_DelayMS(2000);
   }
   return 0;
 }

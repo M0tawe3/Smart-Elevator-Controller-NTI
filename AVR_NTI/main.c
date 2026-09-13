@@ -14,25 +14,15 @@
 #include "GPIO_interface.h"
 #include "ADC_interface.h"
 #include "TIMER_interface.h"
-
-void led_isr(void)
-{
-  GPIO_TogglePinValue(GPIO_PORTA, GPIO_PIN7);
-}
+#include "UART_interface.h"
 
 int main(void)
 {
-  GPIO_SetPinDirection(GPIO_PORTA, GPIO_PIN4, GPIO_OUTPUT);
-  GPIO_SetPinDirection(GPIO_PORTA, GPIO_PIN7, GPIO_OUTPUT);
-  EXTI_SetSense(EXTI_INT0, EXTI_ANY_CHANGE);
-  EXTI_SetCallback(EXTI_INT0, led_isr);
-  EXTI_Enable(EXTI_INT0);
-  INTERRUPT_EnableGlobal();
+  UART_Init(9600);
 
-  while (1)
-  {
-    GPIO_TogglePinValue(GPIO_PORTA, GPIO_PIN4);
-    TIMER0_DelayMS(1000);
+  while(1){
+    UART_SendString("Hello World!");
+    TIMER0_DelayMS(2000);
   }
   return 0;
 }

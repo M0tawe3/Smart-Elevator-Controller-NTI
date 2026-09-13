@@ -33,6 +33,31 @@
  * 5. This project uses F_CPU 8000000UL unless you override it.
  */
 
+#define UDR (*(volatile uint8 *)0x2C)
+#define UCSRA (*(volatile uint8 *)0x2B)
+#define UCSRB (*(volatile uint8 *)0x2A)
+#define UCSRC (*(volatile uint8 *)0x40)
+#define UBRRL (*(volatile uint8 *)0x29)
+#define UBRRH (*(volatile uint8 *)0x40)
+
+// Bit names UCSRA
+#define UDRE 5
+#define RXC 7
+
+// Bit names UCSRB
+#define RXEN 4
+#define TXEN 3
+
+// Bit names UCSRC
+#define URSEL 7
+#define UMSEL 6
+#define UPM1 5
+#define UPM0 4
+#define USBS 3
+#define UCSZ1 2
+#define UCSZ0 1
+#define UCPOL 0
+
 /* TODO: map UDR, UCSRA, UCSRB, UCSRC, UBRRL, UBRRH and the bit names. */
 
 #endif /* UART_PRIVATE_H */

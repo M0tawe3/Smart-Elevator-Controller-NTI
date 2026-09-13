@@ -12,6 +12,7 @@
  */
 
 #include "STD_TYPES.h"
+#include "MATH.h"
 
 /*
  * Description : Set 8 data bits, no parity, 1 stop bit (8N1), then enable TX and RX

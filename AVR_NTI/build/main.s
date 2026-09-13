@@ -5,18 +5,9 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 	.text
-	.section	.text.led_isr,"ax",@progbits
-.global	led_isr
-	.type	led_isr, @function
-led_isr:
-/* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
-	ldi r22,lo8(7)
-	ldi r24,0
-	jmp GPIO_TogglePinValue
-	.size	led_isr, .-led_isr
+	.section	.rodata.main.str1.1,"aMS",@progbits,1
+.LC0:
+	.string	"Hello World!"
 	.section	.text.startup.main,"ax",@progbits
 .global	main
 	.type	main, @function
@@ -25,31 +16,19 @@ main:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	ldi r20,lo8(1)
-	ldi r22,lo8(4)
+	ldi r22,lo8(-128)
+	ldi r23,lo8(37)
 	ldi r24,0
-	call GPIO_SetPinDirection
-	ldi r20,lo8(1)
-	ldi r22,lo8(7)
-	ldi r24,0
-	call GPIO_SetPinDirection
-	ldi r22,lo8(1)
-	ldi r24,0
-	call EXTI_SetSense
-	ldi r22,lo8(gs(led_isr))
-	ldi r23,hi8(gs(led_isr))
-	ldi r24,0
-	call EXTI_SetCallback
-	ldi r24,0
-	call EXTI_Enable
-	call INTERRUPT_EnableGlobal
-.L3:
-	ldi r22,lo8(4)
-	ldi r24,0
-	call GPIO_TogglePinValue
-	ldi r24,lo8(-24)
-	ldi r25,lo8(3)
+	ldi r25,0
+	call UART_Init
+.L2:
+	ldi r24,lo8(.LC0)
+	ldi r25,hi8(.LC0)
+	call UART_SendString
+	ldi r24,lo8(-48)
+	ldi r25,lo8(7)
 	call TIMER0_DelayMS
-	rjmp .L3
+	rjmp .L2
 	.size	main, .-main
 	.ident	"GCC: (SUSE Linux) 15.3.0"
+.global __do_copy_data
