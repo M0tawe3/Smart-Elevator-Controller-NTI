@@ -1,0 +1,28 @@
+{
+    // Author: Ahmed Ellamie
+    // Email:  ahmed.ellamiee@gmail.com
+    "configurations": [
+        {
+            "name": "AVR - ATmega32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/lib/avr/include"
+            ],
+            "defines": [
+                "F_CPU=8000000UL",
+                "__AVR_ATmega32__"
+            ],
+            "compilerPath": "/usr/bin/avr-gcc",
+            "cStandard": "c11",
+            "intelliSenseMode": "gcc-x86",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "/usr/lib/avr/include"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
