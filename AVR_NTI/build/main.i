@@ -178,20 +178,30 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
 
 STD_ReturnType TIMER1_Stop(void);
 # 17 "main.c" 2
+# 1 "MCAL/SPI/SPI_interface.h" 1
+# 30 "MCAL/SPI/SPI_interface.h"
+STD_ReturnType SPI_InitMaster(uint8 Copy_u8Prescaler);
+
+
+
+
+STD_ReturnType SPI_InitSlave(void);
+
+
+
+
+
+STD_ReturnType SPI_Transceive(uint8 Copy_u8Sent, uint8 *Copy_pu8Received);
+
+
+
+
+
+STD_ReturnType SPI_SelectSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
+STD_ReturnType SPI_ReleaseSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
+# 18 "main.c" 2
 # 1 "MCAL/UART/UART_interface.h" 1
-# 15 "MCAL/UART/UART_interface.h"
-# 1 "LIB/MATH.h" 1
-
-
-
-# 1 "LIB/STD_TYPES.h" 1
-# 5 "LIB/MATH.h" 2
-# 16 "MCAL/UART/UART_interface.h" 2
-
-
-
-
-
+# 20 "MCAL/UART/UART_interface.h"
 STD_ReturnType UART_Init(uint32 Copy_u32BaudRate);
 
 
@@ -221,15 +231,25 @@ STD_ReturnType UART_IsDataReady(void);
 
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
 STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
-# 18 "main.c" 2
+# 19 "main.c" 2
 
 int main(void)
 {
   UART_Init(9600);
+  TIMER0_Init();
+  SPI_InitMaster(1u);
 
-  while(1){
-    UART_SendString("Hello World!");
-    TIMER0_DelayMS(2000);
+  uint8 rec;
+  while (1)
+  {
+
+    SPI_SelectSlave(1u, 4u);
+
+    SPI_Transceive(0x55, &rec);
+
+    SPI_ReleaseSlave(1u, 4u);
+    UART_SendByte(rec);
+    TIMER0_DelayMS(200);
   }
   return 0;
 }

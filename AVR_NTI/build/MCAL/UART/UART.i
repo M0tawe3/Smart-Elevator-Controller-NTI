@@ -39,19 +39,7 @@ typedef enum
 } STD_ReturnType;
 # 10 "MCAL/UART/UART.c" 2
 # 1 "MCAL/UART/UART_interface.h" 1
-# 15 "MCAL/UART/UART_interface.h"
-# 1 "LIB/MATH.h" 1
-
-
-
-# 1 "LIB/STD_TYPES.h" 1
-# 5 "LIB/MATH.h" 2
-# 16 "MCAL/UART/UART_interface.h" 2
-
-
-
-
-
+# 20 "MCAL/UART/UART_interface.h"
 STD_ReturnType UART_Init(uint32 Copy_u32BaudRate);
 
 
@@ -106,7 +94,7 @@ STD_ReturnType UART_Init(uint32 Copy_u32BaudRate)
 
 STD_ReturnType UART_SendByte(uint8 Copy_u8Data)
 {
-    while (!(((*(volatile uint8 *)0x2B) >> 5) & 1u))
+    while (!((((*(volatile uint8 *)0x2B)) >> (5)) & 1u))
     {
     };
 
@@ -128,7 +116,7 @@ STD_ReturnType UART_ReceiveByte(uint8 *Copy_pu8Data)
                            )
         return E_NOK;
 
-    while (!(((*(volatile uint8 *)0x2B) >> 7) & 1u))
+    while (!((((*(volatile uint8 *)0x2B)) >> (7)) & 1u))
     {
     };
 
@@ -166,7 +154,7 @@ STD_ReturnType UART_SendString(const uint8 *Copy_pu8String)
 
 STD_ReturnType UART_IsDataReady()
 {
-    if ((((*(volatile uint8 *)0x2B) >> 7) & 1u))
+    if (((((*(volatile uint8 *)0x2B)) >> (7)) & 1u))
         return E_OK;
     else
         return E_NOK;
