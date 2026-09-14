@@ -16,9 +16,37 @@
 #include "TIMER_interface.h"
 #include "SPI_interface.h"
 #include "UART_interface.h"
+#include "HAL/Slots/slots.h"
 
 int main(void)
 {
+    uint8 sensor_mask = 0u;
+
+    UART_Init(9600);
+    slots_init();
+
+    UART_SendString("Slot sensor test started\r\n");
+
+    while (1)
+    {
+        if (slots_read_raw(&sensor_mask) == E_OK)
+        {
+            UART_SendString("Sensors: ");
+
+            for (uint8 bit = SLOT_SENSOR_START_PIN; bit <= SLOT_SENSOR_END_PIN; bit++)
+            {
+                uint8 value = (sensor_mask >> bit) & 1u;
+                UART_SendByte((uint8)('0' + value));
+                UART_SendByte(' ');
+            }
+
+            UART_SendString("\r\n");
+        }
+
+        TIMER0_DelayMS(100);
+    }
+
+    return 0;
   UART_Init(9600);
   TIMER0_Init();
   SPI_InitMaster(SPI_PRESC_16);
