@@ -13,8 +13,8 @@
 ### Ahmad Ibrahim Anwar
 
 MCAL: spi <br>
-HAL:  HC165.c, HC595.c, shiftReg.c <br>
-APP:  LOOK, position <br>
+HAL:  HC165.c, HC595.c, shiftReg.c, position.c <br>
+APP:  LOOK<br>
 
 ### Ahmed Ayman Ramadan
 
@@ -37,7 +37,7 @@ Extra: Hardwware design and general testing<br>
 
 ## Tasks brief
 
-### MCAL
+### HAL
 
 | module| Does | Talks to |
 |---|---|---|
