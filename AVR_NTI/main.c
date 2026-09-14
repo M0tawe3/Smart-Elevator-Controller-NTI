@@ -23,16 +23,22 @@ int main(void)
   TIMER0_Init();
   SPI_InitMaster(SPI_PRESC_16);
 
+  /* Configure a separate GPIO pin for Parallel Load (e.g., PORTD, PIN0) */
+  GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN0, GPIO_OUTPUT);
+  GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_HIGH);
+
   uint8 rec;
   while (1)
   {
+    /* 1. Latch parallel data into the 74HC165 */
+    GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_LOW);
+    GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_HIGH);
 
-    SPI_SelectSlave(GPIO_PORTB, GPIO_PIN4);
+    /* 2. Shift data out via SPI (no need for SPI_SelectSlave since 74HC165 has no CS pin) */
+    SPI_Transceive(0xFF, &rec);
 
-    SPI_Transceive(0x55, &rec);
+    UART_SendByte('A');
 
-    SPI_ReleaseSlave(GPIO_PORTB, GPIO_PIN4);
-    UART_SendByte(rec);
     TIMER0_DelayMS(200);
   }
   return 0;
