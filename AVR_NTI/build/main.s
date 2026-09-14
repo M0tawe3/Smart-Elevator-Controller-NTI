@@ -5,30 +5,42 @@ __SREG__ = 0x3f
 __tmp_reg__ = 0
 __zero_reg__ = 1
 	.text
-	.section	.rodata.main.str1.1,"aMS",@progbits,1
-.LC0:
-	.string	"Hello World!"
 	.section	.text.startup.main,"ax",@progbits
 .global	main
 	.type	main, @function
 main:
+	push __tmp_reg__
+	in r28,__SP_L__
+	in r29,__SP_H__
 /* prologue: function */
-/* frame size = 0 */
-/* stack size = 0 */
-.L__stack_usage = 0
+/* frame size = 1 */
+/* stack size = 1 */
+.L__stack_usage = 1
 	ldi r22,lo8(-128)
 	ldi r23,lo8(37)
 	ldi r24,0
 	ldi r25,0
 	call UART_Init
+	call TIMER0_Init
+	ldi r24,lo8(1)
+	call SPI_InitMaster
 .L2:
-	ldi r24,lo8(.LC0)
-	ldi r25,hi8(.LC0)
-	call UART_SendString
-	ldi r24,lo8(-48)
-	ldi r25,lo8(7)
+	ldi r22,lo8(4)
+	ldi r24,lo8(1)
+	call SPI_SelectSlave
+	movw r22,r28
+	subi r22,-1
+	sbci r23,-1
+	ldi r24,lo8(85)
+	call SPI_Transceive
+	ldi r22,lo8(4)
+	ldi r24,lo8(1)
+	call SPI_ReleaseSlave
+	ldd r24,Y+1
+	call UART_SendByte
+	ldi r24,lo8(-56)
+	ldi r25,0
 	call TIMER0_DelayMS
 	rjmp .L2
 	.size	main, .-main
 	.ident	"GCC: (SUSE Linux) 15.3.0"
-.global __do_copy_data

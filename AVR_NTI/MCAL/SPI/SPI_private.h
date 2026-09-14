@@ -31,5 +31,17 @@
  */
 
 /* TODO: map SPCR, SPSR, SPDR and the bit names. */
+#define SPCR (*(volatile uint8 *)0x4D)
+#define SPSR (*(volatile uint8 *)0x4E)
+#define SPDR (*(volatile uint8 *)0x4F)
+
+// SPCR bit names
+#define SPE 6
+#define MSTR 5
+#define SPR1 1
+#define SPR0 0
+
+// SPSR bit names
+#define SPIF 7
 
 #endif /* SPI_PRIVATE_H */
