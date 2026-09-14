@@ -12,9 +12,9 @@
 
 ### Ahmad Ibrahim Anwar
 
-MCAL: uart.c, spi <br>
+MCAL: spi <br>
 HAL:  HC165.c, HC595.c, shiftReg.c <br>
-APP:  LOOK <br>
+APP:  LOOK, position <br>
 
 ### Ahmed Ayman Ramadan
 
@@ -42,14 +42,14 @@ Extra: Hardwware design and general testing<br>
 | module| Does | Talks to |
 |---|---|---|
 | HC165 |Reads all 16 buttons in one scan, debounces them, and turns raw levels into press/release edges (BTN_Scan, BTN_Pressed(n)) |Two chained 74HC165s over SPI |
-| seg595 | Renders the current floor digit and direction arrow (SEG_Show(floor, dir)) | 74HC595 over SPI|
+| HC595 | Renders the current floor digit and direction arrow (SEG_Show(floor, dir)) | 74HC595 over SPI|
 | shiftreg | The shared low-level SPI transaction driver underneath both of the above — this is where SPI_Acquire/SPI_Release live, since the 165 (read) and 595 (write) share one bus and can't be clocked at the same instant	| Raw SPI peripheral |
 | position | Converts the position pot's ADC reading into centimeters and tells the rest of the system which floor is nearest and whether the car is inside the ±3 cm level zone (POS_Cm, POS_NearestFloor, POS_InLevelZone) | ADC0 |
 | loadcell |Reads the load pot and reports weight in kg, feeding the 900 kg overload check| A separate ADC channel |
 | hoist |The only module allowed to write OC1A (hoist PWM) or the hoist direction pins — enforces "car can't move with the door open" at this layer, not just in the FSM (NFR-03) (HST_SetDuty, HST_SetDir, HST_Brake) | Timer1 PWM + direction GPIO | 
 | door |The only module allowed to write OC1B (door PWM) or door direction — mirrors hoist's single-writer rule (DRV_SetDuty, DRV_SetDir) | Timer1 PWM + direction GPIO |
 | buzzer | Drives the buzzer tone generator for arrival chimes (one tone up, two tones down) and alarm tones (overload, fire, E-stop) | Timer2 PWM on OC2 |
-| lcd_i2c | Repaints the 16×2 service display every 250 ms — floor, direction, door state, and status text like OVERLOAD 940kg or FIRE SERVICE | PCF8574 I/O expander over I2C |
+| lcd | Repaints the 16×2 service display every 250 ms — floor, direction, door state, and status text like OVERLOAD 940kg or FIRE SERVICE | PCF8574 I/O expander over I2C |
 
 
 ### APP
@@ -63,3 +63,37 @@ Extra: Hardwware design and general testing<br>
 | safety | Evaluates E-stop, overload, overtravel, and over-current every tick and returns the highest-priority active fault — fire service and E-stop outrank overload, which is why overload is only rank 6 in the state table |
 | console |Parses UART commands (CALL <f> UP/DOWN, PAGE <0-1>, queries like CC/HU/HD) and transmits the telemetry frame every 2 s |
 | faultlog | A fixed 16-entry ring buffer in RAM that records fault codes as car_fsm enters CS_FAULT and similar states |
+
+
+## Timeline
+
+### Monday
+
+- SPI or I2C + consol
+- load.c
+- hoist.c
+- door.c
+- position.c
+- lcd or buzzer
+- HC595 & HC165 or position
+
+
+### Tuesday
+
+- LOOK
+- SPI or I2C
+- car_fsm
+- Timer2
+- safety
+- motion
+- fault log
+- lcd or buzzer
+- HC595 & HC165 or position
+
+### Wednesday
+
+- shiftReg
+- door_fsm
+- Hardware design
+- main.c
+
