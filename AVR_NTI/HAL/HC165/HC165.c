@@ -2,29 +2,28 @@
 #include "GPIO_interface.h"
 #include "SPI_interface.h"
 
-STD_ReturnType HC165_Init(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin)
+#define HC165_LATCH_PORT  GPIO_PORTC
+#define HC165_LATCH_PIN   GPIO_PIN2
+
+#define SPI_PORT GPIO_PORTB
+#define SPI_SS GPIO_PIN4
+
+uint16 HC165_Read(void)
 {
-    STD_ReturnType result;
-
-    result = GPIO_SetPinDirection(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, GPIO_OUTPUT);
-    if (result != E_OK)
-    {
-        return result;
-    }
-
-    return GPIO_SetPinValue(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, GPIO_HIGH);
-}
-
-uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin)
-{
-    uint8 receivedData = 0;
+    uint16 buttons = 0;
+    uint8 received;
 
     // Latch the parallel data into the shift register
-    GPIO_SetPinValue(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, GPIO_LOW);
-    GPIO_SetPinValue(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, GPIO_HIGH);
+    GPIO_SetPinValue(HC165_LATCH_PORT, HC165_LATCH_PIN, GPIO_LOW);
+    GPIO_SetPinValue(HC165_LATCH_PORT, HC165_LATCH_PIN, GPIO_HIGH);
 
-    // Shift out the data via SPI
-    SPI_Transceive(0xFF, &receivedData);
+    SPI_SelectSlave(SPI_PORT, SPI_SS);
+    for (uint8 i = 0; i < 2; i++)
+    {
+        SPI_Transceive(0xFF, &received);
+        buttons = (buttons << 8) | received;
+    }
+    SPI_ReleaseSlave(SPI_PORT, SPI_SS);
 
-    return receivedData;
+    return buttons;
 }

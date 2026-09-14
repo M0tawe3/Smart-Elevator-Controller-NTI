@@ -16,58 +16,22 @@
 #include "TIMER_interface.h"
 #include "SPI_interface.h"
 #include "UART_interface.h"
-#include "HAL/Slots/slots.h"
+#include "HAL/HC165/HC165.h"
 
 int main(void)
 {
-    uint8 sensor_mask = 0u;
-
-    UART_Init(9600);
-    slots_init();
-
-    UART_SendString("Slot sensor test started\r\n");
-
-    while (1)
-    {
-        if (slots_read_raw(&sensor_mask) == E_OK)
-        {
-            UART_SendString("Sensors: ");
-
-            for (uint8 bit = SLOT_SENSOR_START_PIN; bit <= SLOT_SENSOR_END_PIN; bit++)
-            {
-                uint8 value = (sensor_mask >> bit) & 1u;
-                UART_SendByte((uint8)('0' + value));
-                UART_SendByte(' ');
-            }
-
-            UART_SendString("\r\n");
-        }
-
-        TIMER0_DelayMS(100);
-    }
-
-    return 0;
   UART_Init(9600);
   TIMER0_Init();
-  SPI_InitMaster(SPI_PRESC_16);
-
-  /* Configure a separate GPIO pin for Parallel Load (e.g., PORTD, PIN0) */
-  GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN0, GPIO_OUTPUT);
-  GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_HIGH);
+  SPI_InitMaster(SPI_PRESC_4);
 
   uint8 rec;
   while (1)
   {
-    /* 1. Latch parallel data into the 74HC165 */
-    GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_LOW);
-    GPIO_SetPinValue(GPIO_PORTD, GPIO_PIN0, GPIO_HIGH);
+    rec = HC165_Read(GPIO_PORTB, GPIO_PIN4);
 
-    /* 2. Shift data out via SPI (no need for SPI_SelectSlave since 74HC165 has no CS pin) */
-    SPI_Transceive(0xFF, &rec);
+    UART_SendByte(rec);
 
-    UART_SendByte('A');
-
-    TIMER0_DelayMS(200);
+    TIMER0_DelayMS(1000);
   }
   return 0;
 }

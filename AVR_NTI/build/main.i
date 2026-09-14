@@ -232,24 +232,31 @@ STD_ReturnType UART_IsDataReady(void);
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
 STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
 # 19 "main.c" 2
+# 1 "HAL/HC165/HC165.h" 1
+
+
+
+
+
+
+STD_ReturnType HC165_Init(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+# 20 "main.c" 2
 
 int main(void)
 {
   UART_Init(9600);
   TIMER0_Init();
-  SPI_InitMaster(1u);
+  SPI_InitMaster(0u);
 
   uint8 rec;
   while (1)
   {
+    rec = HC165_Read(1u, 4u);
 
-    SPI_SelectSlave(1u, 4u);
-
-    SPI_Transceive(0x55, &rec);
-
-    SPI_ReleaseSlave(1u, 4u);
     UART_SendByte(rec);
-    TIMER0_DelayMS(200);
+
+    TIMER0_DelayMS(1000);
   }
   return 0;
 }

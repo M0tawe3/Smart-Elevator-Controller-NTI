@@ -128,7 +128,7 @@ STD_ReturnType UART_IsDataReady(void);
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
 STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
 # 14 "MCAL/SPI/SPI.c" 2
-# 22 "MCAL/SPI/SPI.c"
+# 23 "MCAL/SPI/SPI.c"
 STD_ReturnType SPI_InitMaster(uint8 Copy_u8Prescaler)
 {
     if (Copy_u8Prescaler > 3u)
@@ -141,7 +141,8 @@ STD_ReturnType SPI_InitMaster(uint8 Copy_u8Prescaler)
 
     GPIO_SetPinValue(1u, 4u, 1u);
 
-    (*(volatile uint8 *)0x4D) = (1 << 6) | (1 << 5) | Copy_u8Prescaler;
+    (*(volatile uint8 *)0x2D) = (1 << 6) | (1 << 4) | Copy_u8Prescaler;
+    (*(volatile uint8 *)0x2E) &= ~(1 << 0);
     return E_OK;
 }
 
@@ -157,28 +158,28 @@ STD_ReturnType SPI_InitSlave(void)
     GPIO_SetPinDirection(1u, 6u, 1u);
     GPIO_SetPinDirection(1u, 7u, 0u);
 
-    (*(volatile uint8 *)0x4D) = (1 << 6);
+    (*(volatile uint8 *)0x2D) = (1 << 6);
     return E_OK;
 }
-# 61 "MCAL/SPI/SPI.c"
+# 63 "MCAL/SPI/SPI.c"
 STD_ReturnType SPI_Transceive(uint8 Copy_u8Sent, uint8 *Copy_pu8Received)
 {
     if (Copy_pu8Received == 
-# 63 "MCAL/SPI/SPI.c" 3 4
+# 65 "MCAL/SPI/SPI.c" 3 4
                            ((void *)0)
-# 63 "MCAL/SPI/SPI.c"
+# 65 "MCAL/SPI/SPI.c"
                                )
         return E_NOK;
 
-    (*(volatile uint8 *)0x4F) = Copy_u8Sent;
-    while (!((((*(volatile uint8 *)0x4E)) >> (7)) & 1u))
-    {
-    };
+    (*(volatile uint8 *)0x2F) = Copy_u8Sent;
 
-    *Copy_pu8Received = (*(volatile uint8 *)0x4F);
+    while (!((((*(volatile uint8 *)0x2E)) >> (7)) & 1u))
+        ;
+
+    *Copy_pu8Received = (*(volatile uint8 *)0x2F);
     return E_OK;
 }
-# 83 "MCAL/SPI/SPI.c"
+# 85 "MCAL/SPI/SPI.c"
 STD_ReturnType SPI_SelectSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin)
 {
     return GPIO_SetPinValue(Copy_u8Port, Copy_u8Pin, 0u);
