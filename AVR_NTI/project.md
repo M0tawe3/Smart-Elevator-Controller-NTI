@@ -12,27 +12,27 @@
 
 ### Ahmad Ibrahim Anwar
 
-MCAL: uart.c, spi.
-HAL:  HC165.c, HC595.c, shiftReg.c
-APP:  LOOK
+MCAL: uart.c, spi <br>
+HAL:  HC165.c, HC595.c, shiftReg.c <br>
+APP:  LOOK <br>
 
 ### Ahmed Ayman Ramadan
 
-MCAL: i2c.c
-HAL:  lcd.c, buzzer.c
-APP:  consol, fault_log
+MCAL: i2c.c <br>
+HAL:  lcd.c, buzzer.c <br>
+APP:  consol, fault_log <br>
 
 ### Youssef Saeed
 
-MCAL: Timer2.c
-HAL:  load.c, door.c
-APP:  car_fsm, door
+MCAL: Timer2.c <br>
+HAL:  load.c, door.c <br>
+APP:  car_fsm, door <br>
 
 ### Youssef Nasser Farouk
 
-HAL: hoist.c
-APP: safety, motion
-Extra: Hardwware design and general testing
+HAL: hoist.c<br>
+APP: safety, motion<br>
+Extra: Hardwware design and general testing<br>
 
 
 ## Tasks brief
@@ -40,6 +40,7 @@ Extra: Hardwware design and general testing
 ### MCAL
 
 | module| Does | Talks to |
+|---|---|---|
 | HC165 |Reads all 16 buttons in one scan, debounces them, and turns raw levels into press/release edges (BTN_Scan, BTN_Pressed(n)) |Two chained 74HC165s over SPI |
 | seg595 | Renders the current floor digit and direction arrow (SEG_Show(floor, dir)) | 74HC595 over SPI|
 | shiftreg | The shared low-level SPI transaction driver underneath both of the above — this is where SPI_Acquire/SPI_Release live, since the 165 (read) and 595 (write) share one bus and can't be clocked at the same instant	| Raw SPI peripheral |
@@ -54,6 +55,7 @@ Extra: Hardwware design and general testing
 ### APP
 
 | Module | Does |
+|---|---|
 | car_fsm | The top-level state machine — sequences everything else through states like CS_IDLE, CS_MOVING, CS_ARRIVED, CS_OVERLOAD, CS_FIRE_RECALL, CS_FAULT, CS_ESTOP (§15). It asks the other APP modules for decisions rather than owning any hardware itself |
 | dispatch | Owns the three call bitmaps (carCall, hallUp, hallDown) and runs the LOOK algorithm — decides which direction to head next and whether to stop at the current floor. The one subtle piece of logic here is the opposite-direction exception: a car going up will still serve a hall-down call if it's the last call ahead of it |
 | motion | Runs the trapezoidal speed profile (accelerate → constant → slowdown → creep → level) and steers toward ±3 cm levelling accuracy from both directions — the asymmetric part is that gravity assists a downward stop but not an upward one, so the profile can't be symmetric |
