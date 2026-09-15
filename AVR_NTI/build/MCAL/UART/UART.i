@@ -159,3 +159,12 @@ STD_ReturnType UART_IsDataReady()
     else
         return E_NOK;
 }
+
+
+
+
+
+
+STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State){
+
+}

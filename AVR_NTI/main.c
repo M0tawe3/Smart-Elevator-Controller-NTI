@@ -16,22 +16,20 @@
 #include "TIMER_interface.h"
 #include "SPI_interface.h"
 #include "UART_interface.h"
-#include "HAL/HC165/HC165.h"
+#include "HAL/HC595/HC595.h"
 
 int main(void)
 {
-  UART_Init(9600);
-  TIMER0_Init();
-  SPI_InitMaster(SPI_PRESC_4);
-
-  uint8 rec;
+  TIMER2_Init();
+  ADC_Init(ADC_REF_AREF, ADC_PRESC_64);
   while (1)
   {
-    rec = HC165_Read(GPIO_PORTB, GPIO_PIN4);
+    uint16 reading;
+    uint8 disp;
+    ADC_ReadChannel(ADC_CHANNEL_0, &reading);
 
-    UART_SendByte(rec);
-
-    TIMER0_DelayMS(1000);
+    disp = ((uint32)reading *100)/1024;
+    TIMER2_PWM(disp);
   }
   return 0;
 }

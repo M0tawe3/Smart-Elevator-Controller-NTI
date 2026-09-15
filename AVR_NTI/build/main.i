@@ -133,7 +133,15 @@ STD_ReturnType ADC_GetResult(uint16 *Copy_pu16Reading);
 STD_ReturnType ADC_SetInterrupt(uint8 Copy_u8State);
 # 16 "main.c" 2
 # 1 "MCAL/TIMER/TIMER_interface.h" 1
-# 29 "MCAL/TIMER/TIMER_interface.h"
+# 24 "MCAL/TIMER/TIMER_interface.h"
+extern volatile uint8 systemTicks10ms;
+
+
+
+
+
+
+
 STD_ReturnType TIMER0_Init(void);
 
 
@@ -170,13 +178,24 @@ STD_ReturnType TIMER1_Init(void);
 
 
 STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds);
-# 73 "MCAL/TIMER/TIMER_interface.h"
+# 76 "MCAL/TIMER/TIMER_interface.h"
 STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
 
 
 
 
 STD_ReturnType TIMER1_Stop(void);
+
+
+
+
+STD_ReturnType TIMER2_Init(void);
+
+
+STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent);
+
+
+STD_ReturnType TIMER2_Stop(void);
 # 17 "main.c" 2
 # 1 "MCAL/SPI/SPI_interface.h" 1
 # 30 "MCAL/SPI/SPI_interface.h"
@@ -232,31 +251,23 @@ STD_ReturnType UART_IsDataReady(void);
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
 STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
 # 19 "main.c" 2
-# 1 "HAL/HC165/HC165.h" 1
-
-
-
-
-
-
-STD_ReturnType HC165_Init(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
-uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+# 1 "HAL/HC595/HC595.h" 1
+# 9 "HAL/HC595/HC595.h"
+void HC595_Write(uint8 data);
 # 20 "main.c" 2
 
 int main(void)
 {
-  UART_Init(9600);
-  TIMER0_Init();
-  SPI_InitMaster(0u);
-
-  uint8 rec;
+  TIMER2_Init();
+  ADC_Init(0u, 6u);
   while (1)
   {
-    rec = HC165_Read(1u, 4u);
+    uint16 reading;
+    uint8 disp;
+    ADC_ReadChannel(0u, &reading);
 
-    UART_SendByte(rec);
-
-    TIMER0_DelayMS(1000);
+    disp = ((uint32)reading *100)/1024;
+    TIMER2_PWM(disp);
   }
   return 0;
 }

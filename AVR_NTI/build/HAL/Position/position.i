@@ -82,6 +82,8 @@ STD_ReturnType get_position(uint8 *floor)
     uint16 reading;
     ADC_ReadChannel(0u, &reading);
 
+    reading = ((uint32)reading * 1000) / 1023;
+
     if (reading < 300)
     {
         *floor = 0;

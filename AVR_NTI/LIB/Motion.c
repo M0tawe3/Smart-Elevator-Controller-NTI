@@ -85,9 +85,9 @@ static uint16_t s_accelCounter      = 0U;
 static uint8_t  s_relevelCount      = 0U;
 static uint8_t  s_motionActive      = 0U;
 
-void MOT_GoTo(uint8_t targetFloor, uint16_t currentCm) {
+STD_ReturnType MOT_GoTo(uint8_t targetFloor, uint16_t currentCm) {
     if (targetFloor > 3U) {
-        return;
+        return E_NOK;
     }
 
     s_targetPositionCm = s_floorCm[targetFloor];
@@ -95,6 +95,8 @@ void MOT_GoTo(uint8_t targetFloor, uint16_t currentCm) {
     s_accelCounter      = 0U;
     s_relevelCount      = 0U;
     s_motionActive      = 1U;
+
+    return E_OK;
 }
 
 void MOT_Stop(void) {

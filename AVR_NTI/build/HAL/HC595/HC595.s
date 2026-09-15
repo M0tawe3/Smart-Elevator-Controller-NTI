@@ -23,12 +23,12 @@ HC595_Write:
 	sbci r23,-1
 	call SPI_Transceive
 	ldi r20,lo8(1)
-	ldi r22,lo8(4)
-	ldi r24,lo8(1)
+	ldi r22,lo8(3)
+	ldi r24,lo8(2)
 	call GPIO_SetPinValue
 	ldi r20,0
-	ldi r22,lo8(4)
-	ldi r24,lo8(1)
+	ldi r22,lo8(3)
+	ldi r24,lo8(2)
 	call GPIO_SetPinValue
 /* epilogue start */
 	pop __tmp_reg__

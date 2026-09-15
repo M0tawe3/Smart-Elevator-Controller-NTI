@@ -145,4 +145,15 @@ UART_IsDataReady:
 /* epilogue start */
 	ret
 	.size	UART_IsDataReady, .-UART_IsDataReady
+	.section	.text.UART_SetRxInterrupt,"ax",@progbits
+.global	UART_SetRxInterrupt
+	.type	UART_SetRxInterrupt, @function
+UART_SetRxInterrupt:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+/* epilogue start */
+	ret
+	.size	UART_SetRxInterrupt, .-UART_SetRxInterrupt
 	.ident	"GCC: (SUSE Linux) 15.3.0"

@@ -13,9 +13,9 @@ TIMER0_Init:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	ldi r24,lo8(8)
+	ldi r24,lo8(13)
 	out 0x33,r24
-	ldi r24,lo8(124)
+	ldi r24,lo8(77)
 	out 0x3c,r24
 	out 0x32,__zero_reg__
 	ldi r24,0
@@ -36,7 +36,8 @@ TIMER0_DelayMS:
 	ori r25,lo8(2)
 	out 0x38,r25
 	in r25,0x33
-	ori r25,lo8(3)
+	andi r25,lo8(-8)
+	ori r25,lo8(5)
 	out 0x33,r25
 	ldi r18,0
 	ldi r19,0
@@ -266,9 +267,9 @@ TIMER1_PWM:
 	movw r18,r28
 	ldi r20,0
 	ldi r21,0
-	ldi r22,lo8(64)
-	ldi r23,lo8(66)
-	ldi r24,lo8(15)
+	ldi r22,0
+	ldi r23,lo8(18)
+	ldi r24,lo8(122)
 	ldi r25,0
 	call __udivmodsi4
 	subi r18,1
@@ -288,7 +289,8 @@ TIMER1_PWM:
 	out 0x2a+1,r19
 	out 0x2a,r18
 	in r24,0x2e
-	ori r24,lo8(2)
+	andi r24,lo8(-8)
+	ori r24,lo8(1)
 	out 0x2e,r24
 	ldi r24,0
 	ldi r25,0
@@ -322,4 +324,77 @@ TIMER1_Stop:
 /* epilogue start */
 	ret
 	.size	TIMER1_Stop, .-TIMER1_Stop
+	.section	.text.TIMER2_Init,"ax",@progbits
+.global	TIMER2_Init
+	.type	TIMER2_Init, @function
+TIMER2_Init:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	out 0x25,__zero_reg__
+	out 0x24,__zero_reg__
+	out 0x23,__zero_reg__
+	ldi r24,0
+	ldi r25,0
+/* epilogue start */
+	ret
+	.size	TIMER2_Init, .-TIMER2_Init
+	.section	.text.TIMER2_PWM,"ax",@progbits
+.global	TIMER2_PWM
+	.type	TIMER2_PWM, @function
+TIMER2_PWM:
+	push r28
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 1 */
+.L__stack_usage = 1
+	mov r28,r24
+	ldi r24,lo8(1)
+	ldi r25,0
+	cpi r28,lo8(101)
+	brsh .L28
+	ldi r20,lo8(1)
+	ldi r22,lo8(7)
+	ldi r24,lo8(3)
+	call GPIO_SetPinDirection
+	ldi r24,lo8(108)
+	out 0x25,r24
+	mov r18,r28
+	ldi r19,0
+	ldi r26,lo8(-1)
+	ldi r27,0
+	call __umulhisi3
+	ldi r18,lo8(100)
+	ldi r20,0
+	ldi r21,0
+	call __udivmodsi4
+	out 0x23,r18
+	ldi r24,0
+	ldi r25,0
+.L28:
+/* epilogue start */
+	pop r28
+	ret
+	.size	TIMER2_PWM, .-TIMER2_PWM
+	.section	.text.TIMER2_Stop,"ax",@progbits
+.global	TIMER2_Stop
+	.type	TIMER2_Stop, @function
+TIMER2_Stop:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	in r24,0x25
+	andi r24,lo8(-8)
+	out 0x25,r24
+	in r24,0x25
+	andi r24,lo8(-49)
+	out 0x25,r24
+	out 0x23,__zero_reg__
+	ldi r24,0
+	ldi r25,0
+/* epilogue start */
+	ret
+	.size	TIMER2_Stop, .-TIMER2_Stop
 	.ident	"GCC: (SUSE Linux) 15.3.0"

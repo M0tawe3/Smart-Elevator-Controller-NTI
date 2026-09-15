@@ -45,7 +45,7 @@ typedef enum
 
 
 
-uint8 HC595_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+void HC595_Write(uint8 data);
 # 2 "HAL/HC595/HC595.c" 2
 # 1 "MCAL/GPIO/GPIO_interface.h" 1
 # 43 "MCAL/GPIO/GPIO_interface.h"
@@ -112,6 +112,6 @@ void HC595_Write(uint8 data)
     SPI_Transceive(data, &dummy);
 
 
-    GPIO_SetPinValue(1u, 4u, 1u);
-    GPIO_SetPinValue(1u, 4u, 0u);
+    GPIO_SetPinValue(2u, 3u, 1u);
+    GPIO_SetPinValue(2u, 3u, 0u);
 }
