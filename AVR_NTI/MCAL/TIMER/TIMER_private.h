@@ -37,11 +37,23 @@
 #define TIMER1_REG_OCR1A (*(volatile uint16 *)0x4A)
 #define TIMER1_REG_ICR1 (*(volatile uint16 *)0x46)
 
+#define TIMER2_REG_TCCR2 (*(volatile uint8 *)0x45)
+#define TIMER2_REG_TCNT2 (*(volatile uint8 *)0x44)
+#define TIMER2_REG_OCR2  (*(volatile uint8 *)0x43)
+
 #define TIMSK_REG (*(volatile uint8 *)0x59)
 #define TIFR_REG (*(volatile uint8 *)0x58)
 
 #define OCF0 1
 #define OCF1A 4
+
+#define WGM20 6
+#define WGM21 3
+#define COM21 5
+#define COM20 4
+#define CS20 0
+#define CS21 1
+#define CS22 2
 
 /* TODO: map the bit names for each register. */
 

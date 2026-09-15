@@ -10,9 +10,9 @@
  *
  * What you must add here:
  * 1. Registers:
- *      SPCR  0x2D    SPIE SPE DORD MSTR CPOL CPHA SPR1 SPR0
- *      SPSR  0x2E    SPIF WCOL – – – – – SPI2X
- *      SPDR  0x2F    data — writing it starts the 8 clocks in master mode
+ *      SPCR  0x4D    SPIE SPE DORD MSTR CPOL CPHA SPR1 SPR0
+ *      SPSR  0x4E    SPIF WCOL – – – – – SPI2X
+ *      SPDR  0x4F    data — writing it starts the 8 clocks in master mode
  *
  * 2. Bit names:
  *      SPE=6, MSTR=5, SPR1=1, SPR0=0 in SPCR
@@ -31,17 +31,19 @@
  */
 
 /* TODO: map SPCR, SPSR, SPDR and the bit names. */
-#define SPCR (*(volatile uint8 *)0x4D)
-#define SPSR (*(volatile uint8 *)0x4E)
-#define SPDR (*(volatile uint8 *)0x4F)
+
+#define SPCR (*(volatile uint8 *)0x2D)
+#define SPSR (*(volatile uint8 *)0x2E)
+#define SPDR (*(volatile uint8 *)0x2F)
 
 // SPCR bit names
 #define SPE 6
-#define MSTR 5
+#define MSTR 4
 #define SPR1 1
 #define SPR0 0
 
 // SPSR bit names
 #define SPIF 7
+#define SPI2X 0
 
 #endif /* SPI_PRIVATE_H */

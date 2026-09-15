@@ -20,6 +20,9 @@
 
 #include "STD_TYPES.h"
 
+// Scheduler counter
+volatile uint8 systemTicks10ms = 0;
+
 /*========================== Timer0 — 8-bit ==========================*/
 
 /*
@@ -76,5 +79,16 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
  * Description : Stop Timer1 and release OC1A (PD5) back to plain GPIO.
  */
 STD_ReturnType TIMER1_Stop(void);
+
+/*========================== Timer2 — 8-bit ==========================*/
+
+/* Prepare Timer2 for buzzer PWM and leave it stopped. */
+STD_ReturnType TIMER2_Init(void);
+
+/* Output approximately 488 Hz PWM on OC2 (PD7) at the requested duty. */
+STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent);
+
+/* Stop Timer2 PWM and disconnect OC2. */
+STD_ReturnType TIMER2_Stop(void);
 
 #endif /* TIMER_INTERFACE_H */

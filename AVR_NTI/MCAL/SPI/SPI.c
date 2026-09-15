@@ -32,6 +32,7 @@ STD_ReturnType SPI_InitMaster(uint8 Copy_u8Prescaler)
     GPIO_SetPinValue(GPIO_PORTB, GPIO_PIN4, GPIO_HIGH); /* SS HIGH (idle) */
 
     SPCR = (1 << SPE) | (1 << MSTR) | Copy_u8Prescaler;
+    SPSR &= ~(1 << SPI2X);
     return E_OK;
 }
 
@@ -64,9 +65,9 @@ STD_ReturnType SPI_Transceive(uint8 Copy_u8Sent, uint8 *Copy_pu8Received)
         return E_NOK;
 
     SPDR = Copy_u8Sent;
+
     while (!READ_BIT(SPSR, SPIF))
-    {
-    };
+        ;
 
     *Copy_pu8Received = SPDR;
     return E_OK;

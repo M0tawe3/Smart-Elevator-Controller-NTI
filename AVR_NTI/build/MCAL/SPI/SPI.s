@@ -39,8 +39,9 @@ SPI_InitMaster:
 	ldi r22,lo8(4)
 	ldi r24,lo8(1)
 	call GPIO_SetPinValue
-	ori r28,lo8(96)
-	out 0x2d,r28
+	ori r28,lo8(80)
+	out 0xd,r28
+	cbi 0xe,0
 	ldi r24,0
 	ldi r25,0
 .L1:
@@ -73,7 +74,7 @@ SPI_InitSlave:
 	ldi r24,lo8(1)
 	call GPIO_SetPinDirection
 	ldi r24,lo8(64)
-	out 0x2d,r24
+	out 0xd,r24
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
@@ -90,12 +91,11 @@ SPI_Transceive:
 	cpi r22,0
 	cpc r23,r22
 	breq .L8
-	out 0x2f,r24
+	out 0xf,r24
 .L7:
-	in __tmp_reg__,0x2e
-	sbrs __tmp_reg__,7
+	sbis 0xe,7
 	rjmp .L7
-	in r24,0x2f
+	in r24,0xf
 	movw r30,r22
 	st Z,r24
 	ldi r24,0
