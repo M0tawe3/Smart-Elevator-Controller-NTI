@@ -39,5 +39,17 @@
  */
 
 /* TODO: map TWBR, TWSR, TWDR, TWCR and the bit names. */
+#define TWBR (*(volatile uint8*)0x20)
+#define TWSR (*(volatile uint8*)0x21)
+#define TWAR (*(volatile uint8*)0x22)
+#define TWDR (*(volatile uint8*)0x23)
+#define TWCR (*(volatile uint8*)0x56)
+
+// TWCR bit names
+#define TWINT 7
+ #define TWEA 6
+ #define TWSTA 5
+ #define TWSTO 4
+ #define TWEN 2   
 
 #endif /* I2C_PRIVATE_H */

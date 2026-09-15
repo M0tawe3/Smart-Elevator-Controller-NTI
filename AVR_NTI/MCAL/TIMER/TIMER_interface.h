@@ -21,7 +21,7 @@
 #include "STD_TYPES.h"
 
 // Scheduler counter
-volatile uint8 systemTicks10ms = 0;
+extern volatile uint8 systemTicks10ms;
 
 /*========================== Timer0 — 8-bit ==========================*/
 

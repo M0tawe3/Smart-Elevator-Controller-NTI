@@ -147,7 +147,6 @@ STD_ReturnType TIMER1_Stop(void)
 
 STD_ReturnType TIMER2_Init(void)
 {
-    GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN7, GPIO_OUTPUT);
     TIMER2_REG_TCCR2 = 0U;
     TIMER2_REG_TCNT2 = 0U;
     TIMER2_REG_OCR2 = 0U;
@@ -196,7 +195,7 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent)
     return (uint16)(temp / 100);
 }
 
-ISR(TIMER0_COMP_vect)
-{
-    systemTicks10ms = 1U;
-}
+// ISR(TIMER0_COMP_vect)
+// {
+//     systemTicks10ms = 1U;
+// }

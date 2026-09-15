@@ -102,3 +102,6 @@ STD_ReturnType UART_IsDataReady()
  * 1. Set or clear RXCIE / UDRIE in UCSRB.
  * 2. Vectors: USART_RXC_vect , USART_UDRE_vect.
  */
+STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State){
+    
+}
