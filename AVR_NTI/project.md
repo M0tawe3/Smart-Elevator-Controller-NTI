@@ -97,3 +97,19 @@ Extra: Hardwware design and general testing<br>
 - Hardware design
 - main.c
 
+
+## work done:
+
+### Ahmad Ibrahim:
+- Timer2
+- SPI
+- 74HC165
+- 74HC595
+- position
+- dispatch
+
+### Youssef Nasser:
+- hoist.c (not tested)
+- motion (not tested)
+- safety (not tested)
+- simulation (not tested)
