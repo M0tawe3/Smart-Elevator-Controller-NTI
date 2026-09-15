@@ -27,7 +27,7 @@ int main(void)
   uint8 rec;
   while (1)
   {
-    rec = HC165_Read(GPIO_PORTB, GPIO_PIN4);
+    rec = (uint8)HC165_Read();
 
     UART_SendByte(rec);
 

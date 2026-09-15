@@ -22,6 +22,8 @@
 #include "TIMER_private.h"
 #include <avr/interrupt.h>
 
+volatile uint8 systemTicks10ms = 0U;
+
 /*==================================================================
  *  Local helpers — static, used only inside TIMER.c
  *==================================================================*/
