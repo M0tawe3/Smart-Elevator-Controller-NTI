@@ -20,6 +20,7 @@
 #include "GPIO_interface.h"
 #include "TIMER_interface.h"
 #include "TIMER_private.h"
+#include <avr/interrupt.h>
 
 /*==================================================================
  *  Local helpers — static, used only inside TIMER.c
@@ -50,16 +51,16 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent);
 
 STD_ReturnType TIMER0_Init(void)
 {
-    TIMER0_REG_TCCR0 = (1 << 3); // CTC mode
-    TIMER0_REG_OCR0 = 124;       // 1 ms at prescaler 64
-    TIMER0_REG_TCNT0 = 0;        // Clear counter
+    TIMER0_REG_TCCR0 = (1 << 3) | (1 << 2) | (1 << 0); // CTC, prescaler 1024
+    TIMER0_REG_OCR0 = 77U;                               // approximately 10 ms at 8 MHz
+    TIMER0_REG_TCNT0 = 0U;
     return E_OK;
 }
 
 STD_ReturnType TIMER0_DelayMS(uint16 Copy_u16Milliseconds)
 {
     TIFR_REG |= (1 << OCF0);                 // Clear stale flag
-    TIMER0_REG_TCCR0 |= (1 << 1) | (1 << 0); // Start clock with prescaler 64
+    TIMER0_REG_TCCR0 = (TIMER0_REG_TCCR0 & (uint8)~0x07U) | (1 << 2) | (1 << 0); // prescaler 1024
     for (uint16 i = 0; i < Copy_u16Milliseconds; i++)
     {
         TIMER_WaitFlag(&TIFR_REG, (1 << OCF0)); // Wait for OCF0 flag
@@ -131,9 +132,9 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent)
     TIMER1_REG_TCCR1A |= (1 << 7);                                               // Non-inverting
     TIMER1_REG_TCCR1A |= (1 << 1);                                               // WGM11
     TIMER1_REG_TCCR1B |= (1 << 4) | (1 << 3);                                    // WGM13 = 1 , WGM12 = 1
-    TIMER1_REG_ICR1 = (1000000UL / Copy_u16FrequencyHz) - 1;                     // Set TOP
+    TIMER1_REG_ICR1 = (uint16)((F_CPU / Copy_u16FrequencyHz) - 1UL);              // prescaler 1
     TIMER1_REG_OCR1A = TIMER_DutyToCompare(TIMER1_REG_ICR1, Copy_u8DutyPercent); // Set compare
-    TIMER1_REG_TCCR1B |= (1 << 1);                                               // Start clock with prescaler 8
+    TIMER1_REG_TCCR1B = (TIMER1_REG_TCCR1B & (uint8)~0x07U) | (1 << 0);           // Start clock, prescaler 1
     return E_OK;
 }
 
@@ -141,6 +142,39 @@ STD_ReturnType TIMER1_Stop(void)
 {
     TIMER1_REG_TCCR1B &= ~((1 << 2) | (1 << 1) | (1 << 0)); // Stop clock
     TIMER1_REG_TCCR1A &= ~((1 << 7) | (1 << 6));            // Clear COM1A1:COM1A0
+    return E_OK;
+}
+
+STD_ReturnType TIMER2_Init(void)
+{
+    GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN7, GPIO_OUTPUT);
+    TIMER2_REG_TCCR2 = 0U;
+    TIMER2_REG_TCNT2 = 0U;
+    TIMER2_REG_OCR2 = 0U;
+    return E_OK;
+}
+
+STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent)
+{
+    if (Copy_u8DutyPercent > 100)
+    {
+        return E_NOK;
+    }
+
+    GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN7, GPIO_OUTPUT);
+    TIMER2_REG_TCCR2 = (1U << WGM20) |
+                       (1U << WGM21) |
+                       (1U << COM21) |
+                       (1U << CS22); /* Fast PWM, non-inverting, /64 */
+    TIMER2_REG_OCR2 = TIMER_DutyToCompare(255, Copy_u8DutyPercent);
+    return E_OK;
+}
+
+STD_ReturnType TIMER2_Stop(void)
+{
+    TIMER2_REG_TCCR2 &= (uint8)~((1U << CS22) | (1U << CS21) | (1U << CS20));
+    TIMER2_REG_TCCR2 &= (uint8)~((1U << COM21) | (1U << COM20));
+    TIMER2_REG_OCR2 = 0U;
     return E_OK;
 }
 
@@ -160,4 +194,9 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent)
 {
     uint32 temp = ((uint32)Copy_u16Top) * Copy_u8DutyPercent;
     return (uint16)(temp / 100);
+}
+
+ISR(TIMER0_COMP_vect)
+{
+    systemTicks10ms = 1U;
 }

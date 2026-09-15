@@ -11,7 +11,6 @@
 #include "SPI_private.h"
 #include "GPIO_interface.h"
 #include "UART_interface.h"
-// #include "avr/io.h"
 
 /*
  * SPI_InitMaster
