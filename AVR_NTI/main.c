@@ -24,9 +24,13 @@ int main(void)
   ADC_Init(ADC_REF_AREF, ADC_PRESC_64);
   while (1)
   {
+<<<<<<< HEAD
     uint16 reading;
     uint8 disp;
     ADC_ReadChannel(ADC_CHANNEL_0, &reading);
+=======
+    rec = (uint8)HC165_Read();
+>>>>>>> fb1944f4e68a448f7e913074a5e43a35778fe720
 
     disp = ((uint32)reading *100)/1024;
     TIMER2_PWM(disp);
