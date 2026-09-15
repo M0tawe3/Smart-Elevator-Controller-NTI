@@ -28,11 +28,11 @@ MCAL: Timer2.c
 HAL:  load.c, door.c
 APP:  car_fsm, door
 
-### Youssef Nasser Farouk
+### Youssef Nasser Farouk Elsayed
 
 HAL: hoist.c
-APP: safety, motion
-Extra: Hardwware design and general testing
+APP: safety.c, motion.c
+Extra: Hardware design and general testing
 
 
 ## Tasks brief
