@@ -8,14 +8,14 @@
 
 # 1 "LIB/STD_TYPES.h" 1
 # 11 "LIB/STD_TYPES.h"
-# 1 "/usr/lib64/gcc/avr/15/include/stddef.h" 1 3 4
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 1 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 1 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 229 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 229 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 344 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
 
@@ -43,8 +43,7 @@ typedef enum
 # 5 "HAL/HC165/HC165.h" 2
 
 
-STD_ReturnType HC165_Init(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
-uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+uint16 HC165_Read(void);
 # 2 "HAL/HC165/HC165.c" 2
 # 1 "MCAL/GPIO/GPIO_interface.h" 1
 # 43 "MCAL/GPIO/GPIO_interface.h"
@@ -102,17 +101,29 @@ STD_ReturnType SPI_Transceive(uint8 Copy_u8Sent, uint8 *Copy_pu8Received);
 STD_ReturnType SPI_SelectSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
 STD_ReturnType SPI_ReleaseSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
 # 4 "HAL/HC165/HC165.c" 2
-# 18 "HAL/HC165/HC165.c"
-uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin)
+
+
+
+
+
+
+
+uint16 HC165_Read(void)
 {
-    uint8 receivedData = 0;
+    uint16 buttons = 0;
+    uint8 received;
 
 
-    GPIO_SetPinValue(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, 0u);
-    GPIO_SetPinValue(Copy_u8ParallelLoadPort, Copy_u8ParallelLoadPin, 1u);
+    GPIO_SetPinValue(2u, 2u, 0u);
+    GPIO_SetPinValue(2u, 2u, 1u);
 
+    SPI_SelectSlave(1u, 4u);
+    for (uint8 i = 0; i < 2; i++)
+    {
+        SPI_Transceive(0xFF, &received);
+        buttons = (buttons << 8) | received;
+    }
+    SPI_ReleaseSlave(1u, 4u);
 
-    SPI_Transceive(0xFF, &receivedData);
-
-    return receivedData;
+    return buttons;
 }

@@ -117,5 +117,5 @@ keypad_map:
 	.base64	"BwgJQw=="
 	.string	"*"
 	.ascii	"#D"
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"
 .global __do_copy_data

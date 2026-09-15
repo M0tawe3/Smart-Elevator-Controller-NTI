@@ -5,14 +5,14 @@
 # 9 "MCAL/I2C/I2C.c"
 # 1 "LIB/STD_TYPES.h" 1
 # 11 "LIB/STD_TYPES.h"
-# 1 "/usr/lib64/gcc/avr/15/include/stddef.h" 1 3 4
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 1 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 1 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 229 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 229 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 344 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
 

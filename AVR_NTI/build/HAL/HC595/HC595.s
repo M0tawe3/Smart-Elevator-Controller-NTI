@@ -23,12 +23,12 @@ HC595_Write:
 	sbci r23,-1
 	call SPI_Transceive
 	ldi r20,lo8(1)
-	ldi r22,lo8(4)
-	ldi r24,lo8(1)
+	ldi r22,lo8(3)
+	ldi r24,lo8(2)
 	call GPIO_SetPinValue
 	ldi r20,0
-	ldi r22,lo8(4)
-	ldi r24,lo8(1)
+	ldi r22,lo8(3)
+	ldi r24,lo8(2)
 	call GPIO_SetPinValue
 /* epilogue start */
 	pop __tmp_reg__
@@ -36,4 +36,4 @@ HC595_Write:
 	pop r28
 	ret
 	.size	HC595_Write, .-HC595_Write
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

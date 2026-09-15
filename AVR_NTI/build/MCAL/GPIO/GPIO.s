@@ -15,28 +15,30 @@ GPIO_SetPinDirection:
 .L__stack_usage = 0
 	cpi r24,lo8(4)
 	brlo .+2
-	rjmp .L12
+	rjmp .L10
 	cpi r22,lo8(8)
 	brlo .+2
-	rjmp .L12
-	cpi r24,lo8(2)
-	breq .L9
-	cpi r24,lo8(3)
-	breq .L10
-	cpi r24,lo8(1)
-	breq .L11
-	ldi r26,lo8(58)
-	ldi r27,0
-	ldi r30,lo8(59)
-	ldi r31,0
+	rjmp .L10
+	ldi r25,lo8(-1)
+	add r25,r24
+	cpi r25,lo8(3)
+	brsh .L9
+	mov r18,r24
+	ldi r19,lo8(-3)
+	mulsu r19,r18
+	movw r30,r0
+	clr __zero_reg__
+	movw r26,r30
+	adiw r26,59
+	adiw r30,58
 .L3:
 	cpi r20,lo8(1)
 	breq .L4
 	cpi r20,lo8(2)
 	breq .L5
 	cpse r20,__zero_reg__
-	rjmp .L12
-	ld r18,X
+	rjmp .L10
+	ld r18,Z
 	ldi r24,lo8(1)
 	rjmp 2f
 	1:
@@ -46,35 +48,23 @@ GPIO_SetPinDirection:
 	brpl 1b
 	com r24
 	and r18,r24
-	st X,r18
-	ld r25,Z
+	st Z,r18
+	ld r25,X
 	and r24,r25
-.L13:
-	st Z,r24
+.L11:
+	st X,r24
 .L6:
 	ldi r24,0
 	ldi r25,0
 	ret
 .L9:
-	ldi r26,lo8(52)
-	ldi r27,0
-	ldi r30,lo8(53)
+	ldi r30,lo8(58)
 	ldi r31,0
-	rjmp .L3
-.L10:
-	ldi r26,lo8(49)
+	ldi r26,lo8(59)
 	ldi r27,0
-	ldi r30,lo8(50)
-	ldi r31,0
-	rjmp .L3
-.L11:
-	ldi r26,lo8(55)
-	ldi r27,0
-	ldi r30,lo8(56)
-	ldi r31,0
 	rjmp .L3
 .L4:
-	ld r18,X
+	ld r18,Z
 	ldi r24,lo8(1)
 	ldi r25,0
 	movw r20,r24
@@ -86,14 +76,14 @@ GPIO_SetPinDirection:
 	brpl 1b
 	mov r22,r20
 	or r18,r20
-	st X,r18
-	ld r24,Z
+	st Z,r18
+	ld r24,X
 	com r22
 	and r22,r24
-	st Z,r22
+	st X,r22
 	rjmp .L6
 .L5:
-	ld r18,X
+	ld r18,Z
 	ldi r24,lo8(1)
 	ldi r25,0
 	movw r20,r24
@@ -106,11 +96,11 @@ GPIO_SetPinDirection:
 	mov r24,r20
 	com r24
 	and r24,r18
-	st X,r24
-	ld r24,Z
+	st Z,r24
+	ld r24,X
 	or r24,r20
-	rjmp .L13
-.L12:
+	rjmp .L11
+.L10:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -126,19 +116,19 @@ GPIO_SetPinValue:
 .L__stack_usage = 0
 	cpi r24,lo8(4)
 	brlo .+2
-	rjmp .L29
+	rjmp .L27
 	cpi r22,lo8(8)
 	brlo .+2
-	rjmp .L29
+	rjmp .L27
 	cpi r24,lo8(2)
-	breq .L16
+	breq .L14
 	cpi r24,lo8(3)
 	brne .+2
-	rjmp .L17
+	rjmp .L15
 	cpi r24,lo8(1)
-	breq .L18
+	breq .L16
 	cpi r20,lo8(1)
-	brne .L19
+	brne .L17
 	in r24,0x1b
 	ldi r18,lo8(1)
 	rjmp 2f
@@ -148,15 +138,15 @@ GPIO_SetPinValue:
 	dec r22
 	brpl 1b
 	or r24,r18
-.L30:
+.L28:
 	out 0x1b,r24
-.L20:
+.L18:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L19:
+.L17:
 	brlo .+2
-	rjmp .L29
+	rjmp .L27
 	in r18,0x1b
 	ldi r24,lo8(1)
 	rjmp 2f
@@ -167,10 +157,10 @@ GPIO_SetPinValue:
 	brpl 1b
 	com r24
 	and r24,r18
-	rjmp .L30
-.L18:
+	rjmp .L28
+.L16:
 	cpi r20,lo8(1)
-	brne .L21
+	brne .L19
 	in r24,0x18
 	ldi r18,lo8(1)
 	rjmp 2f
@@ -180,11 +170,11 @@ GPIO_SetPinValue:
 	dec r22
 	brpl 1b
 	or r24,r18
-.L32:
+.L30:
 	out 0x18,r24
-	rjmp .L20
-.L21:
-	brsh .L29
+	rjmp .L18
+.L19:
+	brsh .L27
 	in r18,0x18
 	ldi r24,lo8(1)
 	rjmp 2f
@@ -195,10 +185,10 @@ GPIO_SetPinValue:
 	brpl 1b
 	com r24
 	and r24,r18
-	rjmp .L32
-.L16:
+	rjmp .L30
+.L14:
 	cpi r20,lo8(1)
-	brne .L22
+	brne .L20
 	in r24,0x15
 	ldi r18,lo8(1)
 	rjmp 2f
@@ -208,11 +198,11 @@ GPIO_SetPinValue:
 	dec r22
 	brpl 1b
 	or r24,r18
-.L31:
+.L29:
 	out 0x15,r24
-	rjmp .L20
-.L22:
-	brsh .L29
+	rjmp .L18
+.L20:
+	brsh .L27
 	in r18,0x15
 	ldi r24,lo8(1)
 	rjmp 2f
@@ -223,10 +213,10 @@ GPIO_SetPinValue:
 	brpl 1b
 	com r24
 	and r24,r18
-	rjmp .L31
-.L17:
+	rjmp .L29
+.L15:
 	cpi r20,lo8(1)
-	brne .L23
+	brne .L21
 	in r24,0x12
 	ldi r18,lo8(1)
 	rjmp 2f
@@ -236,11 +226,11 @@ GPIO_SetPinValue:
 	dec r22
 	brpl 1b
 	or r24,r18
-.L33:
+.L31:
 	out 0x12,r24
-	rjmp .L20
-.L23:
-	brsh .L29
+	rjmp .L18
+.L21:
+	brsh .L27
 	in r18,0x12
 	ldi r24,lo8(1)
 	rjmp 2f
@@ -251,8 +241,8 @@ GPIO_SetPinValue:
 	brpl 1b
 	com r24
 	and r24,r18
-	rjmp .L33
-.L29:
+	rjmp .L31
+.L27:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -268,19 +258,19 @@ GPIO_GetPinValue:
 .L__stack_usage = 0
 	movw r30,r20
 	cpi r24,lo8(4)
-	brsh .L42
+	brsh .L40
 	cpi r22,lo8(8)
-	brsh .L42
+	brsh .L40
 	sbiw r30,0
-	breq .L42
+	breq .L40
 	cpi r24,lo8(2)
-	breq .L36
+	breq .L34
 	cpi r24,lo8(3)
-	breq .L37
+	breq .L35
 	cpi r24,lo8(1)
-	breq .L38
+	breq .L36
 	in r24,0x19
-.L43:
+.L41:
 	ldi r25,0
 	rjmp 2f
 	1:
@@ -294,16 +284,16 @@ GPIO_GetPinValue:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L38:
-	in r24,0x16
-	rjmp .L43
 .L36:
+	in r24,0x16
+	rjmp .L41
+.L34:
 	in r24,0x13
-	rjmp .L43
-.L37:
+	rjmp .L41
+.L35:
 	in r24,0x10
-	rjmp .L43
-.L42:
+	rjmp .L41
+.L40:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -318,9 +308,9 @@ GPIO_TogglePinValue:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpi r24,lo8(4)
-	brsh .L51
+	brsh .L49
 	cpi r22,lo8(8)
-	brsh .L51
+	brsh .L49
 	ldi r18,lo8(1)
 	ldi r19,0
 	movw r20,r18
@@ -331,34 +321,34 @@ GPIO_TogglePinValue:
 	dec r22
 	brpl 1b
 	cpi r24,lo8(2)
-	breq .L46
+	breq .L44
 	cpi r24,lo8(3)
-	breq .L47
+	breq .L45
 	cpi r24,lo8(1)
-	breq .L48
+	breq .L46
 	in r24,0x1b
 	eor r24,r20
 	out 0x1b,r24
-.L49:
+.L47:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L48:
+.L46:
 	in r24,0x18
 	eor r24,r20
 	out 0x18,r24
-	rjmp .L49
-.L46:
+	rjmp .L47
+.L44:
 	in r24,0x15
 	eor r24,r20
 	out 0x15,r24
-	rjmp .L49
-.L47:
+	rjmp .L47
+.L45:
 	in r24,0x12
 	eor r24,r20
 	out 0x12,r24
-	rjmp .L49
-.L51:
+	rjmp .L47
+.L49:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -373,28 +363,28 @@ GPIO_SetPortDirection:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpi r24,lo8(4)
-	brsh .L58
+	brsh .L56
 	cpi r24,lo8(2)
-	breq .L54
+	breq .L52
 	cpi r24,lo8(3)
-	breq .L55
+	breq .L53
 	cpi r24,lo8(1)
-	breq .L56
+	breq .L54
 	out 0x1a,r22
-.L57:
+.L55:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L56:
-	out 0x17,r22
-	rjmp .L57
 .L54:
+	out 0x17,r22
+	rjmp .L55
+.L52:
 	out 0x14,r22
-	rjmp .L57
-.L55:
+	rjmp .L55
+.L53:
 	out 0x11,r22
-	rjmp .L57
-.L58:
+	rjmp .L55
+.L56:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -409,28 +399,28 @@ GPIO_SetPortValue:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpi r24,lo8(4)
-	brsh .L65
+	brsh .L63
 	cpi r24,lo8(2)
-	breq .L61
+	breq .L59
 	cpi r24,lo8(3)
-	breq .L62
+	breq .L60
 	cpi r24,lo8(1)
-	breq .L63
+	breq .L61
 	out 0x1b,r22
-.L64:
+.L62:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L63:
-	out 0x18,r22
-	rjmp .L64
 .L61:
+	out 0x18,r22
+	rjmp .L62
+.L59:
 	out 0x15,r22
-	rjmp .L64
-.L62:
+	rjmp .L62
+.L60:
 	out 0x12,r22
-	rjmp .L64
-.L65:
+	rjmp .L62
+.L63:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -446,34 +436,34 @@ GPIO_GetPortValue:
 .L__stack_usage = 0
 	movw r30,r22
 	cpi r24,lo8(4)
-	brsh .L73
+	brsh .L71
 	sbiw r30,0
-	breq .L73
+	breq .L71
 	cpi r24,lo8(2)
-	breq .L68
+	breq .L66
 	cpi r24,lo8(3)
-	breq .L69
+	breq .L67
 	cpi r24,lo8(1)
-	breq .L70
+	breq .L68
 	in r24,0x19
-.L74:
+.L72:
 	st Z,r24
 	ldi r24,0
 	ldi r25,0
 	ret
-.L70:
-	in r24,0x16
-	rjmp .L74
 .L68:
+	in r24,0x16
+	rjmp .L72
+.L66:
 	in r24,0x13
-	rjmp .L74
-.L69:
+	rjmp .L72
+.L67:
 	in r24,0x10
-	rjmp .L74
-.L73:
+	rjmp .L72
+.L71:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
 	ret
 	.size	GPIO_GetPortValue, .-GPIO_GetPortValue
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

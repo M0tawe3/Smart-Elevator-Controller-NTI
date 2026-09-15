@@ -5,14 +5,14 @@
 # 12 "main.c"
 # 1 "LIB/STD_TYPES.h" 1
 # 11 "LIB/STD_TYPES.h"
-# 1 "/usr/lib64/gcc/avr/15/include/stddef.h" 1 3 4
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 1 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 1 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 229 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 229 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 344 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
 
@@ -133,7 +133,15 @@ STD_ReturnType ADC_GetResult(uint16 *Copy_pu16Reading);
 STD_ReturnType ADC_SetInterrupt(uint8 Copy_u8State);
 # 16 "main.c" 2
 # 1 "MCAL/TIMER/TIMER_interface.h" 1
-# 29 "MCAL/TIMER/TIMER_interface.h"
+# 24 "MCAL/TIMER/TIMER_interface.h"
+extern volatile uint8 systemTicks10ms;
+
+
+
+
+
+
+
 STD_ReturnType TIMER0_Init(void);
 
 
@@ -170,13 +178,24 @@ STD_ReturnType TIMER1_Init(void);
 
 
 STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds);
-# 73 "MCAL/TIMER/TIMER_interface.h"
+# 76 "MCAL/TIMER/TIMER_interface.h"
 STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
 
 
 
 
 STD_ReturnType TIMER1_Stop(void);
+
+
+
+
+STD_ReturnType TIMER2_Init(void);
+
+
+STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent);
+
+
+STD_ReturnType TIMER2_Stop(void);
 # 17 "main.c" 2
 # 1 "MCAL/SPI/SPI_interface.h" 1
 # 30 "MCAL/SPI/SPI_interface.h"
@@ -239,8 +258,7 @@ STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
 
 
 
-STD_ReturnType HC165_Init(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
-uint8 HC165_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+uint16 HC165_Read(void);
 # 20 "main.c" 2
 
 int main(void)
@@ -252,7 +270,7 @@ int main(void)
   uint8 rec;
   while (1)
   {
-    rec = HC165_Read(1u, 4u);
+    rec = (uint8)HC165_Read();
 
     UART_SendByte(rec);
 

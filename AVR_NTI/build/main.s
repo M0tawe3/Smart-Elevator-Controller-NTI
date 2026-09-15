@@ -22,8 +22,6 @@ main:
 	ldi r24,0
 	call SPI_InitMaster
 .L2:
-	ldi r22,lo8(4)
-	ldi r24,lo8(1)
 	call HC165_Read
 	call UART_SendByte
 	ldi r24,lo8(-24)
@@ -31,4 +29,4 @@ main:
 	call TIMER0_DelayMS
 	rjmp .L2
 	.size	main, .-main
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

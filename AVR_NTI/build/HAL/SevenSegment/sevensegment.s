@@ -44,5 +44,5 @@ seven_segment_write:
 	.size	digits, 10
 digits:
 	.base64	"PwZbT2ZtfQd/bw=="
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"
 .global __do_copy_data

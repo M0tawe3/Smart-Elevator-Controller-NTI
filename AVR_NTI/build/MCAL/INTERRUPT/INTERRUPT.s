@@ -382,5 +382,5 @@ __vector_3:
 	.size	EXTI_Callbacks, 6
 EXTI_Callbacks:
 	.zero	6
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"
 .global __do_clear_bss

@@ -48,8 +48,8 @@ ADC_ReadChannel:
 .L__stack_usage = 0
 	cpi r24,lo8(8)
 	brsh .L10
-	cpi r22,0
-	cpc r23,r22
+	cp r22,__zero_reg__
+	cpc r23,__zero_reg__
 	breq .L10
 	in r25,0x7
 	or r25,r24
@@ -148,4 +148,4 @@ ADC_SetInterrupt:
 /* epilogue start */
 	ret
 	.size	ADC_SetInterrupt, .-ADC_SetInterrupt
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

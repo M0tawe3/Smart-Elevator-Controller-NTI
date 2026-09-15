@@ -115,4 +115,4 @@ slots_read_active_low:
 .L__stack_usage = 0
 	jmp slots_read_raw
 	.size	slots_read_active_low, .-slots_read_active_low
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

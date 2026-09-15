@@ -33,7 +33,7 @@ UART_Init:
 	ldi r25,0
 	call __udivmodsi4
 	subi r18,1
-	sbci r19,0
+	sbc r19,__zero_reg__
 	out 0x20,r19
 	out 0x9,r18
 	in r24,0x20
@@ -145,4 +145,4 @@ UART_IsDataReady:
 /* epilogue start */
 	ret
 	.size	UART_IsDataReady, .-UART_IsDataReady
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"

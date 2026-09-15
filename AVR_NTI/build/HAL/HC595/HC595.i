@@ -8,14 +8,14 @@
 
 # 1 "LIB/STD_TYPES.h" 1
 # 11 "LIB/STD_TYPES.h"
-# 1 "/usr/lib64/gcc/avr/15/include/stddef.h" 1 3 4
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 1 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 1 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 
-# 160 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 160 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int ptrdiff_t;
-# 229 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 229 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef unsigned int size_t;
-# 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
+# 344 "C:/avr-gcc/avr8-gnu-toolchain-win32_x86_64/lib/gcc/avr/15.1.0/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
 
@@ -45,7 +45,7 @@ typedef enum
 
 
 
-uint8 HC595_Read(uint8 Copy_u8ParallelLoadPort, uint8 Copy_u8ParallelLoadPin);
+uint8 HC595_Read(uint8 data);
 # 2 "HAL/HC595/HC595.c" 2
 # 1 "MCAL/GPIO/GPIO_interface.h" 1
 # 43 "MCAL/GPIO/GPIO_interface.h"
@@ -112,6 +112,6 @@ void HC595_Write(uint8 data)
     SPI_Transceive(data, &dummy);
 
 
-    GPIO_SetPinValue(1u, 4u, 1u);
-    GPIO_SetPinValue(1u, 4u, 0u);
+    GPIO_SetPinValue(2u, 3u, 1u);
+    GPIO_SetPinValue(2u, 3u, 0u);
 }

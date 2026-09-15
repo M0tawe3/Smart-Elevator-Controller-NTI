@@ -88,8 +88,8 @@ SPI_Transceive:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	cpi r22,0
-	cpc r23,r22
+	cp r22,__zero_reg__
+	cpc r23,__zero_reg__
 	breq .L8
 	out 0xf,r24
 .L7:
@@ -129,4 +129,4 @@ SPI_ReleaseSlave:
 	ldi r20,lo8(1)
 	jmp GPIO_SetPinValue
 	.size	SPI_ReleaseSlave, .-SPI_ReleaseSlave
-	.ident	"GCC: (SUSE Linux) 15.3.0"
+	.ident	"GCC: (AVR_8_bit_GNU_Toolchain_4.0.0_52) 15.1.0"
