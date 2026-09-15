@@ -13,7 +13,7 @@
 | **Project code** | `PRJ-08-ELEVATOR` |
 | **Team size** | 4 |
 | Team Member | Ahmad Ibrahim Anwar Saad |
-| Team Member | Youssef Nasser Farouk |
+| Team Member | Youssef Nasser Farouk Elsayed |
 | Team Member | Ahmed Ayman Ramadan |
 | Team Member | Youssef Saeed |
 | **Build window** | Days 11 – 15 (Sept 13 – Sept 17, 2026) |
