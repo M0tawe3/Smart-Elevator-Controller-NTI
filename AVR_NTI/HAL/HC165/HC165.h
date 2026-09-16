@@ -3,7 +3,10 @@
 
 #include "STD_TYPES.h"
 
-// Function prototypes for HC165
-uint16 HC165_Read(void);
+/* Call BTN_Scan() every 50 ms to update the debounced button state. */
+uint16 BTN_Scan(void);
+
+/* Return one for a newly pressed button bit, then consume that event. */
+uint8 BTN_Pressed(uint8 n);
 
 #endif /* _HC165_H_ */

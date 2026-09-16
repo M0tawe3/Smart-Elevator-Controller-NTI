@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include "Hoist.h"
+#include "STD_TYPES.h"
 
 typedef enum {
     CS_INIT = 0,
@@ -32,11 +33,11 @@ typedef enum {
     FLT_DOOR_JAM
 } Fault_t;
 
-typedef struct {
-    uint8_t carCall;
-    uint8_t hallUp;
-    uint8_t hallDown;
-} Calls_t;
+// typedef struct {
+//     uint8_t carCall;
+//     uint8_t hallUp;
+//     uint8_t hallDown;
+// } Calls_t;
 
 typedef struct {
     uint16_t positionCm;
@@ -77,15 +78,15 @@ extern void HST_Brake(void);
 #define CREEP_DUTY     15U
 #define ACCEL_TICKS    50U
 
-static const uint16_t s_floorCm[4] = {0U, 300U, 600U, 900U};
+static const uint16 s_floorCm[4] = {0U, 300U, 600U, 900U};
 
-static uint16_t s_targetPositionCm = 0U;
-static uint16_t s_startPositionCm  = 0U;
-static uint16_t s_accelCounter      = 0U;
-static uint8_t  s_relevelCount      = 0U;
-static uint8_t  s_motionActive      = 0U;
+static uint16 s_targetPositionCm = 0U;
+static uint16 s_startPositionCm  = 0U;
+static uint16 s_accelCounter      = 0U;
+static uint8  s_relevelCount      = 0U;
+static uint8  s_motionActive      = 0U;
 
-STD_ReturnType MOT_GoTo(uint8_t targetFloor, uint16_t currentCm) {
+STD_ReturnType MOT_GoTo(uint8 targetFloor, uint16 currentCm) {
     if (targetFloor > 3U) {
         return E_NOK;
     }
@@ -105,8 +106,8 @@ void MOT_Stop(void) {
     HST_Brake();
 }
 
-uint8_t MOT_AtTarget(uint16_t currentCm) {
-    uint16_t dist = (currentCm >= s_targetPositionCm) ? 
+uint8_t MOT_AtTarget(uint16 currentCm) {
+    uint16 dist = (currentCm >= s_targetPositionCm) ? 
                     (currentCm - s_targetPositionCm) : 
                     (s_targetPositionCm - currentCm);
     return (dist <= LEVEL_TOL_CM) ? 1U : 0U;
@@ -147,7 +148,7 @@ void MOT_Step(CarData_t *car) {
     }
 
     car->levelled = 0U;
-    car->dir = (uint8_t)requiredDir;
+    car->dir = (uint8)requiredDir;
     HST_SetDir(requiredDir);
 
     uint8_t calculatedDuty = 0U;
@@ -162,7 +163,7 @@ void MOT_Step(CarData_t *car) {
         car->state = CS_MOVING;
         if (s_accelCounter < ACCEL_TICKS) {
             s_accelCounter++;
-            calculatedDuty = (uint8_t)(((uint32_t)s_accelCounter * FULL_DUTY) / ACCEL_TICKS);
+            calculatedDuty = (uint8)(((uint32)s_accelCounter * FULL_DUTY) / ACCEL_TICKS);
         } else {
             calculatedDuty = FULL_DUTY;
         }

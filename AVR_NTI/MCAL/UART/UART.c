@@ -103,5 +103,5 @@ STD_ReturnType UART_IsDataReady()
  * 2. Vectors: USART_RXC_vect , USART_UDRE_vect.
  */
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State){
-    
+    return E_OK;
 }

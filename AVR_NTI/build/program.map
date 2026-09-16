@@ -1,0 +1,940 @@
+Archive member included to satisfy reference by file (symbol)
+
+/usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+                              build/HAL/Door/Door.o (__umulhisi3)
+/usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+                              build/HAL/Door/Door.o (__udivmodsi4)
+/usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+                              /usr/avr/sys-root/lib/avr5/crtatmega32.o (exit)
+/usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+                              build/LIB/Motion.o (__do_copy_data)
+/usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+                              build/LIB/Motion.o (__do_clear_bss)
+
+Discarded input sections
+
+ .data          0x00000000        0x0 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .bss           0x00000000        0x0 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .text          0x00000000        0x0 build/main.o
+ .data          0x00000000        0x0 build/main.o
+ .bss           0x00000000        0x0 build/main.o
+ .text          0x00000000        0x0 build/LIB/Motion.o
+ .data          0x00000000        0x0 build/LIB/Motion.o
+ .bss           0x00000000        0x0 build/LIB/Motion.o
+ .text.MOT_GoTo
+                0x00000000       0x3a build/LIB/Motion.o
+ .text.MOT_Stop
+                0x00000000       0x10 build/LIB/Motion.o
+ .text.MOT_AtTarget
+                0x00000000       0x28 build/LIB/Motion.o
+ .text.MOT_Step
+                0x00000000       0xd6 build/LIB/Motion.o
+ .text.MOT_RelevelCheck
+                0x00000000       0x56 build/LIB/Motion.o
+ .bss.s_motionActive
+                0x00000000        0x1 build/LIB/Motion.o
+ .bss.s_relevelCount
+                0x00000000        0x1 build/LIB/Motion.o
+ .bss.s_accelCounter
+                0x00000000        0x2 build/LIB/Motion.o
+ .bss.s_targetPositionCm
+                0x00000000        0x2 build/LIB/Motion.o
+ .rodata.s_floorCm
+                0x00000000        0x8 build/LIB/Motion.o
+ .comment       0x00000000       0x1a build/LIB/Motion.o
+ .text          0x00000000        0x0 build/LIB/Safety.o
+ .data          0x00000000        0x0 build/LIB/Safety.o
+ .bss           0x00000000        0x0 build/LIB/Safety.o
+ .text.SAF_Evaluate
+                0x00000000       0x98 build/LIB/Safety.o
+ .text.SAF_Active
+                0x00000000       0x24 build/LIB/Safety.o
+ .bss.s_overcurrentTimer
+                0x00000000        0x2 build/LIB/Safety.o
+ .comment       0x00000000       0x1a build/LIB/Safety.o
+ .text          0x00000000        0x0 build/APP/CarFSM/CarFSM.o
+ .data          0x00000000        0x0 build/APP/CarFSM/CarFSM.o
+ .bss           0x00000000        0x0 build/APP/CarFSM/CarFSM.o
+ .text.CarFSM_Init
+                0x00000000       0x10 build/APP/CarFSM/CarFSM.o
+ .text.CarFSM_Update
+                0x00000000       0x50 build/APP/CarFSM/CarFSM.o
+ .text.CarFSM_GetState
+                0x00000000        0xa build/APP/CarFSM/CarFSM.o
+ .bss.g_carState
+                0x00000000        0x2 build/APP/CarFSM/CarFSM.o
+ .comment       0x00000000       0x1a build/APP/CarFSM/CarFSM.o
+ .text          0x00000000        0x0 build/APP/DoorFSM/DoorFSM.o
+ .data          0x00000000        0x0 build/APP/DoorFSM/DoorFSM.o
+ .bss           0x00000000        0x0 build/APP/DoorFSM/DoorFSM.o
+ .text.DoorFSM_Init
+                0x00000000       0x14 build/APP/DoorFSM/DoorFSM.o
+ .text.DoorFSM_Open
+                0x00000000       0x16 build/APP/DoorFSM/DoorFSM.o
+ .text.DoorFSM_Close
+                0x00000000       0x18 build/APP/DoorFSM/DoorFSM.o
+ .text.DoorFSM_Update
+                0x00000000       0x70 build/APP/DoorFSM/DoorFSM.o
+ .text.DoorFSM_GetState
+                0x00000000        0xa build/APP/DoorFSM/DoorFSM.o
+ .bss.g_obstructionCount
+                0x00000000        0x1 build/APP/DoorFSM/DoorFSM.o
+ .bss.g_doorState
+                0x00000000        0x2 build/APP/DoorFSM/DoorFSM.o
+ .comment       0x00000000       0x1a build/APP/DoorFSM/DoorFSM.o
+ .text          0x00000000        0x0 build/HAL/Buzzer/Buzzer.o
+ .data          0x00000000        0x0 build/HAL/Buzzer/Buzzer.o
+ .bss           0x00000000        0x0 build/HAL/Buzzer/Buzzer.o
+ .text.BUZ_Init
+                0x00000000        0x8 build/HAL/Buzzer/Buzzer.o
+ .text.BUZ_Chime
+                0x00000000        0x6 build/HAL/Buzzer/Buzzer.o
+ .text.BUZ_Alarm
+                0x00000000        0x6 build/HAL/Buzzer/Buzzer.o
+ .text.BUZ_Stop
+                0x00000000        0x4 build/HAL/Buzzer/Buzzer.o
+ .comment       0x00000000       0x1a build/HAL/Buzzer/Buzzer.o
+ .text          0x00000000        0x0 build/HAL/Door/Door.o
+ .data          0x00000000        0x0 build/HAL/Door/Door.o
+ .bss           0x00000000        0x0 build/HAL/Door/Door.o
+ .text.DRV_SetDuty
+                0x00000000       0x22 build/HAL/Door/Door.o
+ .text.DRV_Stop
+                0x00000000       0x18 build/HAL/Door/Door.o
+ .text.DRV_Init
+                0x00000000       0x38 build/HAL/Door/Door.o
+ .text.DRV_SetDir
+                0x00000000       0x32 build/HAL/Door/Door.o
+ .comment       0x00000000       0x1a build/HAL/Door/Door.o
+ .text          0x00000000        0x0 build/HAL/HC165/HC165.o
+ .data          0x00000000        0x0 build/HAL/HC165/HC165.o
+ .bss           0x00000000        0x0 build/HAL/HC165/HC165.o
+ .text.BTN_Scan
+                0x00000000       0xce build/HAL/HC165/HC165.o
+ .text.BTN_Pressed
+                0x00000000       0x42 build/HAL/HC165/HC165.o
+ .bss.candidateCount
+                0x00000000        0x1 build/HAL/HC165/HC165.o
+ .bss.pressedEdges
+                0x00000000        0x2 build/HAL/HC165/HC165.o
+ .bss.candidateButtons
+                0x00000000        0x2 build/HAL/HC165/HC165.o
+ .bss.stableButtons
+                0x00000000        0x2 build/HAL/HC165/HC165.o
+ .comment       0x00000000       0x1a build/HAL/HC165/HC165.o
+ .text          0x00000000        0x0 build/HAL/HC595/HC595.o
+ .data          0x00000000        0x0 build/HAL/HC595/HC595.o
+ .bss           0x00000000        0x0 build/HAL/HC595/HC595.o
+ .text.SEG_Show
+                0x00000000       0x7c build/HAL/HC595/HC595.o
+ .rodata.digits
+                0x00000000        0x4 build/HAL/HC595/HC595.o
+ .comment       0x00000000       0x1a build/HAL/HC595/HC595.o
+ .text          0x00000000        0x0 build/HAL/Hoist/Hoist.o
+ .data          0x00000000        0x0 build/HAL/Hoist/Hoist.o
+ .bss           0x00000000        0x0 build/HAL/Hoist/Hoist.o
+ .text.HST_ApplyBrakeState
+                0x00000000       0x14 build/HAL/Hoist/Hoist.o
+ .text.HST_Init
+                0x00000000       0x2c build/HAL/Hoist/Hoist.o
+ .text.HST_Brake
+                0x00000000        0xe build/HAL/Hoist/Hoist.o
+ .text.HST_SetDir
+                0x00000000       0x32 build/HAL/Hoist/Hoist.o
+ .text.HST_SetDuty
+                0x00000000       0x16 build/HAL/Hoist/Hoist.o
+ .text.HST_EmergencyStop
+                0x00000000        0x4 build/HAL/Hoist/Hoist.o
+ .comment       0x00000000       0x1a build/HAL/Hoist/Hoist.o
+ .text          0x00000000        0x0 build/HAL/KeyPad/keypad.o
+ .data          0x00000000        0x0 build/HAL/KeyPad/keypad.o
+ .bss           0x00000000        0x0 build/HAL/KeyPad/keypad.o
+ .text.keypad_init
+                0x00000000        0x6 build/HAL/KeyPad/keypad.o
+ .text.keypad_get_keypressed
+                0x00000000       0x9a build/HAL/KeyPad/keypad.o
+ .data.keypad_map
+                0x00000000       0x10 build/HAL/KeyPad/keypad.o
+ .comment       0x00000000       0x1a build/HAL/KeyPad/keypad.o
+ .text          0x00000000        0x0 build/HAL/LCD/lcd.o
+ .data          0x00000000        0x0 build/HAL/LCD/lcd.o
+ .bss           0x00000000        0x0 build/HAL/LCD/lcd.o
+ .text          0x00000000        0x0 build/HAL/Load/Load.o
+ .data          0x00000000        0x0 build/HAL/Load/Load.o
+ .bss           0x00000000        0x0 build/HAL/Load/Load.o
+ .text.LOAD_Init
+                0x00000000        0x8 build/HAL/Load/Load.o
+ .text.LOAD_ReadKg
+                0x00000000       0x48 build/HAL/Load/Load.o
+ .text.LOAD_IsOverloaded
+                0x00000000       0x12 build/HAL/Load/Load.o
+ .comment       0x00000000       0x1a build/HAL/Load/Load.o
+ .text          0x00000000        0x0 build/HAL/Position/position.o
+ .data          0x00000000        0x0 build/HAL/Position/position.o
+ .bss           0x00000000        0x0 build/HAL/Position/position.o
+ .text.POS_cm   0x00000000       0x44 build/HAL/Position/position.o
+ .text.POS_nearestFloor
+                0x00000000       0x24 build/HAL/Position/position.o
+ .text.POS_InLevelZone
+                0x00000000       0x4e build/HAL/Position/position.o
+ .comment       0x00000000       0x1a build/HAL/Position/position.o
+ .text          0x00000000        0x0 build/HAL/SevenSegment/sevensegment.o
+ .data          0x00000000        0x0 build/HAL/SevenSegment/sevensegment.o
+ .bss           0x00000000        0x0 build/HAL/SevenSegment/sevensegment.o
+ .text.seven_segment_init
+                0x00000000        0x6 build/HAL/SevenSegment/sevensegment.o
+ .text.seven_segment_write
+                0x00000000       0x18 build/HAL/SevenSegment/sevensegment.o
+ .rodata.digits
+                0x00000000        0xa build/HAL/SevenSegment/sevensegment.o
+ .comment       0x00000000       0x1a build/HAL/SevenSegment/sevensegment.o
+ .text          0x00000000        0x0 build/HAL/Slots/slots.o
+ .data          0x00000000        0x0 build/HAL/Slots/slots.o
+ .bss           0x00000000        0x0 build/HAL/Slots/slots.o
+ .text.slots_init
+                0x00000000       0x22 build/HAL/Slots/slots.o
+ .text.slots_read_raw
+                0x00000000       0x6e build/HAL/Slots/slots.o
+ .text.slots_read_active_low
+                0x00000000        0x4 build/HAL/Slots/slots.o
+ .comment       0x00000000       0x1a build/HAL/Slots/slots.o
+ .text          0x00000000        0x0 build/Logic/dispatch/dispatch.o
+ .data          0x00000000        0x0 build/Logic/dispatch/dispatch.o
+ .bss           0x00000000        0x0 build/Logic/dispatch/dispatch.o
+ .text.callsAbove
+                0x00000000       0x2c build/Logic/dispatch/dispatch.o
+ .text.callsBelow
+                0x00000000       0x2c build/Logic/dispatch/dispatch.o
+ .text.DSP_ShouldStop
+                0x00000000       0xa2 build/Logic/dispatch/dispatch.o
+ .text.DSP_AddCall
+                0x00000000       0x4a build/Logic/dispatch/dispatch.o
+ .text.DSP_ClearFloor
+                0x00000000       0x34 build/Logic/dispatch/dispatch.o
+ .text.DSP_NextDirection
+                0x00000000       0x96 build/Logic/dispatch/dispatch.o
+ .comment       0x00000000       0x1a build/Logic/dispatch/dispatch.o
+ .text          0x00000000        0x0 build/MCAL/ADC/ADC.o
+ .data          0x00000000        0x0 build/MCAL/ADC/ADC.o
+ .bss           0x00000000        0x0 build/MCAL/ADC/ADC.o
+ .text.ADC_Init
+                0x00000000       0x2a build/MCAL/ADC/ADC.o
+ .text.ADC_ReadChannel
+                0x00000000       0x2e build/MCAL/ADC/ADC.o
+ .text.ADC_StartConversion
+                0x00000000       0x18 build/MCAL/ADC/ADC.o
+ .text.ADC_GetResult
+                0x00000000       0x20 build/MCAL/ADC/ADC.o
+ .text.ADC_SetInterrupt
+                0x00000000       0x18 build/MCAL/ADC/ADC.o
+ .comment       0x00000000       0x1a build/MCAL/ADC/ADC.o
+ .text          0x00000000        0x0 build/MCAL/GPIO/GPIO.o
+ .data          0x00000000        0x0 build/MCAL/GPIO/GPIO.o
+ .bss           0x00000000        0x0 build/MCAL/GPIO/GPIO.o
+ .text.GPIO_SetPinDirection
+                0x00000000       0xac build/MCAL/GPIO/GPIO.o
+ .text.GPIO_GetPinValue
+                0x00000000       0x44 build/MCAL/GPIO/GPIO.o
+ .text.GPIO_TogglePinValue
+                0x00000000       0x4c build/MCAL/GPIO/GPIO.o
+ .text.GPIO_SetPortDirection
+                0x00000000       0x2a build/MCAL/GPIO/GPIO.o
+ .text.GPIO_SetPortValue
+                0x00000000       0x2a build/MCAL/GPIO/GPIO.o
+ .text.GPIO_GetPortValue
+                0x00000000       0x32 build/MCAL/GPIO/GPIO.o
+ .text          0x00000000        0x0 build/MCAL/I2C/I2C.o
+ .data          0x00000000        0x0 build/MCAL/I2C/I2C.o
+ .bss           0x00000000        0x0 build/MCAL/I2C/I2C.o
+ .text.I2C_SendRepeatedStart
+                0x00000000       0x1c build/MCAL/I2C/I2C.o
+ .text.I2C_SendSlaveAddressWithRead
+                0x00000000       0x22 build/MCAL/I2C/I2C.o
+ .text.I2C_ReceiveByte
+                0x00000000       0x38 build/MCAL/I2C/I2C.o
+ .text          0x00000000        0x0 build/MCAL/INTERRUPT/INTERRUPT.o
+ .data          0x00000000        0x0 build/MCAL/INTERRUPT/INTERRUPT.o
+ .bss           0x00000000        0x0 build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.INTERRUPT_EnableGlobal
+                0x00000000        0xc build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.INTERRUPT_DisableGlobal
+                0x00000000        0xc build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.EXTI_SetSense
+                0x00000000       0x40 build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.EXTI_ClearFlag
+                0x00000000       0x2a build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.EXTI_Enable
+                0x00000000       0x3c build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.EXTI_Disable
+                0x00000000       0x2a build/MCAL/INTERRUPT/INTERRUPT.o
+ .text.EXTI_SetCallback
+                0x00000000       0x20 build/MCAL/INTERRUPT/INTERRUPT.o
+ .text          0x00000000        0x0 build/MCAL/SPI/SPI.o
+ .data          0x00000000        0x0 build/MCAL/SPI/SPI.o
+ .bss           0x00000000        0x0 build/MCAL/SPI/SPI.o
+ .text.SPI_InitMaster
+                0x00000000       0x4c build/MCAL/SPI/SPI.o
+ .text.SPI_InitSlave
+                0x00000000       0x32 build/MCAL/SPI/SPI.o
+ .text.SPI_Transceive
+                0x00000000       0x1e build/MCAL/SPI/SPI.o
+ .text.SPI_SelectSlave
+                0x00000000        0x6 build/MCAL/SPI/SPI.o
+ .text.SPI_ReleaseSlave
+                0x00000000        0x6 build/MCAL/SPI/SPI.o
+ .comment       0x00000000       0x1a build/MCAL/SPI/SPI.o
+ .text          0x00000000        0x0 build/MCAL/TIMER/TIMER.o
+ .data          0x00000000        0x0 build/MCAL/TIMER/TIMER.o
+ .bss           0x00000000        0x0 build/MCAL/TIMER/TIMER.o
+ .text.TIMER0_DelayS
+                0x00000000       0x4a build/MCAL/TIMER/TIMER.o
+ .text.TIMER0_PWM
+                0x00000000       0x48 build/MCAL/TIMER/TIMER.o
+ .text.TIMER0_Stop
+                0x00000000       0x12 build/MCAL/TIMER/TIMER.o
+ .text.TIMER1_Init
+                0x00000000       0x18 build/MCAL/TIMER/TIMER.o
+ .text.TIMER1_DelayMS
+                0x00000000       0x32 build/MCAL/TIMER/TIMER.o
+ .text.TIMER1_PWM
+                0x00000000       0x82 build/MCAL/TIMER/TIMER.o
+ .text.TIMER1_Stop
+                0x00000000       0x12 build/MCAL/TIMER/TIMER.o
+ .text.TIMER2_Init
+                0x00000000        0xc build/MCAL/TIMER/TIMER.o
+ .text.TIMER2_PWM
+                0x00000000       0x3a build/MCAL/TIMER/TIMER.o
+ .text.TIMER2_Stop
+                0x00000000       0x14 build/MCAL/TIMER/TIMER.o
+ .bss.systemTicks10ms
+                0x00000000        0x1 build/MCAL/TIMER/TIMER.o
+ .text          0x00000000        0x0 build/MCAL/UART/UART.o
+ .data          0x00000000        0x0 build/MCAL/UART/UART.o
+ .bss           0x00000000        0x0 build/MCAL/UART/UART.o
+ .text.UART_Init
+                0x00000000       0x46 build/MCAL/UART/UART.o
+ .text.UART_SendByte
+                0x00000000        0xc build/MCAL/UART/UART.o
+ .text.UART_ReceiveByte
+                0x00000000       0x1a build/MCAL/UART/UART.o
+ .text.UART_SendString
+                0x00000000       0x32 build/MCAL/UART/UART.o
+ .text.UART_IsDataReady
+                0x00000000        0xa build/MCAL/UART/UART.o
+ .text.UART_SetRxInterrupt
+                0x00000000        0x6 build/MCAL/UART/UART.o
+ .comment       0x00000000       0x1a build/MCAL/UART/UART.o
+ .text          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .data          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .bss           0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.mul
+                0x00000000       0x1e /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_line    0x00000000       0x9f /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_line_str
+                0x00000000       0xb0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_info    0x00000000       0x24 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_abbrev  0x00000000       0x14 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_aranges
+                0x00000000       0x20 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .debug_str     0x00000000       0xbe /usr/lib64/gcc/avr/15/avr5/libgcc.a(_umulhisi3.o)
+ .text          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .data          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .bss           0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .text          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .data          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .text          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00020000         xr
+data             0x00800060         0x0000ffa0         rw!x
+eeprom           0x00810000         0x00010000         rw!x
+fuse             0x00820000         0x00000002         rw!x
+lock             0x00830000         0x00000400         rw!x
+signature        0x00840000         0x00000400         rw!x
+user_signatures  0x00850000         0x00000400         rw!x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD /usr/avr/sys-root/lib/avr5/crtatmega32.o
+LOAD build/main.o
+LOAD build/LIB/Motion.o
+LOAD build/LIB/Safety.o
+LOAD build/APP/CarFSM/CarFSM.o
+LOAD build/APP/DoorFSM/DoorFSM.o
+LOAD build/HAL/Buzzer/Buzzer.o
+LOAD build/HAL/Door/Door.o
+LOAD build/HAL/HC165/HC165.o
+LOAD build/HAL/HC595/HC595.o
+LOAD build/HAL/Hoist/Hoist.o
+LOAD build/HAL/KeyPad/keypad.o
+LOAD build/HAL/LCD/lcd.o
+LOAD build/HAL/Load/Load.o
+LOAD build/HAL/Position/position.o
+LOAD build/HAL/SevenSegment/sevensegment.o
+LOAD build/HAL/Slots/slots.o
+LOAD build/Logic/dispatch/dispatch.o
+LOAD build/MCAL/ADC/ADC.o
+LOAD build/MCAL/GPIO/GPIO.o
+LOAD build/MCAL/I2C/I2C.o
+LOAD build/MCAL/INTERRUPT/INTERRUPT.o
+LOAD build/MCAL/SPI/SPI.o
+LOAD build/MCAL/TIMER/TIMER.o
+LOAD build/MCAL/UART/UART.o
+START GROUP
+LOAD /usr/lib64/gcc/avr/15/avr5/libgcc.a
+LOAD /usr/avr/sys-root/lib/avr5/libm.a
+LOAD /usr/avr/sys-root/lib/avr5/libc.a
+LOAD /usr/avr/sys-root/lib/avr5/libatmega32.a
+END GROUP
+                0x00000000                        __TEXT_REGION_ORIGIN__ = DEFINED (__TEXT_REGION_ORIGIN__)?__TEXT_REGION_ORIGIN__:0x0
+                0x00020000                        __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x20000
+                0x00800060                        __DATA_REGION_ORIGIN__ = DEFINED (__DATA_REGION_ORIGIN__)?__DATA_REGION_ORIGIN__:0x800060
+                0x0000ffa0                        __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x00010000                        __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00000002]                      __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x00000400                        __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x00000400                        __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x00000400                        __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000      0x534
+ *(.vectors)
+ .vectors       0x00000000       0x54 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+                0x00000000                __vectors
+                0x00000000                __vector_default
+ *(.vectors)
+                0x00000054                        __progmem_start = .
+ *(.progmem)
+ *(.progmem.*)
+                0x00000054                        __progmem_end = .
+                0x00000001                        ASSERT (((__progmem_start == __progmem_end) || (__progmem_end <= 0x10000)), .progmem section exceeds 0x10000)
+                0x00000054                        . = ALIGN (0x2)
+                0x00000054                        __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000054        0x0 linker stubs
+ *(.trampolines*)
+                0x00000054                        __trampolines_end = .
+                0x00000054                        . = ALIGN (0x2)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000054                        __ctors_start = .
+ *(.ctors)
+                0x00000054                        __ctors_end = .
+                0x00000054                        __dtors_start = .
+ *(.dtors)
+                0x00000054                        __dtors_end = .
+ SORT_BY_NAME(*)(.ctors)
+ SORT_BY_NAME(*)(.dtors)
+ *(.init0)
+ .init0         0x00000054        0x0 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+                0x00000054                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000054        0xc /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x00000060       0x16 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+                0x00000060                __do_copy_data
+ .init4         0x00000076       0x10 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+                0x00000076                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000086        0x8 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ *(.init9)
+ *(.text)
+ .text          0x0000008e        0x4 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+                0x0000008e                __vector_12
+                0x0000008e                __bad_interrupt
+                0x0000008e                __vector_6
+                0x0000008e                __vector_11
+                0x0000008e                __vector_13
+                0x0000008e                __vector_17
+                0x0000008e                __vector_19
+                0x0000008e                __vector_7
+                0x0000008e                __vector_5
+                0x0000008e                __vector_4
+                0x0000008e                __vector_9
+                0x0000008e                __vector_15
+                0x0000008e                __vector_8
+                0x0000008e                __vector_14
+                0x0000008e                __vector_10
+                0x0000008e                __vector_16
+                0x0000008e                __vector_18
+                0x0000008e                __vector_20
+                0x00000092                        . = ALIGN (0x2)
+ *(.text.*)
+ .text.startup.main
+                0x00000092       0x34 build/main.o
+                0x00000092                main
+ .text.LCD_Command
+                0x000000c6       0x54 build/HAL/LCD/lcd.o
+ .text.Debug_Fail
+                0x0000011a        0xa build/HAL/LCD/lcd.o
+                0x0000011a                Debug_Fail
+ .text.LCD_Init
+                0x00000124       0x56 build/HAL/LCD/lcd.o
+                0x00000124                LCD_Init
+ .text.LCD_WriteData
+                0x0000017a       0x54 build/HAL/LCD/lcd.o
+                0x0000017a                LCD_WriteData
+ .text.LCD_Update
+                0x000001ce       0x72 build/HAL/LCD/lcd.o
+                0x000001ce                LCD_Update
+ .text.GPIO_SetPinValue
+                0x00000240       0xce build/MCAL/GPIO/GPIO.o
+                0x00000240                GPIO_SetPinValue
+ .text.I2C_InitMaster
+                0x0000030e       0x42 build/MCAL/I2C/I2C.o
+                0x0000030e                I2C_InitMaster
+ .text.I2C_SendStart
+                0x00000350       0x1c build/MCAL/I2C/I2C.o
+                0x00000350                I2C_SendStart
+ .text.I2C_SendStop
+                0x0000036c        0x6 build/MCAL/I2C/I2C.o
+                0x0000036c                I2C_SendStop
+ .text.I2C_SendSlaveAddressWithWrite
+                0x00000372       0x20 build/MCAL/I2C/I2C.o
+                0x00000372                I2C_SendSlaveAddressWithWrite
+ .text.I2C_SendByte
+                0x00000392       0x1e build/MCAL/I2C/I2C.o
+                0x00000392                I2C_SendByte
+ .text.__vector_1
+                0x000003b0       0x52 build/MCAL/INTERRUPT/INTERRUPT.o
+                0x000003b0                __vector_1
+ .text.__vector_2
+                0x00000402       0x52 build/MCAL/INTERRUPT/INTERRUPT.o
+                0x00000402                __vector_2
+ .text.__vector_3
+                0x00000454       0x52 build/MCAL/INTERRUPT/INTERRUPT.o
+                0x00000454                __vector_3
+ .text.TIMER0_Init
+                0x000004a6       0x10 build/MCAL/TIMER/TIMER.o
+                0x000004a6                TIMER0_Init
+ .text.TIMER0_DelayMS
+                0x000004b6       0x36 build/MCAL/TIMER/TIMER.o
+                0x000004b6                TIMER0_DelayMS
+ .text.libgcc.div
+                0x000004ec       0x44 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+                0x000004ec                __udivmodsi4
+                0x00000530                        . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00000530        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+                0x00000530                exit
+                0x00000530                _exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00000530        0x4 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ *(.fini0)
+ *(.hightext)
+ *(.hightext*)
+ *(.progmemx)
+ *(.progmemx.*)
+                0x00000534                        . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+                0x00000534                        _etext = .
+
+.data           0x00800060        0x0 load address 0x00000534
+                0x00800060                        PROVIDE (__data_start = .)
+ *(.data)
+ *(.data*)
+ *(.gnu.linkonce.d*)
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.r*)
+                0x00800060                        . = ALIGN (0x2)
+                0x00800060                        _edata = .
+                0x00800060                        PROVIDE (__data_end = .)
+
+.bss            0x00800060        0x6
+                0x00800060                        PROVIDE (__bss_start = .)
+ *(.bss)
+ *(.bss*)
+ .bss.EXTI_Callbacks
+                0x00800060        0x6 build/MCAL/INTERRUPT/INTERRUPT.o
+ *(COMMON)
+                0x00800066                        PROVIDE (__bss_end = .)
+                0x00000534                        __data_load_start = LOADADDR (.data)
+                0x00000534                        __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800066        0x0
+                [!provide]                        PROVIDE (__noinit_start = .)
+ *(.noinit .noinit.* .gnu.linkonce.n.*)
+                [!provide]                        PROVIDE (__noinit_end = .)
+                0x00800066                        _end = .
+                [!provide]                        PROVIDE (__heap_start = .)
+                0x00000000                        __flmap_init_label = DEFINED (__flmap_noinit_start)?__flmap_noinit_start:0x0
+                0x00000000                        __flmap = DEFINED (__flmap)?__flmap:0x0
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                        __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x19
+ *(.comment)
+ .comment       0x00000000       0x19 build/main.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 build/HAL/LCD/lcd.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 build/MCAL/GPIO/GPIO.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 build/MCAL/I2C/I2C.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 build/MCAL/INTERRUPT/INTERRUPT.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 build/MCAL/TIMER/TIMER.o
+                                 0x1a (size before relaxing)
+
+.note.gnu.avr.deviceinfo
+                0x00000000       0x3c
+ .note.gnu.avr.deviceinfo
+                0x00000000       0x3c /usr/avr/sys-root/lib/avr5/crtatmega32.o
+
+.gnu.build.attributes
+ *(.gnu.build.attributes .gnu.build.attributes.*)
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000       0x80
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x20 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_aranges
+                0x00000020       0x20 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .debug_aranges
+                0x00000040       0x20 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .debug_aranges
+                0x00000060       0x20 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000      0x576
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x4e6 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .debug_info    0x000004e6       0x24 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_info    0x0000050a       0x24 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .debug_info    0x0000052e       0x24 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .debug_info    0x00000552       0x24 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+
+.debug_abbrev   0x00000000      0x4f3
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x4a3 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .debug_abbrev  0x000004a3       0x14 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_abbrev  0x000004b7       0x14 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .debug_abbrev  0x000004cb       0x14 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .debug_abbrev  0x000004df       0x14 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+
+.debug_line     0x00000000      0x27b
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x00000000       0x1d /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .debug_line    0x0000001d      0x111 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_line    0x0000012e       0x51 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+ .debug_line    0x0000017f       0x87 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+ .debug_line    0x00000206       0x75 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+
+.debug_frame
+ *(.debug_frame)
+
+.debug_str      0x00000000      0x254
+ *(.debug_str)
+ .debug_str     0x00000000      0x196 /usr/avr/sys-root/lib/avr5/crtatmega32.o
+ .debug_str     0x00000196       0xbe /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_str     0x00000254        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+                                 0xbe (size before relaxing)
+ .debug_str     0x00000254        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+                                 0xbe (size before relaxing)
+ .debug_str     0x00000254        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+                                 0xbe (size before relaxing)
+
+.debug_loc
+ *(.debug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges
+ *(.debug_ranges)
+
+.debug_addr
+ *(.debug_addr)
+
+.debug_line_str
+                0x00000000       0xb0
+ *(.debug_line_str)
+ .debug_line_str
+                0x00000000       0xb0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_udivmodsi4.o)
+ .debug_line_str
+                0x000000b0        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_exit.o)
+                                 0xb0 (size before relaxing)
+ .debug_line_str
+                0x000000b0        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_copy_data.o)
+                                 0xb0 (size before relaxing)
+ .debug_line_str
+                0x000000b0        0x0 /usr/lib64/gcc/avr/15/avr5/libgcc.a(_clear_bss.o)
+                                 0xb0 (size before relaxing)
+
+.debug_loclists
+ *(.debug_loclists)
+
+.debug_macro
+ *(.debug_macro)
+
+.debug_names
+ *(.debug_names)
+
+.debug_rnglists
+ *(.debug_rnglists)
+
+.debug_str_offsets
+ *(.debug_str_offsets)
+
+.debug_sup
+ *(.debug_sup)
+OUTPUT(build/program.elf elf32-avr)
+LOAD linker stubs

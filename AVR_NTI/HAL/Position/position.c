@@ -1,29 +1,66 @@
 #include "position.h"
 #include "ADC_interface.h"
 
-STD_ReturnType get_position(uint8 *floor)
+#define POSITION_LEVEL_TOLERANCE_CM 3U
+
+uint16 POS_cm(void)
 {
     uint16 reading;
-    ADC_ReadChannel(ADC_CHANNEL_0, &reading);
+
+    if (ADC_ReadChannel(ADC_CHANNEL_0, &reading) != E_OK)
+    {
+        return 0U;
+    }
 
     reading = ((uint32)reading * 1000) / 1023;
+    return reading;
+}
 
-    if (reading < POSITION_FLOOR_1)
+uint8 POS_nearestFloor(uint16 cm)
+{
+    if (cm < 150U)
     {
-        *floor = 0;
+        return 0U;
     }
-    else if (reading < POSITION_FLOOR_2)
+    else if (cm < 450U)
     {
-        *floor = 1;
+        return 1U;
     }
-    else if (reading < POSITION_FLOOR_3)
+    else if (cm < 750U)
     {
-        *floor = 2;
+        return 2U;
     }
     else
     {
-        *floor = 3;
+        return 3U;
+    }
+}
+
+uint8 POS_InLevelZone(uint16 cm)
+{
+    uint8 nearestFloor = POS_nearestFloor(cm);
+    uint16 targetCm;
+    uint16 distanceCm;
+
+    switch (nearestFloor)
+    {
+        case 0U:
+            targetCm = POSITION_FLOOR_0;
+            break;
+
+        case 1U:
+            targetCm = POSITION_FLOOR_1;
+            break;
+
+        case 2U:
+            targetCm = POSITION_FLOOR_2;
+            break;
+
+        default:
+            targetCm = POSITION_FLOOR_3;
+            break;
     }
 
-    return E_OK;
+    distanceCm = (cm >= targetCm) ? (cm - targetCm) : (targetCm - cm);
+    return (distanceCm <= POSITION_LEVEL_TOLERANCE_CM) ? 1U : 0U;
 }

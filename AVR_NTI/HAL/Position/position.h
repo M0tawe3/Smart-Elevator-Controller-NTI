@@ -8,6 +8,8 @@
 #define POSITION_FLOOR_2 600
 #define POSITION_FLOOR_3 900
 
-STD_ReturnType get_position(uint8 *Copy_pu8Position);
+uint16 POS_cm(void);
+uint8 POS_nearestFloor(uint16 cm);
+uint8 POS_InLevelZone(uint16 cm);
 
 #endif /* _POSITION_H_ */
