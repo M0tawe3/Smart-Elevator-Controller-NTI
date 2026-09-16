@@ -2,69 +2,6 @@
 #include "Hoist.h"
 #include "STD_TYPES.h"
 
-typedef enum {
-    CS_INIT = 0,
-    CS_HOMING,
-    CS_IDLE,
-    CS_DOOR_OPENING,
-    CS_DOOR_OPEN,
-    CS_DOOR_CLOSING,
-    CS_STARTING,
-    CS_MOVING,
-    CS_SLOWING,
-    CS_LEVELLING,
-    CS_ARRIVED,
-    CS_OVERLOAD,
-    CS_FIRE_RECALL,
-    CS_FIRE_HOLD,
-    CS_FAULT,
-    CS_ESTOP
-} CarState_t;
-
-typedef enum {
-    FLT_NONE = 0,
-    FLT_ESTOP,
-    FLT_OVERTRAVEL,
-    FLT_TRAVEL_TIMEOUT,
-    FLT_DOOR_TIMEOUT,
-    FLT_OVERCURRENT,
-    FLT_POSITION_SENSOR,
-    FLT_LEVEL_FAIL,
-    FLT_DOOR_JAM
-} Fault_t;
-
-// typedef struct {
-//     uint8_t carCall;
-//     uint8_t hallUp;
-//     uint8_t hallDown;
-// } Calls_t;
-
-typedef struct {
-    uint16_t positionCm;
-    uint8_t  currentFloor;
-    uint8_t  targetFloor;
-    uint8_t  doorPct;
-    uint16_t loadKg;
-    uint16_t currentmA;
-    Calls_t  calls;
-    uint8_t  dir;
-    uint8_t  lastDir;
-    uint8_t  state;
-    uint8_t  doorState;
-    uint8_t  hoistDuty;
-    uint8_t  overload    : 1;
-    uint8_t  fireService : 1;
-    uint8_t  independent : 1;
-    uint8_t  estop       : 1;
-    uint8_t  obstruction : 1;
-    uint8_t  levelled    : 1;
-    uint8_t  reserved    : 2;
-    uint8_t  activeFault;
-    uint16_t doorDwellTicks;
-    uint32_t tripCount;
-    uint32_t doorCycles;
-    uint32_t upTimeSec;
-} CarData_t;
 
 extern void HST_SetDuty(uint8_t dutyPct, uint8_t doorPct);
 extern void HST_SetDir(HST_Dir_t dir);

@@ -15,6 +15,10 @@
 #define TOGGLE_BIT(REG, BIT) ((REG) ^= (1u << (BIT)))
 #define READ_BIT(REG, BIT) (((REG) >> (BIT)) & 1u)
 
+#define FLOOR_COUNT 4u
+#define FLOOR_MASK  0x0Fu
+
+
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned long uint32;
@@ -43,6 +47,15 @@ typedef enum {
     CS_ESTOP
 } CarState_t;
 
+
+typedef enum {
+    DOOR_STATE_CLOSED = 0U,
+    DOOR_STATE_OPENING,
+    DOOR_STATE_OPEN,
+    DOOR_STATE_CLOSING,
+    DOOR_STATE_JAMMED
+} DoorState_t;
+
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
@@ -56,36 +69,36 @@ typedef enum {
 } Fault_t;
 
 typedef struct {
-    uint8_t carCall;
-    uint8_t hallUp;
-    uint8_t hallDown;
+    uint8 carCall;
+    uint8  hallUp;
+    uint8 hallDown;
 } Calls_t;
 
 typedef struct {
-    uint16_t positionCm;
-    uint8_t  currentFloor;
-    uint8_t  targetFloor;
-    uint8_t  doorPct;
-    uint16_t loadKg;
-    uint16_t currentmA;
+    uint16 positionCm;
+    uint8  currentFloor;
+    uint8  targetFloor;
+    uint8  doorPct;
+    uint16 loadKg;
+    uint16 currentmA;
     Calls_t  calls;
-    uint8_t  dir;
-    uint8_t  lastDir;
-    uint8_t  state;
-    uint8_t  doorState;
-    uint8_t  hoistDuty;
-    uint8_t  overload    : 1;
-    uint8_t  fireService : 1;
-    uint8_t  independent : 1;
-    uint8_t  estop       : 1;
-    uint8_t  obstruction : 1;
-    uint8_t  levelled    : 1;
-    uint8_t  reserved    : 2;
-    uint8_t  activeFault;
-    uint16_t doorDwellTicks;
-    uint32_t tripCount;
-    uint32_t doorCycles;
-    uint32_t upTimeSec;
+    uint8  dir;
+    uint8  lastDir;
+    uint8  state;
+    uint8  doorState;
+    uint8  hoistDuty;
+    uint8  overload    : 1;
+    uint8  fireService : 1;
+    uint8  independent : 1;
+    uint8  estop       : 1;
+    uint8  obstruction : 1;
+    uint8  levelled    : 1;
+    uint8  reserved    : 2;
+    uint8  activeFault;
+    uint16 doorDwellTicks;
+    uint32 tripCount;
+    uint32 doorCycles;
+    uint32 upTimeSec;
 } CarData_t;
 
 typedef enum
@@ -93,17 +106,6 @@ typedef enum
     E_OK = 0,
     E_NOK = 1
 } STD_ReturnType;
-
-
-#define FLOOR_COUNT 4u
-#define FLOOR_MASK  0x0Fu
-
-typedef struct
-{
-    uint8 carCall;
-    uint8 hallUp;
-    uint8 hallDown;
-} Calls_t;
 
 typedef enum
 {

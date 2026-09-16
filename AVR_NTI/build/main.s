@@ -25,14 +25,54 @@ main:
 	call LCD_Init
 	ldi r24,lo8(10)
 	ldi r25,0
+.L3:
 	call TIMER0_DelayMS
-	ldi r20,lo8(-56)
+	mov r8,__zero_reg__
+	ldi r24,lo8(10)
+	mov r10,r24
+	mov r11,__zero_reg__
+	mov r12,__zero_reg__
+	mov r13,__zero_reg__
+	movw r14,r12
+	ldi r16,lo8(-47)
+	ldi r17,0
+	ldi r18,lo8(-47)
+	ldi r19,lo8(1)
+	ldi r20,lo8(1)
 	ldi r21,0
-	ldi r22,0
-	ldi r23,0
-	ldi r24,lo8(2)
-	call LCD_Update
-.L2:
-	rjmp .L2
+	ldi r22,lo8(2)
+	ldi r24,lo8(frame)
+	ldi r25,hi8(frame)
+	call LCD_UpdateFrame
+	ldi r24,lo8(frame)
+	ldi r25,hi8(frame)
+	call LCD_RefreshPartial
+	ldi r24,lo8(-106)
+	ldi r25,0
+	call TIMER0_DelayMS
+	inc r8
+	ldi r25,lo8(2)
+	mov r12,r25
+	ldi r18,lo8(-47)
+	ldi r19,lo8(1)
+	ldi r20,lo8(1)
+	ldi r21,0
+	ldi r22,lo8(2)
+	ldi r24,lo8(frame)
+	ldi r25,hi8(frame)
+	call LCD_UpdateFrame
+	ldi r24,lo8(frame)
+	ldi r25,hi8(frame)
+	call LCD_RefreshPartial
+	ldi r24,lo8(-106)
+	ldi r25,0
+	rjmp .L3
 	.size	main, .-main
+.global	frame
+	.section	.bss.frame,"aw",@nobits
+	.type	frame, @object
+	.size	frame, 32
+frame:
+	.zero	32
 	.ident	"GCC: (SUSE Linux) 15.3.0"
+.global __do_clear_bss
