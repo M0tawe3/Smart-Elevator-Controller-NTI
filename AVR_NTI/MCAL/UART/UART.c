@@ -9,6 +9,9 @@
 #include "STD_TYPES.h"
 #include "UART_interface.h"
 #include "UART_private.h"
+#include <avr/interrupt.h>
+
+static UART_RxCallback_t g_uartRxCallback = NULL;
 
 /*
  * UART_Init
@@ -102,6 +105,43 @@ STD_ReturnType UART_IsDataReady()
  * 1. Set or clear RXCIE / UDRIE in UCSRB.
  * 2. Vectors: USART_RXC_vect , USART_UDRE_vect.
  */
-STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State){
+STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State)
+{
+    if (Copy_u8State == 0U)
+    {
+        CLEAR_BIT(UCSRB, RXCIE);
+    }
+    else
+    {
+        SET_BIT(UCSRB, RXCIE);
+    }
     return E_OK;
+}
+
+STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State)
+{
+    if (Copy_u8State == 0U)
+    {
+        CLEAR_BIT(UCSRB, UDRIE);
+    }
+    else
+    {
+        SET_BIT(UCSRB, UDRIE);
+    }
+    return E_OK;
+}
+
+STD_ReturnType UART_SetRxCallback(UART_RxCallback_t Copy_pfCallback)
+{
+    g_uartRxCallback = Copy_pfCallback;
+    return E_OK;
+}
+
+ISR(USART_RXC_vect)
+{
+    uint8 data = UDR;
+    if (g_uartRxCallback != NULL)
+    {
+        g_uartRxCallback(data);
+    }
 }

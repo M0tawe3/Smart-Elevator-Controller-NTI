@@ -47,6 +47,9 @@
 // Bit names UCSRB
 #define RXEN 4
 #define TXEN 3
+#define RXCIE 7
+#define TXCIE 6
+#define UDRIE 5
 
 // Bit names UCSRC
 #define URSEL 7

@@ -13,6 +13,8 @@
 
 #include "STD_TYPES.h"
 
+typedef void (*UART_RxCallback_t)(uint8 data);
+
 /*
  * Description : Set 8 data bits, no parity, 1 stop bit (8N1), then enable TX and RX
  *               at Copy_u32BaudRate. UBRR = F_CPU / (16 * baud) - 1  (normal async).
@@ -46,5 +48,6 @@ STD_ReturnType UART_IsDataReady(void);
  */
 STD_ReturnType UART_SetRxInterrupt(uint8 Copy_u8State);
 STD_ReturnType UART_SetTxInterrupt(uint8 Copy_u8State);
+STD_ReturnType UART_SetRxCallback(UART_RxCallback_t Copy_pfCallback);
 
 #endif /* UART_INTERFACE_H */

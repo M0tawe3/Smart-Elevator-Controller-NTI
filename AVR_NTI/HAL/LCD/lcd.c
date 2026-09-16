@@ -105,7 +105,6 @@ void LCD_RefreshPartial(const char *newFrame)
             uint8 col = (i < LCD_COLS) ? i : (i - LCD_COLS);
 
             LCD_WriteCharAt(row, col, newFrame[i]);
-            TIMER0_DelayMS(1U);
             g_lcdPrev[i] = newFrame[i];
         }
     }
@@ -149,56 +148,56 @@ void LCD_UpdateFrame(char *frame, uint8 floor, Dir_t dir, uint16 positionCm, uin
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!EMERGENCY STOP");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
     
         case FLT_OVERTRAVEL:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!OVERTRAVEL");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_OVERCURRENT:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!OVERCURRENT");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_TRAVEL_TIMEOUT:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!TRAVEL TIMEOUT");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_DOOR_TIMEOUT:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!DOOR TIMEOUT");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_DOOR_JAM:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!DOOR JAM");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_POSITION_SENSOR:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!POSITION SENSOR");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         case FLT_LEVEL_FAIL:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!LEVEL FAIL");
         else
-            snprintf(line2, sizeof(line2), "                ");
+            snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
         break;
 
         default:
