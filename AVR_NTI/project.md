@@ -108,6 +108,14 @@ Extra: Hardwware design and general testing<br>
 - position
 - dispatch
 
+### Youssef Saeed:
+- load.c: overload reading and hysteresis logic fixed
+- door.c: PWM + direction control implemented and stabilized
+- car_fsm: overload / obstruction priority handling fixed
+- door_fsm: obstruction recovery and jam-safe logic improved
+- verified with FSM logic regression tests
+- build environment and duplicate-type blockers resolved
+
 ### Youssef Nasser:
 - hoist.c (not tested)
 - motion (not tested)

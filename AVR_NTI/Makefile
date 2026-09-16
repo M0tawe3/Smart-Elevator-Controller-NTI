@@ -26,6 +26,7 @@ SRCS += $(wildcard */*/*.c)
 SRCS += $(wildcard */*/*/*.c)
 SRCS += $(wildcard */*/*/*/*.c)
 SRCS := $(filter-out $(BUILD_DIR)/%,$(SRCS))
+SRCS := $(filter-out tests/%,$(SRCS))
 
 HDRS := $(wildcard *.h)
 HDRS += $(wildcard */*.h)

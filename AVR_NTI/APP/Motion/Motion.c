@@ -2,7 +2,6 @@
 #include "Hoist.h"
 #include "STD_TYPES.h"
 
-
 extern void HST_SetDuty(uint8_t dutyPct, uint8_t doorPct);
 extern void HST_SetDir(HST_Dir_t dir);
 extern void HST_Brake(void);
