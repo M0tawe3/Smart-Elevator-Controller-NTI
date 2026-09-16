@@ -15,6 +15,7 @@ CC      := avr-gcc
 OBJCOPY := avr-objcopy
 OBJDUMP := avr-objdump
 SIZE    := avr-size
+HOST_CC ?= gcc
 
 CFLAGS  := -mmcu=$(MCU) -DF_CPU=$(F_CPU) -Os -Wall -std=gnu99 -ffunction-sections -fdata-sections
 LDFLAGS := -mmcu=$(MCU) -Wl,--gc-sections -Wl,-Map=$(BUILD_DIR)/$(TARGET).map
@@ -46,8 +47,12 @@ ASMS    := $(patsubst %.c,$(BUILD_DIR)/%.s,$(SRCS))
 INC_DIRS := $(sort . LIB MCAL HAL Logic $(dir $(SRCS)) $(dir $(HDRS)))
 INCLUDES := $(addprefix -I,$(INC_DIRS))
 
+TEST_CFLAGS := -std=c99 -Wall -Wextra -ILIB -IMCAL/ADC -IHAL/Door -IHAL/Hoist -IAPP/CarFSM -IAPP/DoorFSM -IAPP/dispatch
+TEST_DIR := $(BUILD_DIR)/tests
+TEST_BINS := $(TEST_DIR)/fsm_logic_test_native $(TEST_DIR)/dispatch_test_native $(TEST_DIR)/load_test_native
+
 # WinAVR make 3.81 runs recipes in sh, so use POSIX mkdir/rm.
-.PHONY: all clean size verify
+.PHONY: all clean size verify test
 
 all: $(PREPROCS) $(ASMS) $(BUILD_DIR)/$(TARGET).hex $(BUILD_DIR)/$(TARGET).bin size
 
@@ -80,6 +85,23 @@ size: $(BUILD_DIR)/$(TARGET).elf
 
 verify: all
 	@echo BUILD_OK MCU=$(MCU) F_CPU=$(F_CPU) SRCS=$(SRCS)
+
+test: $(TEST_BINS)
+	$(TEST_DIR)/fsm_logic_test_native
+	$(TEST_DIR)/dispatch_test_native
+	$(TEST_DIR)/load_test_native
+
+$(TEST_DIR)/fsm_logic_test_native: tests/fsm_logic_test.c
+	mkdir -p $(TEST_DIR)
+	$(HOST_CC) $(TEST_CFLAGS) $< -o $@
+
+$(TEST_DIR)/dispatch_test_native: tests/dispatch_test.c APP/dispatch/dispatch.c
+	mkdir -p $(TEST_DIR)
+	$(HOST_CC) $(TEST_CFLAGS) $^ -o $@
+
+$(TEST_DIR)/load_test_native: tests/load_test.c
+	mkdir -p $(TEST_DIR)
+	$(HOST_CC) $(TEST_CFLAGS) $< -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)

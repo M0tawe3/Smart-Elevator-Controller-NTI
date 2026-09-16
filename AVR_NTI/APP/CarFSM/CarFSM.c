@@ -30,6 +30,7 @@ void CarFSM_Update(uint8 overload, uint8 doorOpen, uint8 doorClosed, uint8 obstr
     if (doorOpen)
     {
         g_carState = CAR_STATE_DOOR_OPEN;
+        HST_Brake();
         return;
     }
 
