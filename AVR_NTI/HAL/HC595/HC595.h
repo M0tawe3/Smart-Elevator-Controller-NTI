@@ -6,6 +6,6 @@
 #define HC595_LATCH_PORT GPIO_PORTC
 #define HC595_LATCH_PIN GPIO_PIN3
 
-void HC595_Write(uint8 data);
+void SEG_Show(uint8 floor, Dir_t dir);
 
 #endif /* _HC595_H */

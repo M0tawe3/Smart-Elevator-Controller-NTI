@@ -12,6 +12,6 @@ STD_ReturnType LCD_WriteData(uint8 byte);
 void LCD_Update(uint8 floor, Dir_t dir, uint16 load);
 void LCD_RefreshPartial(const char *newFrame);
 void LCD_UpdateFrame(char *frame, uint8 floor, Dir_t dir, uint16 positionCm, uint16 loadKg,
-                    Fault_t faultActive,DoorState_t door, CarState_t carstate, uint8 faultBlinkOn);
+                    Fault_t faultActive,DoorState_t door, uint8 faultBlinkOn);
 
 #endif // _LCD_H_

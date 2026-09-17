@@ -23,6 +23,7 @@
 #include <avr/interrupt.h>
 
 volatile uint8 systemTicks10ms = 0U;
+volatile uint32 g_msCounter = 0U;  
 
 /*==================================================================
  *  Local helpers — static, used only inside TIMER.c
@@ -53,21 +54,18 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent);
 
 STD_ReturnType TIMER0_Init(void)
 {
-    TIMER0_REG_TCCR0 = (1 << 3) | (1 << 2) | (1 << 0); // CTC, prescaler 1024
-    TIMER0_REG_OCR0 = 77U;                               // approximately 10 ms at 8 MHz
+    TIMER0_REG_TCCR0 = (1 << 3) | (1 << 2) | (1 << 0); // CTC, /1024
+    TIMER0_REG_OCR0 = 77U;
     TIMER0_REG_TCNT0 = 0U;
+
+    TIMSK_REG |= (1 << 1);  // enable Timer0 compare interrupt
     return E_OK;
 }
 
 STD_ReturnType TIMER0_DelayMS(uint16 Copy_u16Milliseconds)
 {
-    TIFR_REG |= (1 << OCF0);                 // Clear stale flag
-    TIMER0_REG_TCCR0 = (TIMER0_REG_TCCR0 & (uint8)~0x07U) | (1 << 2) | (1 << 0); // prescaler 1024
-    for (uint16 i = 0; i < Copy_u16Milliseconds; i++)
-    {
-        TIMER_WaitFlag(&TIFR_REG, (1 << OCF0)); // Wait for OCF0 flag
-    }
-    TIMER0_REG_TCCR0 &= ~((1 << 2) | (1 << 1) | (1 << 0)); // Stop clock
+    uint32 target = g_msCounter + Copy_u16Milliseconds;
+    while (g_msCounter < target) { }
     return E_OK;
 }
 
@@ -115,13 +113,11 @@ STD_ReturnType TIMER1_Init(void)
 
 STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds)
 {
-    TIFR_REG = (1 << OCF1A);
-    TIMER1_REG_TCCR1B = (TIMER1_REG_TCCR1B & ~((1 << 2) | (1 << 1) | (1 << 0))) | (1 << 1); // Start clock with prescaler 8
-    for (uint16 i = 0; i < Copy_u16Milliseconds; i++)
+    uint32 target = g_msCounter + Copy_u16Milliseconds;
+    while (g_msCounter < target)
     {
-        TIMER_WaitFlag(&TIFR_REG, (1 << OCF1A)); // Wait for OCF1A flag
+        /* just spin — never touches TCCR0/OCF0, so no conflict with the ISR */
     }
-    TIMER1_REG_TCCR1B &= ~((1 << 2) | (1 << 1) | (1 << 0)); // Stop clock
     return E_OK;
 }
 
@@ -197,7 +193,8 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent)
     return (uint16)(temp / 100);
 }
 
-// ISR(TIMER0_COMP_vect)
-// {
-//     systemTicks10ms = 1U;
-// }
+ISR(TIMER0_COMP_vect)
+{
+    g_msCounter += 10;
+    systemTicks10ms = 1U;
+}

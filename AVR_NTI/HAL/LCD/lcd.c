@@ -111,7 +111,7 @@ void LCD_RefreshPartial(const char *newFrame)
 }
 
 void LCD_UpdateFrame(char *frame, uint8 floor, Dir_t dir, uint16 positionCm, uint16 loadKg,
-                    Fault_t faultActive, DoorState_t door, CarState_t carstate, uint8 faultBlinkOn)
+                    Fault_t faultActive, DoorState_t door, uint8 faultBlinkOn)
 {
     char line1[LCD_COLS + 1U];
     char line2[LCD_COLS + 1U];
@@ -152,7 +152,7 @@ void LCD_UpdateFrame(char *frame, uint8 floor, Dir_t dir, uint16 positionCm, uin
         break;
     
         case FLT_OVERTRAVEL:
-        if (faultBlinkOn != 0U)
+        if (faultBlinkOn < 150)
             snprintf(line2, sizeof(line2), "!OVERTRAVEL");
         else
             snprintf(line2, sizeof(line2), "LD:%u D:%u MOV", (unsigned int)loadKg, door);
