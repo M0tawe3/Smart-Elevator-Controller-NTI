@@ -47,9 +47,9 @@ ASMS    := $(patsubst %.c,$(BUILD_DIR)/%.s,$(SRCS))
 INC_DIRS := $(sort . LIB MCAL HAL Logic $(dir $(SRCS)) $(dir $(HDRS)))
 INCLUDES := $(addprefix -I,$(INC_DIRS))
 
-TEST_CFLAGS := -std=c99 -Wall -Wextra -ILIB -IMCAL/ADC -IHAL/Door -IHAL/Hoist -IAPP/CarFSM -IAPP/DoorFSM -IAPP/dispatch
+TEST_CFLAGS := -std=c99 -Wall -Wextra -I. -ILIB -IMCAL/ADC -IMCAL/UART -IHAL/Door -IHAL/Hoist -IAPP/CarFSM -IAPP/DoorFSM -IAPP/dispatch
 TEST_DIR := $(BUILD_DIR)/tests
-TEST_BINS := $(TEST_DIR)/fsm_logic_test_native $(TEST_DIR)/dispatch_test_native $(TEST_DIR)/load_test_native
+TEST_BINS := $(TEST_DIR)/fsm_logic_test_native $(TEST_DIR)/dispatch_test_native $(TEST_DIR)/load_test_native $(TEST_DIR)/system_logic_test_native $(TEST_DIR)/hoist_test_native
 
 # WinAVR make 3.81 runs recipes in sh, so use POSIX mkdir/rm.
 .PHONY: all clean size verify test
@@ -90,6 +90,8 @@ test: $(TEST_BINS)
 	$(TEST_DIR)/fsm_logic_test_native
 	$(TEST_DIR)/dispatch_test_native
 	$(TEST_DIR)/load_test_native
+	$(TEST_DIR)/system_logic_test_native
+	$(TEST_DIR)/hoist_test_native
 
 $(TEST_DIR)/fsm_logic_test_native: tests/fsm_logic_test.c
 	mkdir -p $(TEST_DIR)
@@ -102,6 +104,14 @@ $(TEST_DIR)/dispatch_test_native: tests/dispatch_test.c APP/dispatch/dispatch.c
 $(TEST_DIR)/load_test_native: tests/load_test.c
 	mkdir -p $(TEST_DIR)
 	$(HOST_CC) $(TEST_CFLAGS) $< -o $@
+
+$(TEST_DIR)/system_logic_test_native: tests/system_logic_test.c APP/dispatch/dispatch.c
+	mkdir -p $(TEST_DIR)
+	$(HOST_CC) $(TEST_CFLAGS) -IAPP/Consol -IAPP/Fault_log -o $@ $^
+
+$(TEST_DIR)/hoist_test_native: tests/hoist_test.c
+	mkdir -p $(TEST_DIR)
+	$(HOST_CC) $(TEST_CFLAGS) -IMCAL/GPIO -IMCAL/TIMER -o $@ $<
 
 clean:
 	rm -rf $(BUILD_DIR)

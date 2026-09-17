@@ -51,22 +51,18 @@ void SAF_Evaluate(CarData_t *car) {
         }
     }
 
-    if (car->loadKg > OVERLOAD_SET_KG) {
+    if (car->loadKg >= OVERLOAD_SET_KG) {
         car->overload = 1U;
         car->activeFault = FLT_OVERLOAD;
         if (car->state == CS_IDLE || car->state == CS_DOOR_OPEN) {
             car->state = CS_OVERLOAD;
             GPIO_SetPinValue(GPIO_PORTC, GPIO_PIN7, GPIO_HIGH);
         }
-    } else if (car->overload && (car->loadKg < OVERLOAD_CLEAR_KG)) {
+    } else if (car->overload && (car->loadKg <= OVERLOAD_CLEAR_KG)) {
         car->overload = 0U;
         car->activeFault = FLT_NONE;
         GPIO_SetPinValue(GPIO_PORTC, GPIO_PIN7, GPIO_LOW);
         if (car->state == CS_OVERLOAD) {
-            car->state = CS_IDLE;
-        }
-    } else {
-        if (car->state == CS_OVERLOAD && car->activeFault == FLT_NONE) {
             car->state = CS_IDLE;
         }
     }

@@ -17,18 +17,18 @@ extern void HST_Brake(void);
 static const uint16 s_floorCm[4] = {0U, 300U, 600U, 900U};
 
 static uint16 s_targetPositionCm = 0U;
-static uint16 s_startPositionCm  = 0U;
 static uint16 s_accelCounter      = 0U;
 static uint8  s_relevelCount      = 0U;
 static uint8  s_motionActive      = 0U;
 
 STD_ReturnType MOT_GoTo(uint8 targetFloor, uint16 currentCm) {
+    (void)currentCm;
+
     if (targetFloor > 3U) {
         return E_NOK;
     }
 
     s_targetPositionCm = s_floorCm[targetFloor];
-    s_startPositionCm  = currentCm;
     s_accelCounter      = 0U;
     s_relevelCount      = 0U;
     s_motionActive      = 1U;
@@ -40,6 +40,10 @@ void MOT_Stop(void) {
     s_motionActive = 0U;
     s_accelCounter = 0U;
     HST_Brake();
+}
+
+uint8 MOT_IsActive(void) {
+    return s_motionActive;
 }
 
 uint8_t MOT_AtTarget(uint16 currentCm) {

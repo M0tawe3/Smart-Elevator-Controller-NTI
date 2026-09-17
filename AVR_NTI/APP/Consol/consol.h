@@ -10,5 +10,6 @@ void CONS_HandleByte(uint8 data);
 void CONS_Task(void);
 void CONS_ParseCommand(const uint8 *command);
 void CONS_SendTelemetry(void);
+Calls_t *CONS_GetCalls(void);
 
 #endif //CONSOL_H_

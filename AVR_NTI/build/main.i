@@ -615,6 +615,7 @@ void DRV_Stop(void);
 void LOAD_Init(void);
 uint16 LOAD_ReadKg(void);
 uint8 LOAD_IsOverloaded(void);
+uint8 LOAD_IsReadValid(void);
 # 18 "main.c" 2
 # 1 "HAL/Position/position.h" 1
 # 11 "HAL/Position/position.h"
@@ -665,6 +666,7 @@ void CONS_HandleByte(uint8 data);
 void CONS_Task(void);
 void CONS_ParseCommand(const uint8 *command);
 void CONS_SendTelemetry(void);
+Calls_t *CONS_GetCalls(void);
 # 23 "main.c" 2
 # 1 "APP/Fault_log/fault_log.h" 1
 
@@ -692,6 +694,7 @@ uint8 FL_ReadAt(uint8 index);
 
 STD_ReturnType MOT_GoTo(uint8 targetFloor, uint16 currentCm);
 void MOT_Stop(void);
+uint8 MOT_IsActive(void);
 uint8 MOT_AtTarget(uint16 currentCm);
 void MOT_Step(CarData_t *car);
 void MOT_RelevelCheck(CarData_t *car);

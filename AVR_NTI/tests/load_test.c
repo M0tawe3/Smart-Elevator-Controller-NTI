@@ -51,6 +51,7 @@ static void test_adc_failure_is_fail_safe(void)
 
     g_adcStatus = E_NOK;
     assert(LOAD_IsOverloaded() == 1U);
+    assert(LOAD_IsReadValid() == 0U);
     g_adcStatus = E_OK;
 }
 

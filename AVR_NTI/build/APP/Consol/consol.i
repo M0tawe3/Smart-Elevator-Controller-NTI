@@ -18,9 +18,125 @@ typedef unsigned int size_t;
 # 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
-# 22 "LIB/STD_TYPES.h"
+# 1 "/usr/lib64/gcc/avr/15/include/stdint.h" 1 3 4
+# 9 "/usr/lib64/gcc/avr/15/include/stdint.h" 3 4
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+# 1 "/usr/avr/sys-root/include/stdint.h" 1 3 4
+# 125 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef signed int int8_t __attribute__((__mode__(__QI__)));
+typedef unsigned int uint8_t __attribute__((__mode__(__QI__)));
+typedef signed int int16_t __attribute__ ((__mode__ (__HI__)));
+typedef unsigned int uint16_t __attribute__ ((__mode__ (__HI__)));
+typedef signed int int32_t __attribute__ ((__mode__ (__SI__)));
+typedef unsigned int uint32_t __attribute__ ((__mode__ (__SI__)));
 
-# 22 "LIB/STD_TYPES.h"
+typedef signed int int64_t __attribute__((__mode__(__DI__)));
+typedef unsigned int uint64_t __attribute__((__mode__(__DI__)));
+# 146 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int16_t intptr_t;
+
+
+
+
+typedef uint16_t uintptr_t;
+# 163 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int8_t int_least8_t;
+
+
+
+
+typedef uint8_t uint_least8_t;
+
+
+
+
+typedef int16_t int_least16_t;
+
+
+
+
+typedef uint16_t uint_least16_t;
+
+
+
+
+typedef int32_t int_least32_t;
+
+
+
+
+typedef uint32_t uint_least32_t;
+
+
+
+
+
+
+
+typedef int64_t int_least64_t;
+
+
+
+
+
+
+typedef uint64_t uint_least64_t;
+# 217 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int8_t int_fast8_t;
+
+
+
+
+typedef uint8_t uint_fast8_t;
+
+
+
+
+typedef int16_t int_fast16_t;
+
+
+
+
+typedef uint16_t uint_fast16_t;
+
+
+
+
+typedef int32_t int_fast32_t;
+
+
+
+
+typedef uint32_t uint_fast32_t;
+
+
+
+
+
+
+
+typedef int64_t int_fast64_t;
+
+
+
+
+
+
+typedef uint64_t uint_fast64_t;
+# 277 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int64_t intmax_t;
+
+
+
+
+typedef uint64_t uintmax_t;
+# 12 "/usr/lib64/gcc/avr/15/include/stdint.h" 2 3 4
+#pragma GCC diagnostic pop
+# 13 "LIB/STD_TYPES.h" 2
+# 23 "LIB/STD_TYPES.h"
+
+# 23 "LIB/STD_TYPES.h"
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned long uint32;
@@ -61,6 +177,7 @@ typedef enum {
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
+    FLT_OVERLOAD,
     FLT_OVERTRAVEL,
     FLT_TRAVEL_TIMEOUT,
     FLT_DOOR_TIMEOUT,
@@ -103,8 +220,7 @@ typedef struct {
     uint32 upTimeSec;
 } CarData_t;
 
-typedef enum
-{
+typedef enum {
     E_OK = 0,
     E_NOK = 1
 } STD_ReturnType;
@@ -116,8 +232,7 @@ typedef enum
     CALL_HALL_DOWN
 } CallType_t;
 
-typedef enum
-{
+typedef enum {
     DIR_NONE,
     DIR_UP,
     DIR_DOWN
@@ -131,6 +246,7 @@ void CONS_HandleByte(uint8 data);
 void CONS_Task(void);
 void CONS_ParseCommand(const uint8 *command);
 void CONS_SendTelemetry(void);
+Calls_t *CONS_GetCalls(void);
 # 2 "APP/Consol/consol.c" 2
 # 1 "/usr/avr/sys-root/include/string.h" 1 3 4
 # 46 "/usr/avr/sys-root/include/string.h" 3 4
@@ -303,13 +419,40 @@ STD_ReturnType EXTI_ClearFlag(uint8 Copy_u8Int);
 
 STD_ReturnType EXTI_SetCallback(uint8 Copy_u8Int, void (*Copy_pfCallback)(void));
 # 5 "APP/Consol/consol.c" 2
+# 1 "APP/Consol/../dispatch/dispatch.h" 1
+
+
+
+
+
+STD_ReturnType DSP_AddCall(Calls_t *calls, uint8 floor, CallType_t type);
+
+STD_ReturnType DSP_ClearFloor(Calls_t *calls, uint8 floor);
+
+Dir_t DSP_NextDirection(const Calls_t *calls, uint8 currentFloor, Dir_t currentDirection);
+
+STD_ReturnType DSP_ShouldStop(const Calls_t *calls, uint8 floor, Dir_t direction);
+# 6 "APP/Consol/consol.c" 2
 
 static uint8 g_rxBuffer[32U];
 static uint8 g_rxLen = 0U;
 static uint8 g_page = 0U;
+static Calls_t g_calls = {0U, 0U, 0U};
+
+static uint8 CONS_ParseFloor(const uint8 *command)
+{
+    if (command[0] < '0' || command[0] > '3' || command[1] != ' ') {
+        return 4u;
+    }
+
+    return (uint8)(command[0] - '0');
+}
 
 void CONS_Init(void)
 {
+    g_rxLen = 0U;
+    g_page = 0U;
+    g_calls = (Calls_t){0U, 0U, 0U};
     UART_Init(9600UL);
     UART_SetRxInterrupt(1U);
     UART_SetRxCallback(CONS_HandleByte);
@@ -348,9 +491,9 @@ void CONS_Task(void)
 void CONS_ParseCommand(const uint8 *command)
 {
     if (command == 
-# 49 "APP/Consol/consol.c" 3 4
+# 63 "APP/Consol/consol.c" 3 4
                   ((void *)0)
-# 49 "APP/Consol/consol.c"
+# 63 "APP/Consol/consol.c"
                       )
     {
         return;
@@ -368,7 +511,20 @@ void CONS_ParseCommand(const uint8 *command)
 
     if (strncmp((const char *)command, "CALL ", 5U) == 0)
     {
+        uint8 floor = CONS_ParseFloor(&command[5]);
+        const uint8 *kind = &command[7];
 
+        if (floor >= 4u) {
+            return;
+        }
+
+        if (strcmp((const char *)kind, "UP") == 0) {
+            DSP_AddCall(&g_calls, floor, CALL_HALL_UP);
+        } else if (strcmp((const char *)kind, "DOWN") == 0) {
+            DSP_AddCall(&g_calls, floor, CALL_HALL_DOWN);
+        } else if (strcmp((const char *)kind, "CAR") == 0) {
+            DSP_AddCall(&g_calls, floor, CALL_CAR);
+        }
         return;
     }
 
@@ -381,4 +537,9 @@ void CONS_ParseCommand(const uint8 *command)
 void CONS_SendTelemetry(void)
 {
     UART_SendString((const uint8 *)"OK\r\n");
+}
+
+Calls_t *CONS_GetCalls(void)
+{
+    return &g_calls;
 }

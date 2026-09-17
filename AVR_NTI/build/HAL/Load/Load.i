@@ -177,6 +177,7 @@ typedef enum {
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
+    FLT_OVERLOAD,
     FLT_OVERTRAVEL,
     FLT_TRAVEL_TIMEOUT,
     FLT_DOOR_TIMEOUT,
@@ -244,6 +245,7 @@ typedef enum {
 void LOAD_Init(void);
 uint16 LOAD_ReadKg(void);
 uint8 LOAD_IsOverloaded(void);
+uint8 LOAD_IsReadValid(void);
 # 2 "HAL/Load/Load.c" 2
 # 1 "MCAL/ADC/ADC_interface.h" 1
 # 46 "MCAL/ADC/ADC_interface.h"
@@ -324,4 +326,9 @@ uint8 LOAD_IsOverloaded(void)
     }
 
     return g_overloadLatched;
+}
+
+uint8 LOAD_IsReadValid(void)
+{
+    return g_loadReadValid;
 }

@@ -24,7 +24,7 @@ SAF_Evaluate:
 	ldi r24,lo8(1)
 	std Y+18,r24
 	ldi r24,lo8(15)
-.L29:
+.L23:
 	std Y+14,r24
 .L1:
 /* epilogue start */
@@ -38,10 +38,10 @@ SAF_Evaluate:
 	sbci r25,3
 	brlo .L5
 	ldi r24,lo8(3)
-.L30:
+.L24:
 	std Y+18,r24
 	ldi r24,lo8(14)
-	rjmp .L29
+	rjmp .L23
 .L5:
 	ldd r24,Y+4
 	cpi r24,lo8(6)
@@ -50,7 +50,7 @@ SAF_Evaluate:
 	cpi r24,lo8(0)
 	breq .L6
 	ldi r24,lo8(9)
-	rjmp .L30
+	rjmp .L24
 .L6:
 	ldd r24,Y+7
 	ldd r25,Y+8
@@ -66,7 +66,7 @@ SAF_Evaluate:
 	sbiw r24,50
 	brlo .L9
 	ldi r24,lo8(6)
-	rjmp .L30
+	rjmp .L24
 .L7:
 	sts s_overcurrentTimer,__zero_reg__
 	sts s_overcurrentTimer+1,__zero_reg__
@@ -85,7 +85,7 @@ SAF_Evaluate:
 .L9:
 	ldd r24,Y+5
 	ldd r25,Y+6
-	cpi r24,-123
+	cpi r24,-124
 	ldi r19,3
 	cpc r25,r19
 	brlo .L11
@@ -112,10 +112,11 @@ SAF_Evaluate:
 	jmp GPIO_SetPinValue
 .L11:
 	sbrs r18,0
-	rjmp .L14
-	cpi r24,82
+	rjmp .L1
+	cpi r24,83
 	sbci r25,3
-	brsh .L14
+	brlo .+2
+	rjmp .L1
 	ldd r24,Y+17
 	andi r24,lo8(~(1<<0))
 	std Y+17,r24
@@ -126,19 +127,10 @@ SAF_Evaluate:
 	call GPIO_SetPinValue
 	ldd r24,Y+14
 	cpi r24,lo8(11)
-.L28:
 	breq .+2
 	rjmp .L1
 	ldi r24,lo8(2)
-	rjmp .L29
-.L14:
-	ldd r24,Y+14
-	cpi r24,lo8(11)
-	breq .+2
-	rjmp .L1
-	ldd r24,Y+18
-	cpi r24,lo8(0)
-	rjmp .L28
+	rjmp .L23
 	.size	SAF_Evaluate, .-SAF_Evaluate
 	.section	.text.SAF_Active,"ax",@progbits
 .global	SAF_Active
@@ -150,23 +142,23 @@ SAF_Active:
 .L__stack_usage = 0
 	movw r30,r24
 	or r24,r25
-	breq .L36
+	breq .L30
 	ldd r24,Z+17
 	sbrc r24,3
-	rjmp .L36
+	rjmp .L30
 	ldd r24,Z+18
 	cpse r24,__zero_reg__
-	rjmp .L36
+	rjmp .L30
 	ldd r25,Z+14
 	subi r25,lo8(-(-14))
 	ldi r24,lo8(1)
 	cpi r25,lo8(2)
-	brlo .L31
+	brlo .L25
 	ldi r24,0
 	ret
-.L36:
+.L30:
 	ldi r24,lo8(1)
-.L31:
+.L25:
 /* epilogue start */
 	ret
 	.size	SAF_Active, .-SAF_Active

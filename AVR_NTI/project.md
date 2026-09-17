@@ -6,7 +6,7 @@
 - ADC
 - Timer0 & Timer1
 - External Interrupts
-- UART (UART interrupts not implemented yet)
+- UART and UART RX callback interrupt path
 
 ## Work Distribution
 
@@ -98,33 +98,73 @@ Extra: Hardwware design and general testing<br>
 - main.c
 
 
-## work done:
+## Work Done
 
 ### Ahmad Ibrahim:
-- Timer2
-- SPI
-- 74HC165
-- 74HC595
-- position
-- dispatch
+- Timer2 PWM driver and buzzer timer support implemented
+- SPI driver implemented
+- 74HC165 input path implemented
+- 74HC595 output path implemented
+- Position ADC conversion, nearest-floor, and level-zone logic implemented
+- LOOK dispatch and call bitmap logic implemented
+- Dispatch regression tests pass
+
+### Ahmed Ayman Ramadan:
+- I2C master driver implemented and used by the LCD
+- LCD initialization, frame generation, and partial refresh implemented
+- Buzzer driver connected to Timer2 PWM
+- UART console initialization, RX interrupt callback, command buffering, PAGE handling, and CALL parsing implemented
+- Fault-log fixed-depth ring buffer implemented
+- Console, LCD, buzzer, and fault-log hardware behavior still require simulator or hardware validation
 
 ### Youssef Saeed:
-- load.c: overload reading and hysteresis logic fixed
-- load.c: ADC read failures now fail safe as overloaded
-- door.c: PWM + direction control implemented and stabilized
-- car_fsm: overload / obstruction priority handling fixed
-- car_fsm: hoist braking enforced while the door is open
-- door_fsm: obstruction recovery and jam-safe logic improved
-- verified with FSM, dispatch, and load regression tests
-- build environment and duplicate-type blockers resolved
+- Load ADC conversion and 900 kg overload threshold implemented
+- 850 kg overload-clear hysteresis implemented
+- ADC read failures fail safe as overloaded
+- Door PWM and direction control implemented on Timer1 OC1B
+- Car FSM overload/obstruction priority handling implemented
+- Hoist braking enforced while the door is open
+- Door FSM obstruction reversal and three-strike jam handling implemented
+- Load, FSM, and system regression tests pass
+- Duplicate shared-type and build-link blockers resolved
 
-### Youssef Saeed remaining validation:
-- verify Timer2 ownership and buzzer behavior in the simulator or on hardware
-- verify door OC1B PWM direction and load ADC channel/calibration on hardware
-- complete end-to-end validation with hoist, motion, safety, dispatch, and console
+### Youssef Nasser Farouk:
+- Hoist direction, PWM clamping, braking, and door interlock implemented
+- Motion target selection, acceleration, slowdown, creep, levelling, and relevel fault handling implemented
+- Safety E-stop, overtravel, door/motion interlock, overload hysteresis, and sustained overcurrent handling implemented
+- Hoist, motion, and safety behavior covered by native system regression tests
 
-### Youssef Nasser:
-- hoist.c (not tested)
-- motion (not tested)
-- safety (not tested)
-- simulation (not tested)
+### System integration:
+- `main.c` now initializes the drivers and application modules instead of running the former LCD demonstration loop
+- Console calls flow into dispatch call maps
+- Dispatch selects targets for motion
+- Motion drives the hoist through the door interlock
+- Safety faults brake the hoist and enter the fault log
+- Door dwell and door FSM behavior are connected to the runtime loop
+- LCD is refreshed from live controller state
+- Native regression suites are automated through `make test`
+- Clean ATmega32 firmware build passes through `make verify`
+
+## Remaining Work
+
+### Software/documentation limitations
+- Console telemetry currently returns a basic `OK` response; full live call/state telemetry is not implemented
+- Door dwell timing is implemented in the supervisory loop, but door position sensors and timeout handling are not connected
+- Arrival chime sequencing and separate alarm-tone patterns are not implemented beyond the buzzer duty APIs
+- Fire-service behavior and a complete emergency-service state flow are not implemented in the runtime
+- Generated files under `AVR_NTI/build` are tracked; repository cleanup or `.gitignore` policy remains a maintenance decision
+
+### External validation unavailable
+- Proteus is not available in the current environment
+- Physical-hardware work is out of scope
+- Timer2 buzzer frequency and alarm behavior cannot be externally verified here
+- Door OC1B PWM, direction polarity, end stops, and obstruction polarity cannot be externally verified here
+- Load and position ADC calibration cannot be externally verified here
+- Hoist direction, brake, travel-limit, emergency-stop, sensor-failure, and recovery behavior cannot be externally verified here
+
+### Verification status:
+- `make test`: FSM, dispatch, load, system logic, and hoist tests pass
+- `make verify`: clean ATmega32 firmware build passes
+- `main` is synchronized with `origin/main` at commit `f4dc41c`
+- physical-hardware validation: intentionally out of scope
+- simulator validation: unavailable because Proteus is not installed

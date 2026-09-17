@@ -106,6 +106,18 @@ LOAD_IsOverloaded:
 /* epilogue start */
 	ret
 	.size	LOAD_IsOverloaded, .-LOAD_IsOverloaded
+	.section	.text.LOAD_IsReadValid,"ax",@progbits
+.global	LOAD_IsReadValid
+	.type	LOAD_IsReadValid, @function
+LOAD_IsReadValid:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	lds r24,g_loadReadValid
+/* epilogue start */
+	ret
+	.size	LOAD_IsReadValid, .-LOAD_IsReadValid
 	.section	.bss.g_loadReadValid,"aw",@nobits
 	.type	g_loadReadValid, @object
 	.size	g_loadReadValid, 1
