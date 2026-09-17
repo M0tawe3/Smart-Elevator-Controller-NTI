@@ -154,18 +154,17 @@ Extra: Hardwware design and general testing<br>
 - Fire-service behavior and a complete emergency-service state flow are not implemented in the runtime
 - Generated files under `AVR_NTI/build` are tracked; repository cleanup or `.gitignore` policy remains a maintenance decision
 
-### Simulator-only validation
-- Run the integrated controller with `Smart Elevator.sim1`; physical-hardware work is out of scope
-- Verify Timer2 buzzer frequency, arrival chimes, overload alarms, and E-stop alarms
-- Verify door OC1B PWM frequency, direction polarity, end stops, and obstruction sensor polarity
-- Verify the load ADC channel and simulated calibration against the 900/850 kg thresholds
-- Verify position ADC calibration, floor boundaries, and ±3 cm levelling behavior
-- Verify hoist OC1A direction, brake behavior, travel limits, and the door-open interlock in simulation
-- Verify emergency stop, overcurrent sensing, sensor failures, and fault recovery in simulation
+### External validation unavailable
+- Proteus is not available in the current environment
+- Physical-hardware work is out of scope
+- Timer2 buzzer frequency and alarm behavior cannot be externally verified here
+- Door OC1B PWM, direction polarity, end stops, and obstruction polarity cannot be externally verified here
+- Load and position ADC calibration cannot be externally verified here
+- Hoist direction, brake, travel-limit, emergency-stop, sensor-failure, and recovery behavior cannot be externally verified here
 
 ### Verification status:
 - `make test`: FSM, dispatch, load, system logic, and hoist tests pass
 - `make verify`: clean ATmega32 firmware build passes
-- `main` is synchronized with `origin/main` at commit `7185be6`
+- `main` is synchronized with `origin/main` at commit `f4dc41c`
 - physical-hardware validation: intentionally out of scope
-- simulator validation: still pending
+- simulator validation: unavailable because Proteus is not installed
