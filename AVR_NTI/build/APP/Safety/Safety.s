@@ -24,13 +24,13 @@ SAF_Evaluate:
 	ldi r24,lo8(1)
 	std Y+18,r24
 	ldi r24,lo8(15)
-.L23:
 	std Y+14,r24
-.L1:
+	ldi r24,lo8(1)
+	ldi r25,0
 /* epilogue start */
 	pop r29
 	pop r28
-	ret
+	jmp FL_AddFault
 .L4:
 	ld r24,Y
 	ldd r25,Y+1
@@ -38,10 +38,18 @@ SAF_Evaluate:
 	sbci r25,3
 	brlo .L5
 	ldi r24,lo8(3)
-.L24:
 	std Y+18,r24
+	ldi r25,0
+.L24:
+	call FL_AddFault
 	ldi r24,lo8(14)
-	rjmp .L23
+.L23:
+	std Y+14,r24
+.L1:
+/* epilogue start */
+	pop r29
+	pop r28
+	ret
 .L5:
 	ldd r24,Y+4
 	cpi r24,lo8(6)
@@ -50,6 +58,8 @@ SAF_Evaluate:
 	cpi r24,lo8(0)
 	breq .L6
 	ldi r24,lo8(9)
+	std Y+18,r24
+	ldi r25,0
 	rjmp .L24
 .L6:
 	ldd r24,Y+7
@@ -66,6 +76,8 @@ SAF_Evaluate:
 	sbiw r24,50
 	brlo .L9
 	ldi r24,lo8(6)
+	std Y+18,r24
+	ldi r25,0
 	rjmp .L24
 .L7:
 	sts s_overcurrentTimer,__zero_reg__
@@ -94,6 +106,8 @@ SAF_Evaluate:
 	std Y+17,r24
 	ldi r24,lo8(2)
 	std Y+18,r24
+	ldi r25,0
+	call FL_AddFault
 	ldd r24,Y+14
 	cpi r24,lo8(2)
 	breq .L12

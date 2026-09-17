@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include "Safety.h"
 #include "GPIO_interface.h"
+#include "APP/Fault_log/fault_log.h"
 
 #define OVERLOAD_SET_KG     900U
 #define OVERLOAD_CLEAR_KG   850U
@@ -18,17 +19,20 @@ void SAF_Evaluate(CarData_t *car) {
     if (car->estop) {
         car->activeFault = FLT_ESTOP;
         car->state = CS_ESTOP;
+        FL_AddFault(FLT_ESTOP);
         return;
     }
 
     if (car->positionCm > 1005U) {
         car->activeFault = FLT_OVERTRAVEL;
+        FL_AddFault(FLT_OVERTRAVEL);
         car->state = CS_FAULT;
         return;
     }
 
     if ((car->doorPct > 5U) && (car->hoistDuty > 0U)) {
         car->activeFault = FLT_DOOR_JAM;
+        FL_AddFault(FLT_DOOR_JAM);
         car->state = CS_FAULT;
         return;
     }
@@ -37,6 +41,7 @@ void SAF_Evaluate(CarData_t *car) {
         s_overcurrentTimer++;
         if (s_overcurrentTimer >= OVERCURRENT_TICKS) {
             car->activeFault = FLT_OVERCURRENT;
+            FL_AddFault(FLT_OVERCURRENT);
             car->state = CS_FAULT;
             return;
         }
@@ -54,6 +59,7 @@ void SAF_Evaluate(CarData_t *car) {
     if (car->loadKg >= OVERLOAD_SET_KG) {
         car->overload = 1U;
         car->activeFault = FLT_OVERLOAD;
+        FL_AddFault(FLT_OVERLOAD);
         if (car->state == CS_IDLE || car->state == CS_DOOR_OPEN) {
             car->state = CS_OVERLOAD;
             GPIO_SetPinValue(GPIO_PORTC, GPIO_PIN7, GPIO_HIGH);

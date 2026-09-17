@@ -19,7 +19,7 @@ void FL_Clear(void)
     g_logCount = 0U;
 }
 
-void FL_AddFault(uint8 faultCode)
+void FL_AddFault(Fault_t faultCode)
 {
     if (g_logCount < FAULT_LOG_DEPTH)
     {

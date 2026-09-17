@@ -7,7 +7,7 @@
 
 void FL_Init(void);
 void FL_Clear(void);
-void FL_AddFault(uint8 faultCode);
+void FL_AddFault(Fault_t faultCode);
 uint8 FL_GetCount(void);
 uint8 FL_ReadNewest(void);
 uint8 FL_ReadOldest(void);

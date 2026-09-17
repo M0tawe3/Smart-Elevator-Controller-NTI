@@ -993,6 +993,11 @@ int main(void)
                 DoorFSM_UpdatePosition(obstructionPin == 0u ? 1U : 0U,
                                        car.doorPct);
                 car.doorState = DoorFSM_GetState();
+                if (car.doorState == DOOR_STATE_JAMMED)
+                {
+                    car.activeFault = FLT_DOOR_JAM;
+                    car.state = CS_FAULT;
+                }
                 if (car.doorState == DOOR_STATE_CLOSED)
                 {
                     DRV_Stop();

@@ -274,6 +274,22 @@ STD_ReturnType GPIO_SetPortValue(uint8 Copy_u8Port, uint8 Copy_u8Value);
 
 STD_ReturnType GPIO_GetPortValue(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
 # 4 "APP/Safety/Safety.c" 2
+# 1 "./APP/Fault_log/fault_log.h" 1
+
+
+
+
+
+
+
+void FL_Init(void);
+void FL_Clear(void);
+void FL_AddFault(uint8 faultCode);
+uint8 FL_GetCount(void);
+uint8 FL_ReadNewest(void);
+uint8 FL_ReadOldest(void);
+uint8 FL_ReadAt(uint8 index);
+# 5 "APP/Safety/Safety.c" 2
 
 
 
@@ -291,17 +307,20 @@ void SAF_Evaluate(CarData_t *car) {
     if (car->estop) {
         car->activeFault = FLT_ESTOP;
         car->state = CS_ESTOP;
+        FL_AddFault(FLT_ESTOP);
         return;
     }
 
     if (car->positionCm > 1005U) {
         car->activeFault = FLT_OVERTRAVEL;
+        FL_AddFault(FLT_OVERTRAVEL);
         car->state = CS_FAULT;
         return;
     }
 
     if ((car->doorPct > 5U) && (car->hoistDuty > 0U)) {
         car->activeFault = FLT_DOOR_JAM;
+        FL_AddFault(FLT_DOOR_JAM);
         car->state = CS_FAULT;
         return;
     }
@@ -310,6 +329,7 @@ void SAF_Evaluate(CarData_t *car) {
         s_overcurrentTimer++;
         if (s_overcurrentTimer >= 50U) {
             car->activeFault = FLT_OVERCURRENT;
+            FL_AddFault(FLT_OVERCURRENT);
             car->state = CS_FAULT;
             return;
         }
@@ -327,6 +347,7 @@ void SAF_Evaluate(CarData_t *car) {
     if (car->loadKg >= 900U) {
         car->overload = 1U;
         car->activeFault = FLT_OVERLOAD;
+        FL_AddFault(FLT_OVERLOAD);
         if (car->state == CS_IDLE || car->state == CS_DOOR_OPEN) {
             car->state = CS_OVERLOAD;
             GPIO_SetPinValue(2u, 7u, 1u);
