@@ -52,11 +52,13 @@ ADC_ReadChannel:
 	cpc r23,r22
 	breq .L10
 	in r25,0x7
+	andi r25,lo8(-32)
 	or r25,r24
 	out 0x7,r25
+	sbi 0x6,4
 	sbi 0x6,6
 .L8:
-	sbis 0x6,4
+	sbic 0x6,6
 	rjmp .L8
 	sbi 0x6,4
 	in r24,0x4
@@ -82,15 +84,17 @@ ADC_StartConversion:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpi r24,lo8(8)
-	brsh .L15
+	brsh .L14
 	in r25,0x7
+	andi r25,lo8(-32)
 	or r25,r24
 	out 0x7,r25
+	sbi 0x6,4
 	sbi 0x6,6
 	ldi r24,0
 	ldi r25,0
 	ret
-.L15:
+.L14:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -105,9 +109,9 @@ ADC_GetResult:
 /* stack size = 0 */
 .L__stack_usage = 0
 	sbiw r24,0
-	breq .L19
+	breq .L18
 	sbis 0x6,4
-	rjmp .L19
+	rjmp .L18
 	sbi 0x6,4
 	in r20,0x5
 	in r18,0x4
@@ -117,7 +121,7 @@ ADC_GetResult:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L19:
+.L18:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */
@@ -132,17 +136,17 @@ ADC_SetInterrupt:
 /* stack size = 0 */
 .L__stack_usage = 0
 	cpi r24,lo8(1)
-	brlo .L22
-	brne .L24
+	brlo .L21
+	brne .L23
 	sbi 0x6,3
-.L23:
+.L22:
 	ldi r24,0
 	ldi r25,0
 	ret
-.L22:
+.L21:
 	cbi 0x6,3
-	rjmp .L23
-.L24:
+	rjmp .L22
+.L23:
 	ldi r24,lo8(1)
 	ldi r25,0
 /* epilogue start */

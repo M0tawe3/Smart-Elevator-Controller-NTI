@@ -1,8 +1,8 @@
-# 0 "HAL/HC595/HC595.c"
+# 0 "APP/Fault_log/fault_log.c"
 # 0 "<built-in>"
 # 0 "<command-line>"
-# 1 "HAL/HC595/HC595.c"
-# 1 "HAL/HC595/HC595.h" 1
+# 1 "APP/Fault_log/fault_log.c"
+# 1 "APP/Fault_log/fault_log.h" 1
 
 
 
@@ -122,97 +122,87 @@ typedef enum
     DIR_UP,
     DIR_DOWN
 } Dir_t;
-# 5 "HAL/HC595/HC595.h" 2
+# 5 "APP/Fault_log/fault_log.h" 2
 
 
 
+void FL_Init(void);
+void FL_Clear(void);
+void FL_AddFault(uint8 faultCode);
+uint8 FL_GetCount(void);
+uint8 FL_ReadNewest(void);
+uint8 FL_ReadOldest(void);
+uint8 FL_ReadAt(uint8 index);
+# 2 "APP/Fault_log/fault_log.c" 2
 
-void SEG_Show(uint8 floor, Dir_t dir);
-# 2 "HAL/HC595/HC595.c" 2
-# 1 "MCAL/GPIO/GPIO_interface.h" 1
-# 43 "MCAL/GPIO/GPIO_interface.h"
-STD_ReturnType GPIO_SetPinDirection(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
+static uint8 g_faultLog[16U];
+static uint8 g_logHead = 0U;
+static uint8 g_logCount = 0U;
 
-
-
-
-STD_ReturnType GPIO_SetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
-
-
-
-
-STD_ReturnType GPIO_GetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
-
-
-
-
-STD_ReturnType GPIO_TogglePinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-
-
-
-
-STD_ReturnType GPIO_SetPortDirection(uint8 Copy_u8Port, uint8 Copy_u8Direction);
-
-
-
-
-STD_ReturnType GPIO_SetPortValue(uint8 Copy_u8Port, uint8 Copy_u8Value);
-
-
-
-
-STD_ReturnType GPIO_GetPortValue(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
-# 3 "HAL/HC595/HC595.c" 2
-# 1 "MCAL/SPI/SPI_interface.h" 1
-# 30 "MCAL/SPI/SPI_interface.h"
-STD_ReturnType SPI_InitMaster(uint8 Copy_u8Prescaler);
-
-
-
-
-STD_ReturnType SPI_InitSlave(void);
-
-
-
-
-
-STD_ReturnType SPI_Transceive(uint8 Copy_u8Sent, uint8 *Copy_pu8Received);
-
-
-
-
-
-STD_ReturnType SPI_SelectSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-STD_ReturnType SPI_ReleaseSlave(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-# 4 "HAL/HC595/HC595.c" 2
-
-static const uint8 digits[4] = {0b00111111, 0b00000110, 0b01011011, 0b01001111};
-
-void SEG_Show(uint8 floor, Dir_t dir)
+void FL_Init(void)
 {
-    if(floor >= 4u)
-        return;
+    FL_Clear();
+}
 
-    uint8 dummy;
-
-
-    SPI_Transceive(digits[floor], &dummy);
-
-
-    GPIO_SetPinValue(2u, 3u, 1u);
-    GPIO_SetPinValue(2u, 3u, 0u);
-
-    switch(dir){
-        case DIR_DOWN:
-        GPIO_SetPinValue(2u, 5u, 1u);
-        GPIO_SetPinValue(2u, 4u, 0u);
-        break;
-        case DIR_UP:
-        GPIO_SetPinValue(2u, 4u, 1u);
-        GPIO_SetPinValue(2u, 5u, 0u);
-        break;
-        default:
-        GPIO_SetPinValue(2u, 4u, 0u);
-        GPIO_SetPinValue(2u, 5u, 0u);
+void FL_Clear(void)
+{
+    for (uint8 i = 0U; i < 16U; i++)
+    {
+        g_faultLog[i] = 0U;
     }
+    g_logHead = 0U;
+    g_logCount = 0U;
+}
+
+void FL_AddFault(uint8 faultCode)
+{
+    if (g_logCount < 16U)
+    {
+        g_faultLog[g_logHead] = faultCode;
+        g_logHead = (g_logHead + 1U) % 16U;
+        g_logCount++;
+    }
+    else
+    {
+        g_faultLog[g_logHead] = faultCode;
+        g_logHead = (g_logHead + 1U) % 16U;
+    }
+}
+
+uint8 FL_GetCount(void)
+{
+    return g_logCount;
+}
+
+uint8 FL_ReadNewest(void)
+{
+    if (g_logCount == 0U)
+    {
+        return 0U;
+    }
+
+    uint8 idx = (g_logHead + 16U - 1U) % 16U;
+    return g_faultLog[idx];
+}
+
+uint8 FL_ReadOldest(void)
+{
+    if (g_logCount == 0U)
+    {
+        return 0U;
+    }
+
+    uint8 oldestIndex = (g_logHead + 16U - g_logCount) % 16U;
+    return g_faultLog[oldestIndex];
+}
+
+uint8 FL_ReadAt(uint8 index)
+{
+    if (index >= g_logCount)
+    {
+        return 0U;
+    }
+
+    uint8 actual = (g_logHead + 16U - g_logCount + index) % 16U;
+    return g_faultLog[actual];
 }

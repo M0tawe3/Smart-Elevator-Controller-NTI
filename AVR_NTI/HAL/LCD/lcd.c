@@ -56,26 +56,17 @@ STD_ReturnType LCD_WriteData(uint8 data)
     return result;
 }
 
-void LCD_Update(uint8 floor, Dir_t dir, uint16 load){
-    LCD_WriteData('F');
-    TIMER0_DelayMS(1);
-    LCD_WriteData('L');
-    TIMER0_DelayMS(1);
-    LCD_WriteData(floor+48);
-    TIMER0_DelayMS(1);
-    LCD_WriteData(' ');
-    TIMER0_DelayMS(1);
-    switch(dir){
-        case DIR_DOWN:
-        LCD_WriteData('v');
-        break;
-        case DIR_UP:
-        LCD_WriteData('^');
-        break;
-        default:
-        LCD_WriteData('-');
+void LCD_Update(const char* frame){
+    STD_ReturnType result = I2C_SendStart();
+    if (result == E_OK) result = I2C_SendSlaveAddressWithWrite(LCD_ADDRESS);
+    if (result == E_OK) result = I2C_SendByte(0x40U);
+    
+    uint8 i = 0;
+    while(frame[i] != '\0'){
+        if (result == E_OK) result = I2C_SendByte(frame[i]);
+        i++;
     }
-    TIMER0_DelayMS(1);
+    I2C_SendStop();
 
 }
 
@@ -144,6 +135,13 @@ void LCD_UpdateFrame(char *frame, uint8 floor, Dir_t dir, uint16 positionCm, uin
 
     switch(faultActive)
     {
+        case FLT_OVERLOAD:
+        if (faultBlinkOn != 0U)
+            snprintf(line2, sizeof(line2), "!OVERLOAD %u", (unsigned int)loadKg);
+        else
+            snprintf(line2, sizeof(line2), "LD:%u D:%u STOP", (unsigned int)loadKg, door);
+        break;
+
         case FLT_ESTOP:
         if (faultBlinkOn != 0U)
             snprintf(line2, sizeof(line2), "!EMERGENCY STOP");

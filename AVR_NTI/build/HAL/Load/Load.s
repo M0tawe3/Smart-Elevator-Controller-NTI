@@ -15,7 +15,11 @@ LOAD_Init:
 .L__stack_usage = 0
 	ldi r22,lo8(6)
 	ldi r24,lo8(1)
-	jmp ADC_Init
+	call ADC_Init
+	sts g_overloadLatched,__zero_reg__
+	sts g_loadReadValid,__zero_reg__
+/* epilogue start */
+	ret
 	.size	LOAD_Init, .-LOAD_Init
 	.section	.text.LOAD_ReadKg,"ax",@progbits
 .global	LOAD_ReadKg
@@ -38,9 +42,27 @@ LOAD_ReadKg:
 	ldi r24,lo8(1)
 	call ADC_ReadChannel
 	or r24,r25
-	brne .L4
+	breq .L3
+	sts g_loadReadValid,__zero_reg__
+	ldi r24,0
+	ldi r25,0
+.L2:
+/* epilogue start */
+	pop __tmp_reg__
+	pop __tmp_reg__
+	pop r29
+	pop r28
+	ret
+.L3:
+	ldi r24,lo8(1)
+	sts g_loadReadValid,r24
 	ldd r18,Y+1
 	ldd r19,Y+2
+	cpi r19,4
+	brlo .L5
+	ldi r18,lo8(-1)
+	ldi r19,lo8(3)
+.L5:
 	ldi r26,lo8(-24)
 	ldi r27,lo8(3)
 	call __umulhisi3
@@ -50,16 +72,6 @@ LOAD_ReadKg:
 	ldi r21,0
 	call __udivmodsi4
 	movw r24,r18
-.L2:
-/* epilogue start */
-	pop __tmp_reg__
-	pop __tmp_reg__
-	pop r29
-	pop r28
-	ret
-.L4:
-	ldi r24,0
-	ldi r25,0
 	rjmp .L2
 	.size	LOAD_ReadKg, .-LOAD_ReadKg
 	.section	.text.LOAD_IsOverloaded,"ax",@progbits
@@ -71,14 +83,38 @@ LOAD_IsOverloaded:
 /* stack size = 0 */
 .L__stack_usage = 0
 	call LOAD_ReadKg
-	movw r18,r24
+	lds r18,g_loadReadValid
+	cpi r18,lo8(0)
+	breq .L10
+	cpi r24,-124
+	ldi r18,3
+	cpc r25,r18
+	brlo .L8
 	ldi r24,lo8(1)
-	cpi r18,-123
-	sbci r19,3
-	brsh .L6
-	ldi r24,0
-.L6:
+	sts g_overloadLatched,r24
+.L9:
+	lds r24,g_overloadLatched
+	ret
+.L8:
+	cpi r24,83
+	sbci r25,3
+	brsh .L9
+	sts g_overloadLatched,__zero_reg__
+	rjmp .L9
+.L10:
+	ldi r24,lo8(1)
 /* epilogue start */
 	ret
 	.size	LOAD_IsOverloaded, .-LOAD_IsOverloaded
+	.section	.bss.g_loadReadValid,"aw",@nobits
+	.type	g_loadReadValid, @object
+	.size	g_loadReadValid, 1
+g_loadReadValid:
+	.zero	1
+	.section	.bss.g_overloadLatched,"aw",@nobits
+	.type	g_overloadLatched, @object
+	.size	g_overloadLatched, 1
+g_overloadLatched:
+	.zero	1
 	.ident	"GCC: (SUSE Linux) 15.3.0"
+.global __do_clear_bss

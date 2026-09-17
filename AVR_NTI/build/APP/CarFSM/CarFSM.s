@@ -13,7 +13,8 @@ CarFSM_Init:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	sts g_carState,__zero_reg__
+	ldi r24,lo8(2)
+	sts g_carState,r24
 	sts g_carState+1,__zero_reg__
 	call DoorFSM_Init
 	jmp HST_Init
@@ -28,36 +29,28 @@ CarFSM_Update:
 .L__stack_usage = 0
 	cpi r24,lo8(0)
 	breq .L3
-	ldi r24,lo8(3)
-.L10:
-	sts g_carState,r24
-	sts g_carState+1,__zero_reg__
-	rjmp .L9
-.L3:
-	cpi r22,lo8(0)
-	breq .L4
-	ldi r24,lo8(2)
-	sts g_carState,r24
-	sts g_carState+1,__zero_reg__
-/* epilogue start */
-	ret
-.L4:
-	cpi r20,lo8(0)
-	breq .L6
-	sts g_carState,__zero_reg__
-	sts g_carState+1,__zero_reg__
-.L9:
-	jmp HST_Brake
-.L6:
-	cpi r18,lo8(0)
-	breq .L7
-	ldi r24,lo8(4)
-	rjmp .L10
+	ldi r24,lo8(11)
 .L7:
-	ldi r24,lo8(1)
+	sts g_carState,r24
+	sts g_carState+1,__zero_reg__
+	jmp HST_Brake
+.L3:
+	cpi r18,lo8(0)
+	breq .L4
+	ldi r24,lo8(14)
+	rjmp .L7
+.L4:
+	ldi r24,lo8(4)
+	cpse r22,__zero_reg__
+	rjmp .L7
+	ldi r24,lo8(2)
+	cpse r20,__zero_reg__
+	rjmp .L7
+	ldi r24,lo8(7)
 	ldi r25,0
 	sts g_carState,r24
 	sts g_carState+1,__zero_reg__
+	ldi r24,lo8(1)
 	call HST_SetDir
 	ldi r22,0
 	ldi r24,lo8(50)
@@ -76,10 +69,10 @@ CarFSM_GetState:
 /* epilogue start */
 	ret
 	.size	CarFSM_GetState, .-CarFSM_GetState
-	.section	.bss.g_carState,"aw",@nobits
+	.section	.data.g_carState,"aw"
 	.type	g_carState, @object
 	.size	g_carState, 2
 g_carState:
-	.zero	2
+	.word	2
 	.ident	"GCC: (SUSE Linux) 15.3.0"
-.global __do_clear_bss
+.global __do_copy_data

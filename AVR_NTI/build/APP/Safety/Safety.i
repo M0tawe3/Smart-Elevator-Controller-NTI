@@ -132,14 +132,9 @@ typedef unsigned int size_t;
 # 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
+# 23 "LIB/STD_TYPES.h"
 
-
-
-
-
-
-
-# 18 "LIB/STD_TYPES.h"
+# 23 "LIB/STD_TYPES.h"
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned long uint32;
@@ -168,9 +163,19 @@ typedef enum {
     CS_ESTOP
 } CarState_t;
 
+
+typedef enum {
+    DOOR_STATE_CLOSED = 0U,
+    DOOR_STATE_OPENING,
+    DOOR_STATE_OPEN,
+    DOOR_STATE_CLOSING,
+    DOOR_STATE_JAMMED
+} DoorState_t;
+
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
+    FLT_OVERLOAD,
     FLT_OVERTRAVEL,
     FLT_TRAVEL_TIMEOUT,
     FLT_DOOR_TIMEOUT,
@@ -181,54 +186,42 @@ typedef enum {
 } Fault_t;
 
 typedef struct {
-    uint8_t carCall;
-    uint8_t hallUp;
-    uint8_t hallDown;
-} Calls_t;
-
-typedef struct {
-    uint16_t positionCm;
-    uint8_t currentFloor;
-    uint8_t targetFloor;
-    uint8_t doorPct;
-    uint16_t loadKg;
-    uint16_t currentmA;
-    Calls_t calls;
-    uint8_t dir;
-    uint8_t lastDir;
-    uint8_t state;
-    uint8_t doorState;
-    uint8_t hoistDuty;
-    uint8_t overload : 1;
-    uint8_t fireService : 1;
-    uint8_t independent : 1;
-    uint8_t estop : 1;
-    uint8_t obstruction : 1;
-    uint8_t levelled : 1;
-    uint8_t reserved : 2;
-    uint8_t activeFault;
-    uint16_t doorDwellTicks;
-    uint32_t tripCount;
-    uint32_t doorCycles;
-    uint32_t upTimeSec;
-} CarData_t;
-
-typedef enum
-{
-    E_OK = 0,
-    E_NOK = 1
-} STD_ReturnType;
-
-
-
-
-
-typedef struct
-{
     uint8 carCall;
     uint8 hallUp;
     uint8 hallDown;
 } Calls_t;
+
+typedef struct {
+    uint16 positionCm;
+    uint8 currentFloor;
+    uint8 targetFloor;
+    uint8 doorPct;
+    uint16 loadKg;
+    uint16 currentmA;
+    Calls_t calls;
+    uint8 dir;
+    uint8 lastDir;
+    uint8 state;
+    uint8 doorState;
+    uint8 hoistDuty;
+    uint8 overload : 1;
+    uint8 fireService : 1;
+    uint8 independent : 1;
+    uint8 estop : 1;
+    uint8 obstruction : 1;
+    uint8 levelled : 1;
+    uint8 reserved : 2;
+    uint8 activeFault;
+    uint16 doorDwellTicks;
+    uint32 tripCount;
+    uint32 doorCycles;
+    uint32 upTimeSec;
+} CarData_t;
+
+typedef enum {
+    E_OK = 0,
+    E_NOK = 1
+} STD_ReturnType;
 
 typedef enum
 {
@@ -237,8 +230,7 @@ typedef enum
     CALL_HALL_DOWN
 } CallType_t;
 
-typedef enum
-{
+typedef enum {
     DIR_NONE,
     DIR_UP,
     DIR_DOWN
@@ -246,8 +238,43 @@ typedef enum
 # 5 "APP/Safety/Safety.h" 2
 
 void SAF_Evaluate(CarData_t *car);
-uint8_t SAF_Active(const CarData_t *car);
+uint8 SAF_Active(const CarData_t *car);
 # 3 "APP/Safety/Safety.c" 2
+# 1 "MCAL/GPIO/GPIO_interface.h" 1
+# 43 "MCAL/GPIO/GPIO_interface.h"
+STD_ReturnType GPIO_SetPinDirection(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
+
+
+
+
+STD_ReturnType GPIO_SetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
+
+
+
+
+STD_ReturnType GPIO_GetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
+
+
+
+
+STD_ReturnType GPIO_TogglePinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin);
+
+
+
+
+STD_ReturnType GPIO_SetPortDirection(uint8 Copy_u8Port, uint8 Copy_u8Direction);
+
+
+
+
+STD_ReturnType GPIO_SetPortValue(uint8 Copy_u8Port, uint8 Copy_u8Value);
+
+
+
+
+STD_ReturnType GPIO_GetPortValue(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
+# 4 "APP/Safety/Safety.c" 2
+
 
 
 
@@ -288,15 +315,33 @@ void SAF_Evaluate(CarData_t *car) {
         }
     } else {
         s_overcurrentTimer = 0U;
+        if (car->currentmA <= 14000U &&
+            car->activeFault == FLT_OVERCURRENT) {
+            car->activeFault = FLT_NONE;
+            if (car->state == CS_FAULT) {
+                car->state = CS_IDLE;
+            }
+        }
     }
 
     if (car->loadKg > 900U) {
         car->overload = 1U;
+        car->activeFault = FLT_OVERLOAD;
         if (car->state == CS_IDLE || car->state == CS_DOOR_OPEN) {
             car->state = CS_OVERLOAD;
+            GPIO_SetPinValue(2u, 7u, 1u);
         }
     } else if (car->overload && (car->loadKg < 850U)) {
         car->overload = 0U;
+        car->activeFault = FLT_NONE;
+        GPIO_SetPinValue(2u, 7u, 0u);
+        if (car->state == CS_OVERLOAD) {
+            car->state = CS_IDLE;
+        }
+    } else {
+        if (car->state == CS_OVERLOAD && car->activeFault == FLT_NONE) {
+            car->state = CS_IDLE;
+        }
     }
 }
 

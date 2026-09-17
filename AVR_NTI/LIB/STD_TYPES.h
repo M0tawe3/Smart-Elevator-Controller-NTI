@@ -60,6 +60,7 @@ typedef enum {
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
+    FLT_OVERLOAD,
     FLT_OVERTRAVEL,
     FLT_TRAVEL_TIMEOUT,
     FLT_DOOR_TIMEOUT,

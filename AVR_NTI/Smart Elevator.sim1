@@ -1,6 +1,6 @@
 <circuit version="1.1.0-SR2" rev="260312" stepSize="1000000" stepsPS="1000000" NLsteps="100000" reaStep="1000000" animate="0" >
 
-<item itemtype="MCU" CircId="mega32-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-160,-32" rotation="0" hflip="1" vflip="1" label="mega32-1" idLabPos="-15.5919,-15.113" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="8 MHz" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Wdt_enabled="false" MainMcu="true" SerialMon="-1" />
+<item itemtype="MCU" CircId="mega32-1" mainComp="false" Show_id="true" Show_Val="false" Pos="-160,-32" rotation="0" hflip="1" vflip="1" label="mega32-1" idLabPos="-15.5919,-15.113" labelrot="0" valLabPos="-16,20" valLabRot="0" Frequency="8 MHz" Program="build/program.hex" Auto_Load="false" saveEepr="true" Logic_Symbol="false" Wdt_enabled="false" MainMcu="true" SerialMon="-1" />
 
 <item itemtype="Potentiometer" CircId="Potentiometer-4" mainComp="false" ShowProp="Resistance" Show_id="true" Show_Val="true" Pos="-80,-56" rotation="360" hflip="1" vflip="1" label="Shaft Position" idLabPos="-28.1974,4.09107" labelrot="0" valLabPos="16.4417,-19.0388" valLabRot="0" Resistance="10 kΩ" Value_Ohm="800 Ω" Slider="false" Scale="1" />
 
@@ -196,8 +196,6 @@
 
 <item itemtype="Node" CircId="Node-130" mainComp="false" Pos="-200,312" />
 
-<item itemtype="Node" CircId="Node-131" mainComp="false" Pos="-236,228" />
-
 <item itemtype="Node" CircId="Node-132" mainComp="false" Pos="-132,228" />
 
 <item itemtype="Node" CircId="Node-136" mainComp="false" Pos="-492,108" />
@@ -257,6 +255,8 @@
 <item itemtype="Node" CircId="Node-212" mainComp="false" Pos="-28,120" />
 
 <item itemtype="Node" CircId="Node-213" mainComp="false" Pos="-64,112" />
+
+<item itemtype="Node" CircId="Node-131" mainComp="false" Pos="-236,228" />
 
 <item itemtype="Connector" uid="Connector-1" startpinid="Potentiometer-4-PinM" endpinid="mega32-1-PORTA0" pointList="-80,-40,-80,-24,-104,-24" />
 
@@ -344,8 +344,6 @@
 
 <item itemtype="Connector" uid="Connector-109" startpinid="Node-53-2" endpinid="74HC165-21-CE" pointList="-308,100,-308,100" />
 
-<item itemtype="Connector" uid="Connector-111" startpinid="74HC595-22-Q0" endpinid="Seven Segment-54-pin_a" pointList="-260,84,-300,84,-300,132,-332,132" />
-
 <item itemtype="Connector" uid="Connector-112" startpinid="74HC595-22-Q1" endpinid="Seven Segment-54-pin_b" pointList="-260,92,-296,92,-296,140,-332,140" />
 
 <item itemtype="Connector" uid="Connector-107" startpinid="Node-53-1" endpinid="mega32-1-PORTB4" pointList="-308,100,-288,100,-288,8,-168,8" />
@@ -359,8 +357,6 @@
 <item itemtype="Connector" uid="Connector-119" startpinid="74HC595-22-Q5" endpinid="Seven Segment-54-pin_f" pointList="-260,124,-272,124,-272,172,-332,172" />
 
 <item itemtype="Connector" uid="Connector-123" startpinid="74HC595-22-Q6" endpinid="Seven Segment-54-pin_g" pointList="-260,132,-268,132,-268,180,-332,180" />
-
-<item itemtype="Connector" uid="Connector-124" startpinid="Seven Segment-54-pin_commona" endpinid="Ground-57-Gnd" pointList="-364,188,-364,200" />
 
 <item itemtype="Connector" uid="Connector-127" startpinid="mega32-1-PORTD0" endpinid="SerialTerm-58-pin0" pointList="-168,80,-176,80,-176,172,-168,172" />
 
@@ -396,8 +392,6 @@
 
 <item itemtype="Connector" uid="Connector-149" startpinid="Fixed Voltage-69-outnod" endpinid="Resistor-70-lPin" pointList="-244,272,-236,272" />
 
-<item itemtype="Connector" uid="Connector-56" startpinid="74HC595-22-STC" endpinid="mega32-1-PORTC3" pointList="-212,84,-196,84,-196,148,-88,148,-88,96,-104,96" />
-
 <item itemtype="Connector" uid="Connector-155" startpinid="Resistor-70-rPin" endpinid="Node-72-0" pointList="-204,272,-192,272" />
 
 <item itemtype="Connector" uid="Connector-156" startpinid="Node-72-2" endpinid="Push-67-pinP0" pointList="-192,272,-176,272" />
@@ -421,12 +415,6 @@
 <item itemtype="Connector" uid="Connector-230" startpinid="Resistor-123-rPin" endpinid="Node-130-0" pointList="-204,312,-200,312" />
 
 <item itemtype="Connector" uid="Connector-231" startpinid="Node-130-2" endpinid="Switch-124-pinP0" pointList="-200,312,-180,312" />
-
-<item itemtype="Connector" uid="Connector-232" startpinid="74HC595-22-!MR" endpinid="Node-131-1" pointList="-212,132,-212,136,-236,136,-236,228" />
-
-<item itemtype="Connector" uid="Connector-233" startpinid="Fixed Voltage-63-outnod" endpinid="Node-131-0" pointList="-244,228,-236,228" />
-
-<item itemtype="Connector" uid="Connector-234" startpinid="Node-131-2" endpinid="Resistor-62-lPin" pointList="-236,228,-228,228" />
 
 <item itemtype="Connector" uid="Connector-236" startpinid="Switch-59-switch0pinN" endpinid="Node-132-0" pointList="-144,228,-132,228" />
 
@@ -608,8 +596,20 @@
 
 <item itemtype="Connector" uid="Connector-422" startpinid="Node-213-1" endpinid="Aip31068_i2c-211PinSDA" pointList="-64,112,-64,260,-36,260" />
 
+<item itemtype="Connector" uid="Connector-154" startpinid="mega32-1-PORTD3" endpinid="Node-72-1" pointList="-168,104,-192,104,-192,272" />
+
+<item itemtype="Connector" uid="Connector-111" startpinid="74HC595-22-Q0" endpinid="Seven Segment-54-pin_a" pointList="-260,84,-300,84,-300,132,-332,132" />
+
 <item itemtype="Connector" uid="Connector-235" startpinid="74HC595-22-!OE" endpinid="Node-132-1" pointList="-212,140,-212,216,-132,216,-132,228" />
 
-<item itemtype="Connector" uid="Connector-154" startpinid="mega32-1-PORTD3" endpinid="Node-72-1" pointList="-168,104,-192,104,-192,272" />
+<item itemtype="Connector" uid="Connector-232" startpinid="74HC595-22-!MR" endpinid="Node-131-1" pointList="-212,132,-212,136,-236,136,-236,228" />
+
+<item itemtype="Connector" uid="Connector-233" startpinid="Fixed Voltage-63-outnod" endpinid="Node-131-0" pointList="-244,228,-236,228" />
+
+<item itemtype="Connector" uid="Connector-234" startpinid="Node-131-2" endpinid="Resistor-62-lPin" pointList="-236,228,-228,228" />
+
+<item itemtype="Connector" uid="Connector-56" startpinid="74HC595-22-STC" endpinid="mega32-1-PORTC3" pointList="-212,84,-196,84,-196,148,-88,148,-88,96,-104,96" />
+
+<item itemtype="Connector" uid="Connector-444" startpinid="Seven Segment-54-pin_commona" endpinid="Ground-57-Gnd" pointList="-364,188,-364,200" />
 
 </circuit>

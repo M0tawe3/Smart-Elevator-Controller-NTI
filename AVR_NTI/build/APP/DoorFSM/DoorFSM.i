@@ -18,6 +18,55 @@ typedef unsigned int size_t;
 # 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
+# 1 "/usr/lib64/gcc/avr/15/include/stdint.h" 1 3 4
+# 9 "/usr/lib64/gcc/avr/15/include/stdint.h" 3 4
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
+# 1 "/usr/avr/sys-root/include/stdint.h" 1 3 4
+# 125 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef signed int int8_t __attribute__((__mode__(__QI__)));
+typedef unsigned int uint8_t __attribute__((__mode__(__QI__)));
+typedef signed int int16_t __attribute__ ((__mode__ (__HI__)));
+typedef unsigned int uint16_t __attribute__ ((__mode__ (__HI__)));
+typedef signed int int32_t __attribute__ ((__mode__ (__SI__)));
+typedef unsigned int uint32_t __attribute__ ((__mode__ (__SI__)));
+
+typedef signed int int64_t __attribute__((__mode__(__DI__)));
+typedef unsigned int uint64_t __attribute__((__mode__(__DI__)));
+# 146 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int16_t intptr_t;
+
+
+
+
+typedef uint16_t uintptr_t;
+# 163 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int8_t int_least8_t;
+
+
+
+
+typedef uint8_t uint_least8_t;
+
+
+
+
+typedef int16_t int_least16_t;
+
+
+
+
+typedef uint16_t uint_least16_t;
+
+
+
+
+typedef int32_t int_least32_t;
+
+
+
+
+typedef uint32_t uint_least32_t;
 
 
 
@@ -25,7 +74,69 @@ typedef int wchar_t;
 
 
 
-# 18 "LIB/STD_TYPES.h"
+typedef int64_t int_least64_t;
+
+
+
+
+
+
+typedef uint64_t uint_least64_t;
+# 217 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int8_t int_fast8_t;
+
+
+
+
+typedef uint8_t uint_fast8_t;
+
+
+
+
+typedef int16_t int_fast16_t;
+
+
+
+
+typedef uint16_t uint_fast16_t;
+
+
+
+
+typedef int32_t int_fast32_t;
+
+
+
+
+typedef uint32_t uint_fast32_t;
+
+
+
+
+
+
+
+typedef int64_t int_fast64_t;
+
+
+
+
+
+
+typedef uint64_t uint_fast64_t;
+# 277 "/usr/avr/sys-root/include/stdint.h" 3 4
+typedef int64_t intmax_t;
+
+
+
+
+typedef uint64_t uintmax_t;
+# 12 "/usr/lib64/gcc/avr/15/include/stdint.h" 2 3 4
+#pragma GCC diagnostic pop
+# 13 "LIB/STD_TYPES.h" 2
+# 23 "LIB/STD_TYPES.h"
+
+# 23 "LIB/STD_TYPES.h"
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned long uint32;
@@ -66,6 +177,7 @@ typedef enum {
 typedef enum {
     FLT_NONE = 0,
     FLT_ESTOP,
+    FLT_OVERLOAD,
     FLT_OVERTRAVEL,
     FLT_TRAVEL_TIMEOUT,
     FLT_DOOR_TIMEOUT,
@@ -76,54 +188,42 @@ typedef enum {
 } Fault_t;
 
 typedef struct {
-    uint8_t carCall;
-    uint8_t hallUp;
-    uint8_t hallDown;
-} Calls_t;
-
-typedef struct {
-    uint16_t positionCm;
-    uint8_t currentFloor;
-    uint8_t targetFloor;
-    uint8_t doorPct;
-    uint16_t loadKg;
-    uint16_t currentmA;
-    Calls_t calls;
-    uint8_t dir;
-    uint8_t lastDir;
-    uint8_t state;
-    uint8_t doorState;
-    uint8_t hoistDuty;
-    uint8_t overload : 1;
-    uint8_t fireService : 1;
-    uint8_t independent : 1;
-    uint8_t estop : 1;
-    uint8_t obstruction : 1;
-    uint8_t levelled : 1;
-    uint8_t reserved : 2;
-    uint8_t activeFault;
-    uint16_t doorDwellTicks;
-    uint32_t tripCount;
-    uint32_t doorCycles;
-    uint32_t upTimeSec;
-} CarData_t;
-
-typedef enum
-{
-    E_OK = 0,
-    E_NOK = 1
-} STD_ReturnType;
-
-
-
-
-
-typedef struct
-{
     uint8 carCall;
     uint8 hallUp;
     uint8 hallDown;
 } Calls_t;
+
+typedef struct {
+    uint16 positionCm;
+    uint8 currentFloor;
+    uint8 targetFloor;
+    uint8 doorPct;
+    uint16 loadKg;
+    uint16 currentmA;
+    Calls_t calls;
+    uint8 dir;
+    uint8 lastDir;
+    uint8 state;
+    uint8 doorState;
+    uint8 hoistDuty;
+    uint8 overload : 1;
+    uint8 fireService : 1;
+    uint8 independent : 1;
+    uint8 estop : 1;
+    uint8 obstruction : 1;
+    uint8 levelled : 1;
+    uint8 reserved : 2;
+    uint8 activeFault;
+    uint16 doorDwellTicks;
+    uint32 tripCount;
+    uint32 doorCycles;
+    uint32 upTimeSec;
+} CarData_t;
+
+typedef enum {
+    E_OK = 0,
+    E_NOK = 1
+} STD_ReturnType;
 
 typedef enum
 {
@@ -132,8 +232,7 @@ typedef enum
     CALL_HALL_DOWN
 } CallType_t;
 
-typedef enum
-{
+typedef enum {
     DIR_NONE,
     DIR_UP,
     DIR_DOWN
@@ -144,6 +243,7 @@ void DoorFSM_Init(void);
 void DoorFSM_Open(void);
 void DoorFSM_Close(void);
 void DoorFSM_Update(uint8 obstructionDetected);
+void DoorFSM_UpdatePosition(uint8 obstructionDetected, uint8 doorPct);
 DoorState_t DoorFSM_GetState(void);
 # 2 "APP/DoorFSM/DoorFSM.c" 2
 # 1 "HAL/Door/Door.h" 1
@@ -191,6 +291,74 @@ void DoorFSM_Close(void)
 
 void DoorFSM_Update(uint8 obstructionDetected)
 {
+    if (g_doorState == DOOR_STATE_JAMMED)
+    {
+        DRV_Stop();
+        return;
+    }
+
+    if (obstructionDetected)
+    {
+        g_obstructionCount++;
+        if (g_obstructionCount >= 3U)
+        {
+            g_doorState = DOOR_STATE_JAMMED;
+            DRV_Stop();
+            return;
+        }
+
+        if (g_doorState == DOOR_STATE_CLOSING)
+        {
+            g_doorState = DOOR_STATE_OPENING;
+            DRV_SetDir(DRV_DIR_OPEN);
+            DRV_SetDuty(50U);
+            return;
+        }
+
+        if (g_doorState == DOOR_STATE_OPENING || g_doorState == DOOR_STATE_OPEN)
+        {
+            g_doorState = DOOR_STATE_OPENING;
+            DRV_SetDir(DRV_DIR_OPEN);
+            DRV_SetDuty(50U);
+            return;
+        }
+    }
+    else
+    {
+        g_obstructionCount = 0U;
+    }
+
+    if (g_doorState == DOOR_STATE_OPENING)
+    {
+        if (!obstructionDetected)
+        {
+            g_doorState = DOOR_STATE_OPEN;
+            DRV_Stop();
+        }
+    }
+    else if (g_doorState == DOOR_STATE_CLOSING)
+    {
+        if (!obstructionDetected)
+        {
+            g_doorState = DOOR_STATE_CLOSED;
+            DRV_Stop();
+        }
+    }
+}
+
+void DoorFSM_UpdatePosition(uint8 obstructionDetected, uint8 doorPct)
+{
+    if (doorPct > 100U)
+    {
+        doorPct = 100U;
+    }
+
+    if (g_doorState == DOOR_STATE_JAMMED)
+    {
+        DRV_Stop();
+        return;
+    }
+
     if (obstructionDetected)
     {
         g_obstructionCount++;
@@ -209,22 +377,20 @@ void DoorFSM_Update(uint8 obstructionDetected)
             return;
         }
     }
-
-    if (g_doorState == DOOR_STATE_OPENING)
+    else
     {
-        if (!obstructionDetected)
-        {
-            g_doorState = DOOR_STATE_OPEN;
-            DRV_Stop();
-        }
+        g_obstructionCount = 0U;
     }
-    else if (g_doorState == DOOR_STATE_CLOSING)
+
+    if (g_doorState == DOOR_STATE_OPENING && doorPct >= 95U)
     {
-        if (!obstructionDetected)
-        {
-            g_doorState = DOOR_STATE_CLOSED;
-            DRV_Stop();
-        }
+        g_doorState = DOOR_STATE_OPEN;
+        DRV_Stop();
+    }
+    else if (g_doorState == DOOR_STATE_CLOSING && doorPct <= 5U)
+    {
+        g_doorState = DOOR_STATE_CLOSED;
+        DRV_Stop();
     }
 }
 

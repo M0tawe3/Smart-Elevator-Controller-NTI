@@ -153,9 +153,108 @@ UART_SetRxInterrupt:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
+	cpse r24,__zero_reg__
+	rjmp .L21
+	cbi 0xa,7
+.L22:
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
 	ret
+.L21:
+	sbi 0xa,7
+	rjmp .L22
 	.size	UART_SetRxInterrupt, .-UART_SetRxInterrupt
+	.section	.text.UART_SetTxInterrupt,"ax",@progbits
+.global	UART_SetTxInterrupt
+	.type	UART_SetTxInterrupt, @function
+UART_SetTxInterrupt:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	cpse r24,__zero_reg__
+	rjmp .L24
+	cbi 0xa,5
+.L25:
+	ldi r24,0
+	ldi r25,0
+/* epilogue start */
+	ret
+.L24:
+	sbi 0xa,5
+	rjmp .L25
+	.size	UART_SetTxInterrupt, .-UART_SetTxInterrupt
+	.section	.text.UART_SetRxCallback,"ax",@progbits
+.global	UART_SetRxCallback
+	.type	UART_SetRxCallback, @function
+UART_SetRxCallback:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	sts g_uartRxCallback,r24
+	sts g_uartRxCallback+1,r25
+	ldi r24,0
+	ldi r25,0
+/* epilogue start */
+	ret
+	.size	UART_SetRxCallback, .-UART_SetRxCallback
+	.section	.text.__vector_13,"ax",@progbits
+.global	__vector_13
+	.type	__vector_13, @function
+__vector_13:
+	push r1
+	push r0
+	in r0,__SREG__
+	push r0
+	clr __zero_reg__
+	push r18
+	push r19
+	push r20
+	push r21
+	push r22
+	push r23
+	push r24
+	push r25
+	push r26
+	push r27
+	push r30
+	push r31
+/* prologue: Signal */
+/* frame size = 0 */
+/* stack size = 15 */
+.L__stack_usage = 15
+	in r24,0xc
+	lds r30,g_uartRxCallback
+	lds r31,g_uartRxCallback+1
+	sbiw r30,0
+	breq .L27
+	icall
+.L27:
+/* epilogue start */
+	pop r31
+	pop r30
+	pop r27
+	pop r26
+	pop r25
+	pop r24
+	pop r23
+	pop r22
+	pop r21
+	pop r20
+	pop r19
+	pop r18
+	pop r0
+	out __SREG__,r0
+	pop r0
+	pop r1
+	reti
+	.size	__vector_13, .-__vector_13
+	.section	.bss.g_uartRxCallback,"aw",@nobits
+	.type	g_uartRxCallback, @object
+	.size	g_uartRxCallback, 2
+g_uartRxCallback:
+	.zero	2
 	.ident	"GCC: (SUSE Linux) 15.3.0"
+.global __do_clear_bss

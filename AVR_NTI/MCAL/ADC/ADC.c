@@ -40,12 +40,16 @@ STD_ReturnType ADC_ReadChannel(uint8 Copy_u8Channel, uint16 *Copy_pu16Reading)
     if (Copy_u8Channel > ADC_CHANNEL_7 || Copy_pu16Reading == NULL)
         return E_NOK;
 
-    ADC_ADMUX_REG |= (Copy_u8Channel & 0x1F); // Set channel
-    SET_BIT(ADC_ADCSRA_REG, ADSC);            // Start conversion
-    while (READ_BIT(ADC_ADCSRA_REG, ADIF) == 0)
+    /* Preserve the reference bits and replace the MUX bits completely. */
+    ADC_ADMUX_REG = (ADC_ADMUX_REG & 0xE0U) | (Copy_u8Channel & 0x1FU);
+    SET_BIT(ADC_ADCSRA_REG, ADIF); /* Clear stale conversion complete flag */
+    SET_BIT(ADC_ADCSRA_REG, ADSC); /* Start conversion */
+
+    while (READ_BIT(ADC_ADCSRA_REG, ADSC) == 1U)
     {
-    } // Wait for conversion to complete
-    SET_BIT(ADC_ADCSRA_REG, ADIF);
+    } /* Wait until the conversion finishes */
+
+    SET_BIT(ADC_ADCSRA_REG, ADIF); /* Clear conversion-complete flag for the next cycle */
     uint8 low = ADC_ADCL_REG;
     uint8 high = ADC_ADCH_REG;
     *Copy_pu16Reading = (high << 8) | low;
@@ -62,8 +66,9 @@ STD_ReturnType ADC_StartConversion(uint8 Copy_u8Channel)
     if (Copy_u8Channel > ADC_CHANNEL_7)
         return E_NOK;
 
-    ADC_ADMUX_REG |= (Copy_u8Channel & 0x1F); // Set channel
-    ADC_ADCSRA_REG |= (1 << ADSC);            // Start conversion
+    ADC_ADMUX_REG = (ADC_ADMUX_REG & 0xE0U) | (Copy_u8Channel & 0x1FU);
+    SET_BIT(ADC_ADCSRA_REG, ADIF);
+    SET_BIT(ADC_ADCSRA_REG, ADSC);
     return E_OK;
 }
 

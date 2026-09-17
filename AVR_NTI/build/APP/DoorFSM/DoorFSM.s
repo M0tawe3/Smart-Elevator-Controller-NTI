@@ -60,25 +60,32 @@ DoorFSM_Update:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	cpi r24,lo8(0)
-	breq .L5
-	lds r25,g_obstructionCount
-	subi r25,lo8(-(1))
-	sts g_obstructionCount,r25
-	cpi r25,lo8(3)
-	brlo .L6
-	ldi r24,lo8(4)
-.L13:
-	sts g_doorState,r24
-	sts g_doorState+1,__zero_reg__
-.L12:
-	jmp DRV_Stop
-.L6:
 	lds r18,g_doorState
 	lds r19,g_doorState+1
+	cpi r18,4
+	cpc r19,__zero_reg__
+	brne .L5
+.L11:
+	jmp DRV_Stop
+.L5:
+	cpi r24,lo8(0)
+	breq .L6
+	lds r24,g_obstructionCount
+	subi r24,lo8(-(1))
+	sts g_obstructionCount,r24
+	cpi r24,lo8(3)
+	brlo .L7
+	ldi r24,lo8(4)
+.L12:
+	sts g_doorState,r24
+	sts g_doorState+1,__zero_reg__
+	rjmp .L11
+.L7:
+	subi r18,1
+	sbci r19,0
 	cpi r18,3
 	sbci r19,0
-	brne .L5
+	brsh .L4
 	ldi r24,lo8(1)
 	ldi r25,0
 	sts g_doorState,r24
@@ -86,29 +93,90 @@ DoorFSM_Update:
 	call DRV_SetDir
 	ldi r24,lo8(50)
 	jmp DRV_SetDuty
-.L5:
-	lds r18,g_doorState
-	lds r19,g_doorState+1
+.L6:
+	sts g_obstructionCount,__zero_reg__
 	cpi r18,1
 	cpc r19,__zero_reg__
-	brne .L7
-	cpse r24,__zero_reg__
-	rjmp .L4
+	brne .L10
 	ldi r24,lo8(2)
-	rjmp .L13
-.L7:
+	rjmp .L12
+.L10:
 	cpi r18,3
 	sbci r19,0
 	brne .L4
-	cpse r24,__zero_reg__
-	rjmp .L4
 	sts g_doorState,__zero_reg__
 	sts g_doorState+1,__zero_reg__
-	rjmp .L12
+	rjmp .L11
 .L4:
 /* epilogue start */
 	ret
 	.size	DoorFSM_Update, .-DoorFSM_Update
+	.section	.text.DoorFSM_UpdatePosition,"ax",@progbits
+.global	DoorFSM_UpdatePosition
+	.type	DoorFSM_UpdatePosition, @function
+DoorFSM_UpdatePosition:
+/* prologue: function */
+/* frame size = 0 */
+/* stack size = 0 */
+.L__stack_usage = 0
+	lds r18,g_doorState
+	lds r19,g_doorState+1
+	cpi r18,4
+	cpc r19,__zero_reg__
+	brne .L14
+.L26:
+	jmp DRV_Stop
+.L14:
+	cpi r24,lo8(0)
+	breq .L15
+	lds r24,g_obstructionCount
+	subi r24,lo8(-(1))
+	sts g_obstructionCount,r24
+	cpi r24,lo8(3)
+	brlo .L16
+	ldi r24,lo8(4)
+.L27:
+	sts g_doorState,r24
+	sts g_doorState+1,__zero_reg__
+	rjmp .L26
+.L16:
+	cpi r18,3
+	cpc r19,__zero_reg__
+	brne .L17
+	ldi r24,lo8(1)
+	ldi r25,0
+	sts g_doorState,r24
+	sts g_doorState+1,__zero_reg__
+	call DRV_SetDir
+	ldi r24,lo8(50)
+	jmp DRV_SetDuty
+.L15:
+	sts g_obstructionCount,__zero_reg__
+	cpi r18,1
+	cpc r19,__zero_reg__
+	brne .L18
+.L22:
+	cpi r22,lo8(95)
+	brlo .L13
+	ldi r24,lo8(2)
+	rjmp .L27
+.L18:
+	cpi r18,3
+	sbci r19,0
+	brne .L13
+	cpi r22,lo8(6)
+	brsh .L13
+	sts g_doorState,__zero_reg__
+	sts g_doorState+1,__zero_reg__
+	rjmp .L26
+.L17:
+	cpi r18,1
+	sbci r19,0
+	breq .L22
+.L13:
+/* epilogue start */
+	ret
+	.size	DoorFSM_UpdatePosition, .-DoorFSM_UpdatePosition
 	.section	.text.DoorFSM_GetState,"ax",@progbits
 .global	DoorFSM_GetState
 	.type	DoorFSM_GetState, @function

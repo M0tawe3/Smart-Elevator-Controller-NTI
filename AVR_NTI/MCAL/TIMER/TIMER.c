@@ -127,12 +127,13 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent)
         return E_NOK;
 
     GPIO_SetPinDirection(GPIO_PORTD, GPIO_PIN5, GPIO_OUTPUT);                    // Make PD5 output
-    TIMER1_REG_TCCR1A |= (1 << 7);                                               // Non-inverting
-    TIMER1_REG_TCCR1A |= (1 << 1);                                               // WGM11
-    TIMER1_REG_TCCR1B |= (1 << 4) | (1 << 3);                                    // WGM13 = 1 , WGM12 = 1
+    /* Fast PWM, TOP = ICR1, preserve the door OC1B connection. */
+    TIMER1_REG_TCCR1A = (TIMER1_REG_TCCR1A & (uint8)((1U << 5) | (1U << 4))) |
+                        (1U << 7) | (1U << 1);
+    TIMER1_REG_TCCR1B = (1U << 4) | (1U << 3);
     TIMER1_REG_ICR1 = (uint16)((F_CPU / Copy_u16FrequencyHz) - 1UL);              // prescaler 1
     TIMER1_REG_OCR1A = TIMER_DutyToCompare(TIMER1_REG_ICR1, Copy_u8DutyPercent); // Set compare
-    TIMER1_REG_TCCR1B = (TIMER1_REG_TCCR1B & (uint8)~0x07U) | (1 << 0);           // Start clock, prescaler 1
+    TIMER1_REG_TCCR1B |= (1U << 0);                                               // Start clock, prescaler 1
     return E_OK;
 }
 

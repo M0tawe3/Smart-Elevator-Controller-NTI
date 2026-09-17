@@ -15,163 +15,6 @@ typedef unsigned int size_t;
 # 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
-
-
-
-
-
-
-
-# 18 "LIB/STD_TYPES.h"
-typedef unsigned char uint8;
-typedef unsigned short uint16;
-typedef unsigned long uint32;
-typedef signed char sint8;
-typedef signed short sint16;
-typedef signed long sint32;
-
-typedef unsigned char uint8_h;
-
-typedef enum
-{
-    E_OK = 0,
-    E_NOK = 1
-} STD_ReturnType;
-
-
-
-
-
-typedef struct
-{
-    uint8 carCall;
-    uint8 hallUp;
-    uint8 hallDown;
-} Calls_t;
-
-typedef enum
-{
-    CALL_CAR,
-    CALL_HALL_UP,
-    CALL_HALL_DOWN
-} CallType_t;
-
-typedef enum
-{
-    DIR_NONE,
-    DIR_UP,
-    DIR_DOWN
-} Dir_t;
-# 20 "MCAL/TIMER/TIMER.c" 2
-# 1 "MCAL/GPIO/GPIO_interface.h" 1
-# 43 "MCAL/GPIO/GPIO_interface.h"
-STD_ReturnType GPIO_SetPinDirection(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
-
-
-
-
-STD_ReturnType GPIO_SetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
-
-
-
-
-STD_ReturnType GPIO_GetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
-
-
-
-
-STD_ReturnType GPIO_TogglePinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin);
-
-
-
-
-STD_ReturnType GPIO_SetPortDirection(uint8 Copy_u8Port, uint8 Copy_u8Direction);
-
-
-
-
-STD_ReturnType GPIO_SetPortValue(uint8 Copy_u8Port, uint8 Copy_u8Value);
-
-
-
-
-STD_ReturnType GPIO_GetPortValue(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
-# 21 "MCAL/TIMER/TIMER.c" 2
-# 1 "MCAL/TIMER/TIMER_interface.h" 1
-# 24 "MCAL/TIMER/TIMER_interface.h"
-extern volatile uint8 systemTicks10ms;
-
-
-
-
-
-
-
-STD_ReturnType TIMER0_Init(void);
-
-
-
-
-STD_ReturnType TIMER0_DelayMS(uint16 Copy_u16Milliseconds);
-
-
-
-
-STD_ReturnType TIMER0_DelayS(uint16 Copy_u16Seconds);
-
-
-
-
-
-
-
-STD_ReturnType TIMER0_PWM(uint8 Copy_u8DutyPercent);
-
-
-
-
-STD_ReturnType TIMER0_Stop(void);
-
-
-
-
-
-
-STD_ReturnType TIMER1_Init(void);
-
-
-
-
-STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds);
-# 76 "MCAL/TIMER/TIMER_interface.h"
-STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
-
-
-
-
-STD_ReturnType TIMER1_Stop(void);
-
-
-
-
-STD_ReturnType TIMER2_Init(void);
-
-
-STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent);
-
-
-STD_ReturnType TIMER2_Stop(void);
-# 22 "MCAL/TIMER/TIMER.c" 2
-# 1 "MCAL/TIMER/TIMER_private.h" 1
-# 23 "MCAL/TIMER/TIMER.c" 2
-# 1 "/usr/avr/sys-root/include/avr/interrupt.h" 1 3 4
-# 38 "/usr/avr/sys-root/include/avr/interrupt.h" 3 4
-# 1 "/usr/avr/sys-root/include/avr/io.h" 1 3 4
-# 99 "/usr/avr/sys-root/include/avr/io.h" 3 4
-# 1 "/usr/avr/sys-root/include/avr/sfr_defs.h" 1 3 4
-# 126 "/usr/avr/sys-root/include/avr/sfr_defs.h" 3 4
-# 1 "/usr/avr/sys-root/include/inttypes.h" 1 3 4
-# 37 "/usr/avr/sys-root/include/inttypes.h" 3 4
 # 1 "/usr/lib64/gcc/avr/15/include/stdint.h" 1 3 4
 # 9 "/usr/lib64/gcc/avr/15/include/stdint.h" 3 4
 #pragma GCC diagnostic push
@@ -287,7 +130,221 @@ typedef int64_t intmax_t;
 typedef uint64_t uintmax_t;
 # 12 "/usr/lib64/gcc/avr/15/include/stdint.h" 2 3 4
 #pragma GCC diagnostic pop
-# 38 "/usr/avr/sys-root/include/inttypes.h" 2 3 4
+# 13 "LIB/STD_TYPES.h" 2
+# 23 "LIB/STD_TYPES.h"
+
+# 23 "LIB/STD_TYPES.h"
+typedef unsigned char uint8;
+typedef unsigned short uint16;
+typedef unsigned long uint32;
+typedef signed char sint8;
+typedef signed short sint16;
+typedef signed long sint32;
+
+typedef unsigned char uint8_h;
+
+typedef enum {
+    CS_INIT = 0,
+    CS_HOMING,
+    CS_IDLE,
+    CS_DOOR_OPENING,
+    CS_DOOR_OPEN,
+    CS_DOOR_CLOSING,
+    CS_STARTING,
+    CS_MOVING,
+    CS_SLOWING,
+    CS_LEVELLING,
+    CS_ARRIVED,
+    CS_OVERLOAD,
+    CS_FIRE_RECALL,
+    CS_FIRE_HOLD,
+    CS_FAULT,
+    CS_ESTOP
+} CarState_t;
+
+
+typedef enum {
+    DOOR_STATE_CLOSED = 0U,
+    DOOR_STATE_OPENING,
+    DOOR_STATE_OPEN,
+    DOOR_STATE_CLOSING,
+    DOOR_STATE_JAMMED
+} DoorState_t;
+
+typedef enum {
+    FLT_NONE = 0,
+    FLT_ESTOP,
+    FLT_OVERLOAD,
+    FLT_OVERTRAVEL,
+    FLT_TRAVEL_TIMEOUT,
+    FLT_DOOR_TIMEOUT,
+    FLT_OVERCURRENT,
+    FLT_POSITION_SENSOR,
+    FLT_LEVEL_FAIL,
+    FLT_DOOR_JAM
+} Fault_t;
+
+typedef struct {
+    uint8 carCall;
+    uint8 hallUp;
+    uint8 hallDown;
+} Calls_t;
+
+typedef struct {
+    uint16 positionCm;
+    uint8 currentFloor;
+    uint8 targetFloor;
+    uint8 doorPct;
+    uint16 loadKg;
+    uint16 currentmA;
+    Calls_t calls;
+    uint8 dir;
+    uint8 lastDir;
+    uint8 state;
+    uint8 doorState;
+    uint8 hoistDuty;
+    uint8 overload : 1;
+    uint8 fireService : 1;
+    uint8 independent : 1;
+    uint8 estop : 1;
+    uint8 obstruction : 1;
+    uint8 levelled : 1;
+    uint8 reserved : 2;
+    uint8 activeFault;
+    uint16 doorDwellTicks;
+    uint32 tripCount;
+    uint32 doorCycles;
+    uint32 upTimeSec;
+} CarData_t;
+
+typedef enum {
+    E_OK = 0,
+    E_NOK = 1
+} STD_ReturnType;
+
+typedef enum
+{
+    CALL_CAR,
+    CALL_HALL_UP,
+    CALL_HALL_DOWN
+} CallType_t;
+
+typedef enum {
+    DIR_NONE,
+    DIR_UP,
+    DIR_DOWN
+} Dir_t;
+# 20 "MCAL/TIMER/TIMER.c" 2
+# 1 "MCAL/GPIO/GPIO_interface.h" 1
+# 43 "MCAL/GPIO/GPIO_interface.h"
+STD_ReturnType GPIO_SetPinDirection(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Direction);
+
+
+
+
+STD_ReturnType GPIO_SetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 Copy_u8Value);
+
+
+
+
+STD_ReturnType GPIO_GetPinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin, uint8 *Copy_pu8Value);
+
+
+
+
+STD_ReturnType GPIO_TogglePinValue(uint8 Copy_u8Port, uint8 Copy_u8Pin);
+
+
+
+
+STD_ReturnType GPIO_SetPortDirection(uint8 Copy_u8Port, uint8 Copy_u8Direction);
+
+
+
+
+STD_ReturnType GPIO_SetPortValue(uint8 Copy_u8Port, uint8 Copy_u8Value);
+
+
+
+
+STD_ReturnType GPIO_GetPortValue(uint8 Copy_u8Port, uint8 *Copy_pu8Value);
+# 21 "MCAL/TIMER/TIMER.c" 2
+# 1 "MCAL/TIMER/TIMER_interface.h" 1
+# 24 "MCAL/TIMER/TIMER_interface.h"
+extern volatile uint8 systemTicks10ms;
+
+
+
+
+
+
+
+STD_ReturnType TIMER0_Init(void);
+
+
+
+
+STD_ReturnType TIMER0_DelayMS(uint16 Copy_u16Milliseconds);
+
+
+
+
+STD_ReturnType TIMER0_DelayS(uint16 Copy_u16Seconds);
+
+
+
+
+
+
+
+STD_ReturnType TIMER0_PWM(uint8 Copy_u8DutyPercent);
+
+
+
+
+STD_ReturnType TIMER0_Stop(void);
+
+
+
+
+
+
+STD_ReturnType TIMER1_Init(void);
+
+
+
+
+STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds);
+# 76 "MCAL/TIMER/TIMER_interface.h"
+STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent);
+
+
+
+
+STD_ReturnType TIMER1_Stop(void);
+
+
+
+
+STD_ReturnType TIMER2_Init(void);
+
+
+STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent);
+
+
+STD_ReturnType TIMER2_Stop(void);
+# 22 "MCAL/TIMER/TIMER.c" 2
+# 1 "MCAL/TIMER/TIMER_private.h" 1
+# 23 "MCAL/TIMER/TIMER.c" 2
+# 1 "/usr/avr/sys-root/include/avr/interrupt.h" 1 3 4
+# 38 "/usr/avr/sys-root/include/avr/interrupt.h" 3 4
+# 1 "/usr/avr/sys-root/include/avr/io.h" 1 3 4
+# 99 "/usr/avr/sys-root/include/avr/io.h" 3 4
+# 1 "/usr/avr/sys-root/include/avr/sfr_defs.h" 1 3 4
+# 126 "/usr/avr/sys-root/include/avr/sfr_defs.h" 3 4
+# 1 "/usr/avr/sys-root/include/inttypes.h" 1 3 4
+# 77 "/usr/avr/sys-root/include/inttypes.h" 3 4
+
 # 77 "/usr/avr/sys-root/include/inttypes.h" 3 4
 typedef int32_t int_farptr_t;
 
@@ -359,9 +416,10 @@ typedef struct
 
 # 25 "MCAL/TIMER/TIMER.c"
 volatile uint8 systemTicks10ms = 0U;
-# 39 "MCAL/TIMER/TIMER.c"
+volatile uint32 g_msCounter = 0U;
+# 40 "MCAL/TIMER/TIMER.c"
 static void TIMER_WaitFlag(volatile uint8 *Copy_pu8Register, uint8 Copy_u8BitMask);
-# 48 "MCAL/TIMER/TIMER.c"
+# 49 "MCAL/TIMER/TIMER.c"
 static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent);
 
 
@@ -373,26 +431,15 @@ STD_ReturnType TIMER0_Init(void)
     (*(volatile uint8 *)0x53) = (1 << 3) | (1 << 2) | (1 << 0);
     (*(volatile uint8 *)0x5C) = 77U;
     (*(volatile uint8 *)0x52) = 0U;
+
+    (*(volatile uint8 *)0x59) |= (1 << 1);
     return E_OK;
 }
 
 STD_ReturnType TIMER0_DelayMS(uint16 Copy_u16Milliseconds)
 {
-    (*(volatile uint8 *)0x58) |= (1 << 
-# 64 "MCAL/TIMER/TIMER.c" 3 4
-                     1
-# 64 "MCAL/TIMER/TIMER.c"
-                         );
-    (*(volatile uint8 *)0x53) = ((*(volatile uint8 *)0x53) & (uint8)~0x07U) | (1 << 2) | (1 << 0);
-    for (uint16 i = 0; i < Copy_u16Milliseconds; i++)
-    {
-        TIMER_WaitFlag(&(*(volatile uint8 *)0x58), (1 << 
-# 68 "MCAL/TIMER/TIMER.c" 3 4
-                                       1
-# 68 "MCAL/TIMER/TIMER.c"
-                                           ));
-    }
-    (*(volatile uint8 *)0x53) &= ~((1 << 2) | (1 << 1) | (1 << 0));
+    uint32 target = g_msCounter + Copy_u16Milliseconds;
+    while (g_msCounter < target) { }
     return E_OK;
 }
 
@@ -440,21 +487,11 @@ STD_ReturnType TIMER1_Init(void)
 
 STD_ReturnType TIMER1_DelayMS(uint16 Copy_u16Milliseconds)
 {
-    (*(volatile uint8 *)0x58) = (1 << 
-# 118 "MCAL/TIMER/TIMER.c" 3 4
-                    4
-# 118 "MCAL/TIMER/TIMER.c"
-                         );
-    (*(volatile uint8 *)0x4E) = ((*(volatile uint8 *)0x4E) & ~((1 << 2) | (1 << 1) | (1 << 0))) | (1 << 1);
-    for (uint16 i = 0; i < Copy_u16Milliseconds; i++)
+    uint32 target = g_msCounter + Copy_u16Milliseconds;
+    while (g_msCounter < target)
     {
-        TIMER_WaitFlag(&(*(volatile uint8 *)0x58), (1 << 
-# 122 "MCAL/TIMER/TIMER.c" 3 4
-                                       4
-# 122 "MCAL/TIMER/TIMER.c"
-                                            ));
+
     }
-    (*(volatile uint8 *)0x4E) &= ~((1 << 2) | (1 << 1) | (1 << 0));
     return E_OK;
 }
 
@@ -464,12 +501,13 @@ STD_ReturnType TIMER1_PWM(uint16 Copy_u16FrequencyHz, uint8 Copy_u8DutyPercent)
         return E_NOK;
 
     GPIO_SetPinDirection(3u, 5u, 1u);
-    (*(volatile uint8 *)0x4F) |= (1 << 7);
-    (*(volatile uint8 *)0x4F) |= (1 << 1);
-    (*(volatile uint8 *)0x4E) |= (1 << 4) | (1 << 3);
+
+    (*(volatile uint8 *)0x4F) = ((*(volatile uint8 *)0x4F) & (uint8)((1U << 5) | (1U << 4))) |
+                        (1U << 7) | (1U << 1);
+    (*(volatile uint8 *)0x4E) = (1U << 4) | (1U << 3);
     (*(volatile uint16 *)0x46) = (uint16)((8000000UL / Copy_u16FrequencyHz) - 1UL);
     (*(volatile uint16 *)0x4A) = TIMER_DutyToCompare((*(volatile uint16 *)0x46), Copy_u8DutyPercent);
-    (*(volatile uint8 *)0x4E) = ((*(volatile uint8 *)0x4E) & (uint8)~0x07U) | (1 << 0);
+    (*(volatile uint8 *)0x4E) |= (1U << 0);
     return E_OK;
 }
 
@@ -497,24 +535,24 @@ STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent)
 
     GPIO_SetPinDirection(3u, 7u, 1u);
     (*(volatile uint8 *)0x45) = (1U << 
-# 166 "MCAL/TIMER/TIMER.c" 3 4
+# 163 "MCAL/TIMER/TIMER.c" 3 4
                              6
-# 166 "MCAL/TIMER/TIMER.c"
+# 163 "MCAL/TIMER/TIMER.c"
                                   ) |
                        (1U << 
-# 167 "MCAL/TIMER/TIMER.c" 3 4
+# 164 "MCAL/TIMER/TIMER.c" 3 4
                              3
-# 167 "MCAL/TIMER/TIMER.c"
+# 164 "MCAL/TIMER/TIMER.c"
                                   ) |
                        (1U << 
-# 168 "MCAL/TIMER/TIMER.c" 3 4
+# 165 "MCAL/TIMER/TIMER.c" 3 4
                              5
-# 168 "MCAL/TIMER/TIMER.c"
+# 165 "MCAL/TIMER/TIMER.c"
                                   ) |
                        (1U << 
-# 169 "MCAL/TIMER/TIMER.c" 3 4
+# 166 "MCAL/TIMER/TIMER.c" 3 4
                              2
-# 169 "MCAL/TIMER/TIMER.c"
+# 166 "MCAL/TIMER/TIMER.c"
                                  );
     (*(volatile uint8 *)0x43) = TIMER_DutyToCompare(255, Copy_u8DutyPercent);
     return E_OK;
@@ -523,26 +561,26 @@ STD_ReturnType TIMER2_PWM(uint8 Copy_u8DutyPercent)
 STD_ReturnType TIMER2_Stop(void)
 {
     (*(volatile uint8 *)0x45) &= (uint8)~((1U << 
-# 176 "MCAL/TIMER/TIMER.c" 3 4
+# 173 "MCAL/TIMER/TIMER.c" 3 4
                                        2
-# 176 "MCAL/TIMER/TIMER.c"
+# 173 "MCAL/TIMER/TIMER.c"
                                            ) | (1U << 
-# 176 "MCAL/TIMER/TIMER.c" 3 4
+# 173 "MCAL/TIMER/TIMER.c" 3 4
                                                       1
-# 176 "MCAL/TIMER/TIMER.c"
+# 173 "MCAL/TIMER/TIMER.c"
                                                           ) | (1U << 
-# 176 "MCAL/TIMER/TIMER.c" 3 4
+# 173 "MCAL/TIMER/TIMER.c" 3 4
                                                                      0
-# 176 "MCAL/TIMER/TIMER.c"
+# 173 "MCAL/TIMER/TIMER.c"
                                                                          ));
     (*(volatile uint8 *)0x45) &= (uint8)~((1U << 
-# 177 "MCAL/TIMER/TIMER.c" 3 4
+# 174 "MCAL/TIMER/TIMER.c" 3 4
                                        5
-# 177 "MCAL/TIMER/TIMER.c"
+# 174 "MCAL/TIMER/TIMER.c"
                                             ) | (1U << 
-# 177 "MCAL/TIMER/TIMER.c" 3 4
+# 174 "MCAL/TIMER/TIMER.c" 3 4
                                                        4
-# 177 "MCAL/TIMER/TIMER.c"
+# 174 "MCAL/TIMER/TIMER.c"
                                                             ));
     (*(volatile uint8 *)0x43) = 0U;
     return E_OK;
@@ -564,4 +602,14 @@ static uint16 TIMER_DutyToCompare(uint16 Copy_u16Top, uint8 Copy_u8DutyPercent)
 {
     uint32 temp = ((uint32)Copy_u16Top) * Copy_u8DutyPercent;
     return (uint16)(temp / 100);
+}
+
+
+# 197 "MCAL/TIMER/TIMER.c" 3 4
+void __vector_10 (void) __attribute__ ((__signal__,__used__, __externally_visible__)) ; void __vector_10 (void)
+
+# 198 "MCAL/TIMER/TIMER.c"
+{
+    g_msCounter += 10;
+    systemTicks10ms = 1U;
 }

@@ -18,6 +18,9 @@ TIMER0_Init:
 	ldi r24,lo8(77)
 	out 0x3c,r24
 	out 0x32,__zero_reg__
+	in r24,0x39
+	ori r24,lo8(2)
+	out 0x39,r24
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
@@ -31,36 +34,28 @@ TIMER0_DelayMS:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	movw r20,r24
-	in r25,0x38
-	ori r25,lo8(2)
-	out 0x38,r25
-	in r25,0x33
-	andi r25,lo8(-8)
-	ori r25,lo8(5)
-	out 0x33,r25
-	ldi r18,0
-	ldi r19,0
-	ldi r24,lo8(2)
+	lds r20,g_msCounter
+	lds r21,g_msCounter+1
+	lds r22,g_msCounter+2
+	lds r23,g_msCounter+3
+	add r20,r24
+	adc r21,r25
+	adc r22,__zero_reg__
+	adc r23,__zero_reg__
 .L3:
-	cp r18,r20
-	cpc r19,r21
-	brne .L4
-	in r24,0x33
-	andi r24,lo8(-8)
-	out 0x33,r24
+	lds r24,g_msCounter
+	lds r25,g_msCounter+1
+	lds r26,g_msCounter+2
+	lds r27,g_msCounter+3
+	cp r24,r20
+	cpc r25,r21
+	cpc r26,r22
+	cpc r27,r23
+	brlo .L3
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
 	ret
-.L4:
-	in __tmp_reg__,0x38
-	sbrs __tmp_reg__,1
-	rjmp .L4
-	out 0x38,r24
-	subi r18,-1
-	sbci r19,-1
-	rjmp .L3
 	.size	TIMER0_DelayMS, .-TIMER0_DelayMS
 	.section	.text.TIMER0_DelayS,"ax",@progbits
 .global	TIMER0_DelayS
@@ -80,14 +75,14 @@ TIMER0_DelayS:
 	std Y+2,r25
 	std Y+3,__zero_reg__
 	std Y+4,__zero_reg__
-.L9:
+.L6:
 	ldd r24,Y+3
 	ldd r25,Y+4
 	ldd r18,Y+1
 	ldd r19,Y+2
 	cp r24,r18
 	cpc r25,r19
-	brne .L10
+	brne .L7
 	ldi r24,0
 	ldi r25,0
 /* epilogue start */
@@ -98,7 +93,7 @@ TIMER0_DelayS:
 	pop r29
 	pop r28
 	ret
-.L10:
+.L7:
 	ldi r24,lo8(-24)
 	ldi r25,lo8(3)
 	call TIMER0_DelayMS
@@ -108,7 +103,7 @@ TIMER0_DelayS:
 	sbci r19,-1
 	std Y+3,r18
 	std Y+4,r19
-	rjmp .L9
+	rjmp .L6
 	.size	TIMER0_DelayS, .-TIMER0_DelayS
 	.section	.text.TIMER0_PWM,"ax",@progbits
 .global	TIMER0_PWM
@@ -123,7 +118,7 @@ TIMER0_PWM:
 	ldi r24,lo8(1)
 	ldi r25,0
 	cpi r28,lo8(101)
-	brsh .L11
+	brsh .L8
 	ldi r20,lo8(1)
 	ldi r22,lo8(3)
 	ldi r24,lo8(1)
@@ -149,7 +144,7 @@ TIMER0_PWM:
 	out 0x33,r24
 	ldi r24,0
 	ldi r25,0
-.L11:
+.L8:
 /* epilogue start */
 	pop r28
 	ret
@@ -203,34 +198,7 @@ TIMER1_DelayMS:
 /* frame size = 0 */
 /* stack size = 0 */
 .L__stack_usage = 0
-	movw r20,r24
-	ldi r24,lo8(16)
-	out 0x38,r24
-	in r25,0x2e
-	andi r25,lo8(-8)
-	ori r25,lo8(2)
-	out 0x2e,r25
-	ldi r18,0
-	ldi r19,0
-.L17:
-	cp r18,r20
-	cpc r19,r21
-	brne .L18
-	in r24,0x2e
-	andi r24,lo8(-8)
-	out 0x2e,r24
-	ldi r24,0
-	ldi r25,0
-/* epilogue start */
-	ret
-.L18:
-	in __tmp_reg__,0x38
-	sbrs __tmp_reg__,4
-	rjmp .L18
-	out 0x38,r24
-	subi r18,-1
-	sbci r19,-1
-	rjmp .L17
+	jmp TIMER0_DelayMS
 	.size	TIMER1_DelayMS, .-TIMER1_DelayMS
 	.section	.text.TIMER1_PWM,"ax",@progbits
 .global	TIMER1_PWM
@@ -246,23 +214,20 @@ TIMER1_PWM:
 	movw r28,r24
 	mov r17,r22
 	cpi r22,lo8(101)
-	brsh .L25
+	brsh .L17
 	sbiw r24,16
 	cpi r24,17
 	sbci r25,78
-	brsh .L25
+	brsh .L17
 	ldi r20,lo8(1)
 	ldi r22,lo8(5)
 	ldi r24,lo8(3)
 	call GPIO_SetPinDirection
-	in r24,0x2f
-	ori r24,lo8(-128)
-	out 0x2f,r24
-	in r24,0x2f
-	ori r24,lo8(2)
-	out 0x2f,r24
-	in r24,0x2e
-	ori r24,lo8(24)
+	in r25,0x2f
+	andi r25,lo8(48)
+	ori r25,lo8(-126)
+	out 0x2f,r25
+	ldi r24,lo8(24)
 	out 0x2e,r24
 	movw r18,r28
 	ldi r20,0
@@ -289,21 +254,20 @@ TIMER1_PWM:
 	out 0x2a+1,r19
 	out 0x2a,r18
 	in r24,0x2e
-	andi r24,lo8(-8)
 	ori r24,lo8(1)
 	out 0x2e,r24
 	ldi r24,0
 	ldi r25,0
-.L22:
+.L14:
 /* epilogue start */
 	pop r29
 	pop r28
 	pop r17
 	ret
-.L25:
+.L17:
 	ldi r24,lo8(1)
 	ldi r25,0
-	rjmp .L22
+	rjmp .L14
 	.size	TIMER1_PWM, .-TIMER1_PWM
 	.section	.text.TIMER1_Stop,"ax",@progbits
 .global	TIMER1_Stop
@@ -353,7 +317,7 @@ TIMER2_PWM:
 	ldi r24,lo8(1)
 	ldi r25,0
 	cpi r28,lo8(101)
-	brsh .L28
+	brsh .L20
 	ldi r20,lo8(1)
 	ldi r22,lo8(7)
 	ldi r24,lo8(3)
@@ -372,7 +336,7 @@ TIMER2_PWM:
 	out 0x23,r18
 	ldi r24,0
 	ldi r25,0
-.L28:
+.L20:
 /* epilogue start */
 	pop r28
 	ret
@@ -397,6 +361,45 @@ TIMER2_Stop:
 /* epilogue start */
 	ret
 	.size	TIMER2_Stop, .-TIMER2_Stop
+	.section	.text.__vector_10,"ax",@progbits
+.global	__vector_10
+	.type	__vector_10, @function
+__vector_10:
+	__gcc_isr 1
+	push r25
+	push r26
+	push r27
+/* prologue: Signal */
+/* frame size = 0 */
+/* stack size = 3...7 */
+.L__stack_usage = 3 + __gcc_isr.n_pushed
+	lds r24,g_msCounter
+	lds r25,g_msCounter+1
+	lds r26,g_msCounter+2
+	lds r27,g_msCounter+3
+	adiw r24,10
+	adc r26,__zero_reg__
+	adc r27,__zero_reg__
+	sts g_msCounter,r24
+	sts g_msCounter+1,r25
+	sts g_msCounter+2,r26
+	sts g_msCounter+3,r27
+	ldi r24,lo8(1)
+	sts systemTicks10ms,r24
+/* epilogue start */
+	pop r27
+	pop r26
+	pop r25
+	__gcc_isr 2
+	reti
+	__gcc_isr 0,r24
+	.size	__vector_10, .-__vector_10
+.global	g_msCounter
+	.section	.bss.g_msCounter,"aw",@nobits
+	.type	g_msCounter, @object
+	.size	g_msCounter, 4
+g_msCounter:
+	.zero	4
 .global	systemTicks10ms
 	.section	.bss.systemTicks10ms,"aw",@nobits
 	.type	systemTicks10ms, @object

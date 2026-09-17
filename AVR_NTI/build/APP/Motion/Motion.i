@@ -132,9 +132,9 @@ typedef unsigned int size_t;
 # 344 "/usr/lib64/gcc/avr/15/include/stddef.h" 3 4
 typedef int wchar_t;
 # 12 "LIB/STD_TYPES.h" 2
-# 22 "LIB/STD_TYPES.h"
+# 23 "LIB/STD_TYPES.h"
 
-# 22 "LIB/STD_TYPES.h"
+# 23 "LIB/STD_TYPES.h"
 typedef unsigned char uint8;
 typedef unsigned short uint16;
 typedef unsigned long uint32;
@@ -217,8 +217,7 @@ typedef struct {
     uint32 upTimeSec;
 } CarData_t;
 
-typedef enum
-{
+typedef enum {
     E_OK = 0,
     E_NOK = 1
 } STD_ReturnType;
@@ -230,8 +229,7 @@ typedef enum
     CALL_HALL_DOWN
 } CallType_t;
 
-typedef enum
-{
+typedef enum {
     DIR_NONE,
     DIR_UP,
     DIR_DOWN
@@ -252,11 +250,10 @@ void HST_EmergencyStop(void);
 # 3 "APP/Motion/Motion.c" 2
 
 
-
 extern void HST_SetDuty(uint8_t dutyPct, uint8_t doorPct);
 extern void HST_SetDir(HST_Dir_t dir);
 extern void HST_Brake(void);
-# 18 "APP/Motion/Motion.c"
+# 17 "APP/Motion/Motion.c"
 static const uint16 s_floorCm[4] = {0U, 300U, 600U, 900U};
 
 static uint16 s_targetPositionCm = 0U;
