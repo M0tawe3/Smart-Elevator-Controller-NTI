@@ -28,6 +28,12 @@ void DoorFSM_Close(void)
 
 void DoorFSM_Update(uint8 obstructionDetected)
 {
+    if (g_doorState == DOOR_STATE_JAMMED)
+    {
+        DRV_Stop();
+        return;
+    }
+
     if (obstructionDetected)
     {
         g_obstructionCount++;
@@ -45,6 +51,18 @@ void DoorFSM_Update(uint8 obstructionDetected)
             DRV_SetDuty(50U);
             return;
         }
+
+        if (g_doorState == DOOR_STATE_OPENING || g_doorState == DOOR_STATE_OPEN)
+        {
+            g_doorState = DOOR_STATE_OPENING;
+            DRV_SetDir(DRV_DIR_OPEN);
+            DRV_SetDuty(50U);
+            return;
+        }
+    }
+    else
+    {
+        g_obstructionCount = 0U;
     }
 
     if (g_doorState == DOOR_STATE_OPENING)

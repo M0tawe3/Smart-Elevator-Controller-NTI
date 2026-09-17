@@ -20,22 +20,23 @@ void CarFSM_Update(uint8 overload, uint8 doorOpen, uint8 doorClosed, uint8 obstr
         return;
     }
 
+    if (obstruction)
+    {
+        g_carState = CAR_STATE_FAULT;
+        HST_Brake();
+        return;
+    }
+
     if (doorOpen)
     {
         g_carState = CAR_STATE_DOOR_OPEN;
+        HST_Brake();
         return;
     }
 
     if (doorClosed)
     {
         g_carState = CAR_STATE_IDLE;
-        HST_Brake();
-        return;
-    }
-
-    if (obstruction)
-    {
-        g_carState = CAR_STATE_FAULT;
         HST_Brake();
         return;
     }

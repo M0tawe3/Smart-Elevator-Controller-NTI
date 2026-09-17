@@ -108,6 +108,21 @@ Extra: Hardwware design and general testing<br>
 - position
 - dispatch
 
+### Youssef Saeed:
+- load.c: overload reading and hysteresis logic fixed
+- load.c: ADC read failures now fail safe as overloaded
+- door.c: PWM + direction control implemented and stabilized
+- car_fsm: overload / obstruction priority handling fixed
+- car_fsm: hoist braking enforced while the door is open
+- door_fsm: obstruction recovery and jam-safe logic improved
+- verified with FSM, dispatch, and load regression tests
+- build environment and duplicate-type blockers resolved
+
+### Youssef Saeed remaining validation:
+- verify Timer2 ownership and buzzer behavior in the simulator or on hardware
+- verify door OC1B PWM direction and load ADC channel/calibration on hardware
+- complete end-to-end validation with hoist, motion, safety, dispatch, and console
+
 ### Youssef Nasser:
 - hoist.c (not tested)
 - motion (not tested)

@@ -9,6 +9,7 @@
  */
 
 #include <stddef.h>
+#include <stdint.h>
 
 #define SET_BIT(REG, BIT) ((REG) |= (1u << (BIT)))
 #define CLEAR_BIT(REG, BIT) ((REG) &= ~(1u << (BIT)))
@@ -101,8 +102,7 @@ typedef struct {
     uint32 upTimeSec;
 } CarData_t;
 
-typedef enum
-{
+typedef enum {
     E_OK = 0,
     E_NOK = 1
 } STD_ReturnType;
@@ -114,12 +114,10 @@ typedef enum
     CALL_HALL_DOWN
 } CallType_t;
 
-typedef enum
-{
+typedef enum {
     DIR_NONE,
     DIR_UP,
     DIR_DOWN
 } Dir_t;
-
 
 #endif /* STD_TYPES_H */
