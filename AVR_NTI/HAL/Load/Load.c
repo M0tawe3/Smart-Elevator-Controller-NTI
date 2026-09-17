@@ -53,3 +53,8 @@ uint8 LOAD_IsOverloaded(void)
 
     return g_overloadLatched;
 }
+
+uint8 LOAD_IsReadValid(void)
+{
+    return g_loadReadValid;
+}

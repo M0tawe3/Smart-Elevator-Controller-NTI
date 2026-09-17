@@ -42,20 +42,16 @@ void SAF_Evaluate(CarData_t *car) {
         s_overcurrentTimer = 0U;
     }
 
-    if (car->loadKg > OVERLOAD_SET_KG) {
+    if (car->loadKg >= OVERLOAD_SET_KG) {
         car->overload = 1U;
         car->activeFault = FLT_NONE;
         if (car->state == CS_IDLE || car->state == CS_DOOR_OPEN) {
             car->state = CS_OVERLOAD;
         }
-    } else if (car->overload && (car->loadKg < OVERLOAD_CLEAR_KG)) {
+    } else if (car->overload && (car->loadKg <= OVERLOAD_CLEAR_KG)) {
         car->overload = 0U;
         car->activeFault = FLT_NONE;
         if (car->state == CS_OVERLOAD) {
-            car->state = CS_IDLE;
-        }
-    } else {
-        if (car->state == CS_OVERLOAD && car->activeFault == FLT_NONE) {
             car->state = CS_IDLE;
         }
     }

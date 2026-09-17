@@ -9,5 +9,6 @@
 void LOAD_Init(void);
 uint16 LOAD_ReadKg(void);
 uint8 LOAD_IsOverloaded(void);
+uint8 LOAD_IsReadValid(void);
 
 #endif /* LOAD_H_ */

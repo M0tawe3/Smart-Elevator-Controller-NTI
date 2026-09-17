@@ -6,7 +6,7 @@
 - ADC
 - Timer0 & Timer1
 - External Interrupts
-- UART (UART interrupts not implemented yet)
+- UART and UART RX callback interrupt path
 
 ## Work Distribution
 
@@ -117,14 +117,21 @@ Extra: Hardwware design and general testing<br>
 - door_fsm: obstruction recovery and jam-safe logic improved
 - verified with FSM, dispatch, and load regression tests
 - build environment and duplicate-type blockers resolved
-
-### Youssef Saeed remaining validation:
-- verify Timer2 ownership and buzzer behavior in the simulator or on hardware
-- verify door OC1B PWM direction and load ADC channel/calibration on hardware
-- complete end-to-end validation with hoist, motion, safety, dispatch, and console
+- console CALL parsing integrated with dispatch call bitmaps
 
 ### Youssef Nasser:
-- hoist.c (not tested)
-- motion (not tested)
-- safety (not tested)
-- simulation (not tested)
+- hoist direction, PWM clamping, and door interlock covered by native regression tests
+- motion profile, target, levelling, and door interlock covered by native system tests
+- safety overload hysteresis, overtravel, E-stop, and overcurrent logic integrated and tested
+
+### Remaining project validation:
+- verify Timer2 ownership and buzzer tones in the simulator or on hardware
+- verify door OC1B PWM direction and load ADC channel/calibration on hardware
+- run the integrated controller against the Proteus circuit or physical elevator hardware
+- verify sensor polarity, motor direction, travel limits, emergency stop, and fault recovery
+- inspect generated build artifacts and decide whether they should remain tracked
+
+### Verification status:
+- `make test`: FSM, dispatch, load, system logic, and hoist tests pass
+- `make verify`: clean ATmega32 firmware build passes
+- simulator and physical-hardware validation: not available in the current software environment
