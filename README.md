@@ -22,6 +22,8 @@
 | **MCU** | ATmega32A @ 8 MHz |
 | **Simulator** | SimulIDE 1.x |
 
+![Alt tex](simulation.png)
+
 ---
 
 ## 2. Description
