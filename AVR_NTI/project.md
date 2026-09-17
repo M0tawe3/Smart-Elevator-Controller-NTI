@@ -6,21 +6,14 @@
 - ADC
 - Timer0 & Timer1
 - External Interrupts
-- UART and UART RX callback interrupt path
 
 ## Work Distribution
 
 ### Ahmad Ibrahim Anwar
 
-MCAL: spi <br>
-HAL:  HC165.c, HC595.c, shiftReg.c, position.c <br>
-APP:  LOOK<br>
-
-### Ahmed Ayman Ramadan
-
-MCAL: i2c.c <br>
-HAL:  lcd.c, buzzer.c <br>
-APP:  consol, fault_log <br>
+MCAL: spi, I2C, uart <br>
+HAL:  HC165.c, HC595.c, shiftReg.c, position.c, lcd.c <br>
+APP:  LOOK, fault_log<br>
 
 ### Youssef Saeed
 
@@ -108,14 +101,11 @@ Extra: Hardwware design and general testing<br>
 - Position ADC conversion, nearest-floor, and level-zone logic implemented
 - LOOK dispatch and call bitmap logic implemented
 - Dispatch regression tests pass
-
-### Ahmed Ayman Ramadan:
 - I2C master driver implemented and used by the LCD
 - LCD initialization, frame generation, and partial refresh implemented
 - Buzzer driver connected to Timer2 PWM
-- UART console initialization, RX interrupt callback, command buffering, PAGE handling, and CALL parsing implemented
+- UART console initialization
 - Fault-log fixed-depth ring buffer implemented
-- Console, LCD, buzzer, and fault-log hardware behavior still require simulator or hardware validation
 
 ### Youssef Saeed:
 - Load ADC conversion and 900 kg overload threshold implemented
@@ -133,38 +123,5 @@ Extra: Hardwware design and general testing<br>
 - Motion target selection, acceleration, slowdown, creep, levelling, and relevel fault handling implemented
 - Safety E-stop, overtravel, door/motion interlock, overload hysteresis, and sustained overcurrent handling implemented
 - Hoist, motion, and safety behavior covered by native system regression tests
+- Hardware design
 
-### System integration:
-- `main.c` now initializes the drivers and application modules instead of running the former LCD demonstration loop
-- Console calls flow into dispatch call maps
-- Dispatch selects targets for motion
-- Motion drives the hoist through the door interlock
-- Safety faults brake the hoist and enter the fault log
-- Door dwell and door FSM behavior are connected to the runtime loop
-- LCD is refreshed from live controller state
-- Native regression suites are automated through `make test`
-- Clean ATmega32 firmware build passes through `make verify`
-
-## Remaining Work
-
-### Software/documentation limitations
-- Console telemetry currently returns a basic `OK` response; full live call/state telemetry is not implemented
-- Door dwell timing is implemented in the supervisory loop, but door position sensors and timeout handling are not connected
-- Arrival chime sequencing and separate alarm-tone patterns are not implemented beyond the buzzer duty APIs
-- Fire-service behavior and a complete emergency-service state flow are not implemented in the runtime
-- Generated files under `AVR_NTI/build` are tracked; repository cleanup or `.gitignore` policy remains a maintenance decision
-
-### External validation unavailable
-- Proteus is not available in the current environment
-- Physical-hardware work is out of scope
-- Timer2 buzzer frequency and alarm behavior cannot be externally verified here
-- Door OC1B PWM, direction polarity, end stops, and obstruction polarity cannot be externally verified here
-- Load and position ADC calibration cannot be externally verified here
-- Hoist direction, brake, travel-limit, emergency-stop, sensor-failure, and recovery behavior cannot be externally verified here
-
-### Verification status:
-- `make test`: FSM, dispatch, load, system logic, and hoist tests pass
-- `make verify`: clean ATmega32 firmware build passes
-- `main` is synchronized with `origin/main` at commit `f4dc41c`
-- physical-hardware validation: intentionally out of scope
-- simulator validation: unavailable because Proteus is not installed
