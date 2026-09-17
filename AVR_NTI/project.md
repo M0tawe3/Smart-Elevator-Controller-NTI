@@ -98,40 +98,73 @@ Extra: Hardwware design and general testing<br>
 - main.c
 
 
-## work done:
+## Work Done
 
 ### Ahmad Ibrahim:
-- Timer2
-- SPI
-- 74HC165
-- 74HC595
-- position
-- dispatch
+- Timer2 PWM driver and buzzer timer support implemented
+- SPI driver implemented
+- 74HC165 input path implemented
+- 74HC595 output path implemented
+- Position ADC conversion, nearest-floor, and level-zone logic implemented
+- LOOK dispatch and call bitmap logic implemented
+- Dispatch regression tests pass
+
+### Ahmed Ayman Ramadan:
+- I2C master driver implemented and used by the LCD
+- LCD initialization, frame generation, and partial refresh implemented
+- Buzzer driver connected to Timer2 PWM
+- UART console initialization, RX interrupt callback, command buffering, PAGE handling, and CALL parsing implemented
+- Fault-log fixed-depth ring buffer implemented
+- Console, LCD, buzzer, and fault-log hardware behavior still require simulator or hardware validation
 
 ### Youssef Saeed:
-- load.c: overload reading and hysteresis logic fixed
-- load.c: ADC read failures now fail safe as overloaded
-- door.c: PWM + direction control implemented and stabilized
-- car_fsm: overload / obstruction priority handling fixed
-- car_fsm: hoist braking enforced while the door is open
-- door_fsm: obstruction recovery and jam-safe logic improved
-- verified with FSM, dispatch, and load regression tests
-- build environment and duplicate-type blockers resolved
-- console CALL parsing integrated with dispatch call bitmaps
+- Load ADC conversion and 900 kg overload threshold implemented
+- 850 kg overload-clear hysteresis implemented
+- ADC read failures fail safe as overloaded
+- Door PWM and direction control implemented on Timer1 OC1B
+- Car FSM overload/obstruction priority handling implemented
+- Hoist braking enforced while the door is open
+- Door FSM obstruction reversal and three-strike jam handling implemented
+- Load, FSM, and system regression tests pass
+- Duplicate shared-type and build-link blockers resolved
 
-### Youssef Nasser:
-- hoist direction, PWM clamping, and door interlock covered by native regression tests
-- motion profile, target, levelling, and door interlock covered by native system tests
-- safety overload hysteresis, overtravel, E-stop, and overcurrent logic integrated and tested
+### Youssef Nasser Farouk:
+- Hoist direction, PWM clamping, braking, and door interlock implemented
+- Motion target selection, acceleration, slowdown, creep, levelling, and relevel fault handling implemented
+- Safety E-stop, overtravel, door/motion interlock, overload hysteresis, and sustained overcurrent handling implemented
+- Hoist, motion, and safety behavior covered by native system regression tests
 
-### Remaining project validation:
-- verify Timer2 ownership and buzzer tones in the simulator or on hardware
-- verify door OC1B PWM direction and load ADC channel/calibration on hardware
-- run the integrated controller against the Proteus circuit or physical elevator hardware
-- verify sensor polarity, motor direction, travel limits, emergency stop, and fault recovery
-- inspect generated build artifacts and decide whether they should remain tracked
+### System integration:
+- `main.c` now initializes the drivers and application modules instead of running the former LCD demonstration loop
+- Console calls flow into dispatch call maps
+- Dispatch selects targets for motion
+- Motion drives the hoist through the door interlock
+- Safety faults brake the hoist and enter the fault log
+- Door dwell and door FSM behavior are connected to the runtime loop
+- LCD is refreshed from live controller state
+- Native regression suites are automated through `make test`
+- Clean ATmega32 firmware build passes through `make verify`
+
+## Remaining Work
+
+### Software/documentation limitations
+- Console telemetry currently returns a basic `OK` response; full live call/state telemetry is not implemented
+- Door dwell timing is implemented in the supervisory loop, but door position sensors and timeout handling are not connected
+- Arrival chime sequencing and separate alarm-tone patterns are not implemented beyond the buzzer duty APIs
+- Fire-service behavior and a complete emergency-service state flow are not implemented in the runtime
+- Generated files under `AVR_NTI/build` are tracked; repository cleanup or `.gitignore` policy remains a maintenance decision
+
+### Simulator or hardware validation
+- Run the integrated controller with `Smart Elevator.sim1` or physical elevator hardware
+- Verify Timer2 buzzer frequency, arrival chimes, overload alarms, and E-stop alarms
+- Verify door OC1B PWM frequency, direction polarity, end stops, and obstruction sensor polarity
+- Calibrate the load ADC channel against real kilograms and confirm the 900/850 kg thresholds
+- Verify position ADC calibration, floor boundaries, and ±3 cm levelling behavior
+- Verify hoist OC1A direction, brake behavior, travel limits, and the door-open interlock electrically
+- Verify emergency stop, overcurrent sensing, sensor failures, and fault recovery on the target system
 
 ### Verification status:
 - `make test`: FSM, dispatch, load, system logic, and hoist tests pass
 - `make verify`: clean ATmega32 firmware build passes
-- simulator and physical-hardware validation: not available in the current software environment
+- `main` is synchronized with `origin/main` at commit `1fdee68`
+- simulator and physical-hardware validation: not completed in the current software environment
